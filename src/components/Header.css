@@ -1,0 +1,106 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff; /* White background */
+  color: #b30000; /* Red text */
+  padding: 10px 20px;
+  flex-wrap: wrap;
+  box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
+}
+
+/* Left side (company name link) */
+.home-link {
+  text-decoration: none; /* Removes underline */
+  color: #b30000; /* Red text */
+  transition: 0.3s ease;
+}
+
+.home-link:hover {
+  color: #b30000; /* Slightly brighter red on hover */
+
+}
+
+.header-left h1 {
+  font-size: 1.6rem;
+  margin: 0;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+/* Right side (search + icons) */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Search bar */
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar {
+  padding: 10px 50px;
+  border-radius: 8px;
+  border: 2px solid #b30000;
+  outline: none;
+  background: #ffffff;
+  color: #b30000;
+  font-size: 0.9rem;
+}
+
+.search-bar::placeholder {
+  color: #b30000;
+  opacity: 0.6;
+}
+
+/* Navigation icons */
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #b30000;
+  background-color: #ffffff;
+  border: 2px solid #b30000;
+  border-radius: 10px;
+  width: 70px;
+  height: 70px;
+  transition: 0.3s;
+}
+
+.icon-box:hover {
+  background-color: #ffe5e5; /* Light red hover background */
+  transform: scale(1.05);
+}
+
+.icon {
+  font-size: 16px !important;     /* force smaller icon */
+  width: 30px !important;         /* make narrower */
+  height: 30px !important;
+  color: #b30000 !important;      /* match text color */
+  opacity: 0.8;
+  transition: 0.3s ease;
+}
+ 
+.icon-box:hover .icon {
+  opacity: 1;                /* slightly stronger on hover */
+}
+
+
+
+.label {
+  font-size: 0.8rem;
+  margin-top: 4px;
+  color: #b30000;
+}
+

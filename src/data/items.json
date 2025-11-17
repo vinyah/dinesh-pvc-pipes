@@ -1,0 +1,9 @@
+[
+  { "id": 1, "name": "PVC Pipe", "image": "i1.png", "link": "/product/1" },
+  { "id": 2, "name": "Pipe Fittings", "image": "i2.png", "link": "/pipefitting" },
+  { "id": 3, "name": "Flexible Pipe", "image": "i3.png", "link": "/flexiblepipe" },
+  { "id": 4, "name": "Boxes", "image": "i4.png", "link": "/boxes" },
+  { "id": 5, "name": "Braided Hose Pipe", "image": "i5.png", "link": "/braidedhose" },
+  { "id": 6, "name": "Zebra Hose Pipe", "image": "i6.png", "link": "/zebrahose" },
+  { "id": 7, "name": "Pipe Bend", "image": "i7.png", "link": "/pipebend" }
+]

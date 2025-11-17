@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "name": "PVC Pipe",
+    "code": "9004",
+    "length": "100 mm",
+    "images": ["p1a.png", "p1b.png", "p1c.png", "p1d.png"],
+    "thicknessOptions": [
+      { "label": "1.00mm", "rates": { "19mm": 6300, "25mm": 9600 } },
+      { "label": "1.2mm", "rates": { "19mm": 8400, "25mm": 10800 } },
+      { "label": "1.5mm", "rates": { "19mm": 9300, "25mm": 12600 } },
+      { "label": "1.8mm", "rates": { "19mm": 11400, "25mm": 16800 } },
+      { "label": "2.0mm", "rates": { "19mm": 12900, "25mm": 19200 } }
+    ],
+    "recommendations": [
+      {
+        "image": "r1.png",
+        "code": "9005",
+        "name": "PVC Coupling Set",
+        "price": "₹320",
+        "save": "2.1%"
+      },
+      {
+        "image": "r2.png",
+        "code": "9010",
+        "name": "PVC Elbow Pack",
+        "price": "₹180",
+        "save": "2.1%"
+      },
+      {
+        "image": "r3.png",
+        "code": "9020",
+        "name": "PVC Joint Box",
+        "price": "₹260",
+        "save": "2.1%"
+      },
+      {
+        "image": "r4.png",
+        "code": "9030",
+        "name": "PVC Pipe Roll",
+        "price": "₹490",
+        "save": "2.1%"
+      }
+    ]
+  }
+]

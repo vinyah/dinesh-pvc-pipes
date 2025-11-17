@@ -1,0 +1,40 @@
+[
+  {
+    "id": 1,
+    "name": "Round Junction Box",
+    "code": "BX1001",
+    "price": "180",
+    "save": "2.1%",
+    "images": ["boxA1.png", "boxA2.png", "boxA3.png", "boxA4.png"],
+    "recommendations": [
+      {
+        "image": "r1.png",
+        "code": "BX2001",
+        "name": "Round Junction Box",
+        "price": "₹120",
+        "save": "2.1%"
+      },
+      {
+        "image": "r2.png",
+        "code": "BX2002",
+        "name": "Square Junction Box",
+        "price": "₹140",
+        "save": "2.1%"
+      },
+      {
+        "image": "r3.png",
+        "code": "BX2003",
+        "name": "19mm D Box",
+        "price": "₹160",
+        "save": "2.1%"
+      },
+      {
+        "image": "r4.png",
+        "code": "BX2004",
+        "name": "25mm D Box",
+        "price": "₹190",
+        "save": "2.1%"
+      }
+    ]
+  }
+]

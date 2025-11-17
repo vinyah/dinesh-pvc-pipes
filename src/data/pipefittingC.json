@@ -1,0 +1,41 @@
+[
+  {
+    "name": "PVC Reducer (19×25mm)",
+    "code": "9103",
+    "images": ["pf3a.png", "pf3b.png", "pf3c.png", "pf3d.png"],
+    "rates": {
+      "19x25mm": 210,
+      "25x32mm": 280
+    },
+    "recommendations": [
+      {
+        "image": "r1.png",
+        "code": "9221",
+        "name": "PVC Connector",
+        "price": "₹85",
+        "save": "2.1%"
+      },
+      {
+        "image": "r2.png",
+        "code": "9222",
+        "name": "PVC Tee Joint",
+        "price": "₹120",
+        "save": "2.1%"
+      },
+      {
+        "image": "r3.png",
+        "code": "9223",
+        "name": "PVC Elbow",
+        "price": "₹110",
+        "save": "2.1%"
+      },
+      {
+        "image": "r4.png",
+        "code": "9224",
+        "name": "PVC Socket",
+        "price": "₹90",
+        "save": "2.1%"
+      }
+    ]
+  }
+]

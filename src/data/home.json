@@ -1,0 +1,57 @@
+{
+  "hero": {
+    "titleMain": "Dinesh",
+    "titleSub": "PVC Pipes",
+    "changingWords": [
+      "In Every House",
+      "ప్రతి ఇంటిలో",
+      "ഓരോ വീട്ടിലും",
+      "ஒவ்வொரு வீட்டிலும்",
+      "ಪ್ರತಿಯೊಂದು ಮನೆಯಲ್ಲಿ",
+      "हर घर में"
+    ],
+    "subText": "Where Durability Meets Innovation"
+  },
+
+  "about": {
+    "introText": "Explore our wide range of high-performance piping solutions designed for strength, reliability, and durability.",
+    "descText": "From plumbing and agriculture to industrial infrastructure, Million Plast offers comprehensive piping solutions that meet the highest standards of quality and performance.",
+    "buttonText": "See What We Offer"
+  },
+
+  "products": [
+    {
+      "image": "aa.png",
+      "code": "9001",
+      "desc": "PVC pipes with connectors and fittings",
+      "qty": "Combo of three",
+      "price": "₹320 Incl. GST"
+    },
+    {
+      "image": "bb.png",
+      "code": "9002",
+      "desc": "Blue PVC 4-way connector (cross fitting)",
+      "qty": "Combo of three",
+      "price": "₹320 Incl. GST"
+    },
+    {
+      "image": "cc.png",
+      "code": "9003",
+      "desc": "Plain White PVC pipes",
+      "qty": "Combo of three",
+      "price": "₹320 Incl. GST"
+    }
+  ],
+
+  "apart": {
+    "title": "What Sets Us Apart",
+    "images": ["a.png", "b.png", "c.png", "d.png"]
+  },
+
+  "accountSection": {
+    "signupText": "Don't have an Account?",
+    "signupButton": "Sign Up",
+    "loginText": "Got an Account?",
+    "loginButton": "Login"
+  }
+}

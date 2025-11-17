@@ -1,0 +1,41 @@
+[
+  {
+    "name": "PVC L Bow (Elbow)",
+    "code": "9101",
+    "images": ["pf1a.png", "pf1b.png", "pf1c.png", "pf1d.png"],
+    "rates": {
+      "19mm": 320,
+      "25mm": 420
+    },
+    "recommendations": [
+      {
+        "image": "r1.png",
+        "code": "9201",
+        "name": "PVC Connector",
+        "price": "₹90",
+        "save": "2.1%"
+      },
+      {
+        "image": "r2.png",
+        "code": "9202",
+        "name": "PVC Tee Joint",
+        "price": "₹130",
+        "save": "2.1%"
+      },
+      {
+        "image": "r3.png",
+        "code": "9203",
+        "name": "PVC 3-Way Elbow",
+        "price": "₹160",
+        "save": "2.1%"
+      },
+      {
+        "image": "r4.png",
+        "code": "9204",
+        "name": "PVC Reducer",
+        "price": "₹115",
+        "save": "2.1%"
+      }
+    ]
+  }
+]

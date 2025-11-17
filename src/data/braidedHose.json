@@ -1,0 +1,49 @@
+[
+  {
+    "id": 5,
+    "name": "Braided Hose Pipe",
+    "code": "BH5001",
+    "save": "2.1%",
+    "images": ["bh1.png", "bh2.png", "bh3.png", "bh4.png"],
+    "rates": {
+      "25mm": {
+        "15m": 480,
+        "30m": 920
+      },
+      "32mm": {
+        "15m": 550,
+        "30m": 1050
+      }
+    },
+    "recommendations": [
+      {
+        "image": "r1.png",
+        "code": "BH1001",
+        "name": "Zebra Hose Pipe",
+        "price": "₹780",
+        "save": "2.1%"
+      },
+      {
+        "image": "r2.png",
+        "code": "BH2001",
+        "name": "PVC Flexible Pipe",
+        "price": "₹640",
+        "save": "2.1%"
+      },
+      {
+        "image": "r3.png",
+        "code": "BH3001",
+        "name": "Coupler Set",
+        "price": "₹260",
+        "save": "2.1%"
+      },
+      {
+        "image": "r4.png",
+        "code": "BH4001",
+        "name": "Tee Fitting",
+        "price": "₹180",
+        "save": "2.1%"
+      }
+    ]
+  }
+]

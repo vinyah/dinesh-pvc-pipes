@@ -1,0 +1,43 @@
+[
+  {
+    "id": 4,
+    "name": "Deep Junction Box",
+    "code": "BX4001",
+    "save": "2.1%",
+    "images": ["boxD1.png", "boxD2.png", "boxD3.png", "boxD4.png"],
+    "rates": {
+      "19mm": 160,
+      "25mm": 190
+    },
+    "recommendations": [
+      {
+        "image": "r1.png",
+        "code": "BX1001",
+        "name": "Fan Box",
+        "price": "₹180",
+        "save": "2.1%"
+      },
+      {
+        "image": "r2.png",
+        "code": "BX2001",
+        "name": "Round Junction Box",
+        "price": "₹150",
+        "save": "2.1%"
+      },
+      {
+        "image": "r3.png",
+        "code": "BX3001",
+        "name": "Junction Box",
+        "price": "₹140",
+        "save": "2.1%"
+      },
+      {
+        "image": "r4.png",
+        "code": "BX4002",
+        "name": "25mm D Box",
+        "price": "₹190",
+        "save": "2.1%"
+      }
+    ]
+  }
+]

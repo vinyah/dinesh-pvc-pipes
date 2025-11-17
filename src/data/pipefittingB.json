@@ -1,0 +1,41 @@
+[
+  {
+    "name": "PVC Tee Fitting",
+    "code": "9102",
+    "images": ["pf2a.png", "pf2b.png", "pf2c.png", "pf2d.png"],
+    "rates": {
+      "19mm": 290,
+      "25mm": 390
+    },
+    "recommendations": [
+      {
+        "image": "r1.png",
+        "code": "9211",
+        "name": "PVC Connector",
+        "price": "₹90",
+        "save": "2.1%"
+      },
+      {
+        "image": "r2.png",
+        "code": "9212",
+        "name": "PVC Elbow Joint",
+        "price": "₹130",
+        "save": "2.1%"
+      },
+      {
+        "image": "r3.png",
+        "code": "9213",
+        "name": "PVC Coupler",
+        "price": "₹150",
+        "save": "2.1%"
+      },
+      {
+        "image": "r4.png",
+        "code": "9214",
+        "name": "PVC 3-Way Bend",
+        "price": "₹170",
+        "save": "2.1%"
+      }
+    ]
+  }
+]

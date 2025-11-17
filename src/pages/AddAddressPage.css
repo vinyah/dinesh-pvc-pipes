@@ -1,0 +1,33 @@
+.address-page {
+  padding: 40px;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+}
+
+.address-form {
+  width: 50%;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.address-input {
+  padding: 10px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+}
+
+.review-btn {
+  background-color: #d90429;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.review-btn:hover {
+  background-color: #b30000;
+}

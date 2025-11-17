@@ -1,0 +1,49 @@
+[
+  {
+    "id": 6,
+    "name": "Zebra Hose Pipe",
+    "code": "ZH6001",
+    "save": "2.1%",
+    "images": ["zh1.png", "zh2.png", "zh3.png", "zh4.png"],
+    "rates": {
+      "25mm": {
+        "15m": 560,
+        "30m": 1080
+      },
+      "32mm": {
+        "15m": 640,
+        "30m": 1220
+      }
+    },
+    "recommendations": [
+      {
+        "image": "r1.png",
+        "code": "ZH1001",
+        "name": "PVC Flexible Pipe",
+        "price": "₹420",
+        "save": "2.1%"
+      },
+      {
+        "image": "r2.png",
+        "code": "ZH2001",
+        "name": "Braided Hose Pipe",
+        "price": "₹480",
+        "save": "2.1%"
+      },
+      {
+        "image": "r3.png",
+        "code": "ZH3001",
+        "name": "Tee Connector",
+        "price": "₹260",
+        "save": "2.1%"
+      },
+      {
+        "image": "r4.png",
+        "code": "ZH4001",
+        "name": "PVC Joint Box",
+        "price": "₹300",
+        "save": "2.1%"
+      }
+    ]
+  }
+]

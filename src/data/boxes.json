@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Round Junction Box",
+    "image": "box1.png",
+    "link": "/boxes/a"
+  },
+  {
+    "id": 2,
+    "name": "Square Junction Box",
+    "image": "box2.png",
+    "link": "/boxes/b"
+  },
+  {
+    "id": 3,
+    "name": "Fan Box",
+    "image": "box3.png",
+    "link": "/boxes/c"
+  },
+  {
+    "id": 4,
+    "name": "Deep Junction Box",
+    "image": "box4.png",
+    "link": "/boxes/d"
+  }
+]

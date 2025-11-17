@@ -1,0 +1,120 @@
+/* ========== Footer Base ========== */
+.footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  background: #b30000; /* red background */
+  color: white;
+  padding: 30px 20px;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* Each footer section */
+.footer-section {
+  flex: 1;
+  min-width: 180px;
+  margin: 10px 15px;
+}
+
+.footer-section h3 {
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  font-weight: 600;
+}
+
+/* Lists inside footer sections */
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-section ul li a:hover {
+  color: #ffd60a; /* gold hover */
+}
+
+/* ========== Logo & Follow Us ========== */
+.footer-logo {
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+.follow-title {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.social-icons a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 22px;
+}
+
+.social-icons a:hover {
+  color: #ffd60a; /* hover highlight */
+}
+
+/* ========== Help & Support (moved to right of footer) ========== */
+.footer-support {
+  position: absolute;
+  right: 40px;
+  bottom: 30px;
+  text-align: right;
+}
+
+.footer-support h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.footer-support p {
+  margin: 3px 0 0 0;
+  font-size: 0.9rem;
+  color: #ffd60a;
+}
+
+/* ========== Footer Bottom ========== */
+.footer-bottom {
+  width: 100%;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  margin-top: 25px;
+  padding-top: 15px;
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+/* ========== Responsive Design ========== */
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-support {
+    position: static;
+    margin-top: 20px;
+    text-align: center;
+  }
+}
+
+
+

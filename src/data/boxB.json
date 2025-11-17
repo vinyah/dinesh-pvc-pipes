@@ -1,0 +1,40 @@
+[
+  {
+    "id": 2,
+    "name": "Square Junction Box",
+    "code": "BX2001",
+    "price": "150",
+    "save": "2.1%",
+    "images": ["boxB1.png", "boxB2.png", "boxB3.png", "boxB4.png"],
+    "recommendations": [
+      {
+        "image": "r1.png",
+        "code": "BX1001",
+        "name": "Fan Box",
+        "price": "₹180",
+        "save": "2.1%"
+      },
+      {
+        "image": "r2.png",
+        "code": "BX3001",
+        "name": "Square Junction Box",
+        "price": "₹170",
+        "save": "2.1%"
+      },
+      {
+        "image": "r3.png",
+        "code": "BX4001",
+        "name": "19mm D Box",
+        "price": "₹160",
+        "save": "2.1%"
+      },
+      {
+        "image": "r4.png",
+        "code": "BX4002",
+        "name": "25mm D Box",
+        "price": "₹190",
+        "save": "2.1%"
+      }
+    ]
+  }
+]

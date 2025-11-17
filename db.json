@@ -1,0 +1,19 @@
+{
+  "profiles": [
+    {
+      "id": 1,
+      "name": "Karlyn Vinyah S J",
+      "phone": "9876543210",
+      "email": "karlyn@example.com"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 1,
+      "item": "PVC Pipe",
+      "quantity": 3,
+      "status": "Delivered"
+    }
+  ]
+}

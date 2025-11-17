@@ -1,0 +1,171 @@
+/* === Fullscreen dark overlay === */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;  /* ⬅ SUPER IMPORTANT */
+}
+
+
+/* === Modal Box === */
+.modal-box {
+  background: #ffffff;
+  width: 360px;
+  border-radius: 12px;
+  padding: 25px 30px;
+  position: relative;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease-in-out;
+  font-family: "Poppins", sans-serif;
+  z-index: 100000; /* ⬅ ensures modal content is above overlay */
+}
+
+
+/* === Fade-in Animation === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* === Close Button === */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #555;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #e63900;
+}
+
+/* === Login/Admin Toggle Tabs === */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  gap: 8px;
+}
+
+.tabs button {
+  flex: 1;
+  border: 1px solid #ddd;
+  background: #f4f4f4;
+  padding: 6px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.tabs button.active {
+  background: #f97316;
+  color: white;
+  border-color: #f97316;
+}
+
+/* === Modal Title === */
+.modal-content h2 {
+  text-align: center;
+  color: #e63900;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+/* === Input Fields === */
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.modal-content input:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 5px rgba(249, 115, 22, 0.4);
+}
+
+/* === Buttons === */
+.modal-content button {
+  width: 100%;
+  padding: 10px;
+  background: #f97316;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 8px;
+}
+
+.modal-content button:hover {
+  background: #e05c00;
+}
+
+/* === Popup Success/Error Message === */
+.popup-message {
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  animation: slideDown 0.3s ease-in-out;
+}
+
+.popup-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.popup-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* === Slide-down animation for message === */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Fallback message style === */
+.message {
+  margin-top: 10px;
+  color: #b30000;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.message.success {
+  color: green;
+}

@@ -1,0 +1,49 @@
+[
+  {
+    "id": 7,
+    "name": "PVC Pipe Bend",
+    "code": "PB7001",
+    "save": "2.1%",
+    "images": ["pb1.png", "pb2.png", "pb3.png", "pb4.png"],
+    "rates": {
+      "1.5": {
+        "19mm": 180,
+        "25mm": 230
+      },
+      "2.0": {
+        "19mm": 240,
+        "25mm": 290
+      }
+    },
+    "recommendations": [
+      {
+        "image": "r1.png",
+        "code": "PB1001",
+        "name": "PVC Coupling Set",
+        "price": "₹320",
+        "save": "2.1%"
+      },
+      {
+        "image": "r2.png",
+        "code": "PB1002",
+        "name": "PVC Elbow Pack",
+        "price": "₹180",
+        "save": "2.1%"
+      },
+      {
+        "image": "r3.png",
+        "code": "PB1003",
+        "name": "PVC Joint Box",
+        "price": "₹260",
+        "save": "2.1%"
+      },
+      {
+        "image": "r4.png",
+        "code": "PB1004",
+        "name": "PVC Pipe Roll",
+        "price": "₹490",
+        "save": "2.1%"
+      }
+    ]
+  }
+]

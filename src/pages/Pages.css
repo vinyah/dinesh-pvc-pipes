@@ -1,0 +1,380 @@
+/* ========== General ========== */
+.page {
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* ========== Section 1: Hero ========== */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #c8102e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+
+/* Central text area (now at top and above images) */
+.hero-overlay {
+  position: absolute;
+  top: 2.5%; /* moves the text near the top */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: #fff;
+  z-index: 20; /* ensures it’s above all images */
+}
+
+
+.changing-text {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #fff;
+  animation: fade 2s ease-in-out infinite alternate;
+}
+
+@keyframes fade {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+.hero-title {
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin: 15px 0;
+}
+
+.hero-title-main {
+  font-size: 4rem; /* Larger text for Dinesh */
+  letter-spacing: 2px;
+}
+
+.hero-title-sub {
+  font-size: 2.0rem;  /*Smaller text for PVC Pipes */
+  font-weight: 400;
+  color: #ffe6e6; /* Slightly lighter shade if you like contrast */
+}
+
+
+.hero-subtext {
+  position: absolute;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.4rem;
+  color: #f0f0f0;
+  font-style: italic;
+  font-weight: 600;
+  text-align: center;
+  z-index: 10;
+}
+
+
+/* Pipe image styling */
+.pipe-img {
+  position: absolute;
+  z-index: 1;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pipe-img img {
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+ 
+}
+
+.pipe-img:hover {
+  transform: scale(1.1);
+}
+
+/* ========== PIPE POSITIONS ========== */
+
+/* Left triangle formation */
+.pipe-1 { top: 14%; left: 3%; width: 90px; height: 90px; }
+.pipe-3 { top: 45%; left: 17%; width: 140px; height: 140px; }
+.pipe-5 { bottom: 14%; left: 3%; width: 160px; height: 160px; }
+
+/* Right diagonal formation (increasing size) */
+.pipe-2 { bottom: 9%; right: 24%; width: 120px; height: 120px; }
+.pipe-4 { bottom: 9%; right: 16%; width: 140px; height: 140px; }
+.pipe-6 { bottom: 9%; right: 6%; width: 160px; height: 160px; }
+
+/* Top right corner */
+.pipe-8 { top: 12%; right: 18%; width: 130px; height: 130px; }
+
+/* Center bottom pipe (Pipe 7) */
+.pipe-7 {
+  bottom: 40%;
+  left: 45%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 180px;
+}
+
+/* Fix hover for pipe 7 */
+.pipe-7:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .pipe-img img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+  }
+
+  .hero-subtext {
+    font-size: 1.1rem;
+    bottom: 3%;
+  }
+}
+
+
+/* ========== Section 2: About ========== */
+.about {
+  background: url("../assets/pipe-background.png")
+    no-repeat center center/cover;
+  color: #000000;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.about-content {
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* First paragraph: big, bold, and dark */
+.about-content .intro-text {
+  font-size: 4.8rem;
+  font-weight: 600;
+  font-family: sans-serif;
+  color: #111; /* dark blackish color */
+  margin-bottom: 20px;
+  line-height: 0.9;
+}
+
+.grey-word {
+  color: #555; /* soft grey tone */
+  font-weight: 600; /* optional – to keep emphasis */
+}
+
+
+/* Second paragraph: softer, smaller, gray */
+.about-content .desc-text {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #555; /* gray text */
+  max-width: 800px;
+  margin: 0 auto 30px auto;
+  line-height: 1.6;
+}
+
+
+.offer-btn {
+  background: transparent;
+  border: 2px solid #b30000;
+  color: #b30000;
+  padding: 10px 25px;
+  margin-top: 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.offer-btn:hover {
+  background: #b00000;
+  border-color: #b300000;
+  color: #ffffff;
+}
+
+/* ========== Section 3: Products ========== */
+.products {
+  padding: 60px 20px;
+  text-align: center;
+  background-color: #f8f8f8;
+}
+
+.products h1 {
+  font-size: 2rem;
+  color: #000000;
+  margin-bottom: 65px; /* add space below the heading */
+}
+
+.product-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-top: 30px;
+}
+.product-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  width: 250px;
+  padding: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect for ALL product cards */
+.product-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 8px 18px rgba(179, 0, 0, 0.3);
+}
+
+/* Middle product card slightly lifted by default */
+.product-container .product-card:nth-child(2) {
+  transform: translateY(-15px);
+}
+
+/* Middle product card hover (extra lift) */
+.product-container .product-card:nth-child(2):hover {
+  transform: translateY(-25px) scale(1.05);
+}
+
+
+.product-card img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.code {
+  font-weight: bold;
+  margin-top: 10px;
+  color: #000000;
+}
+
+.desc {
+  font-size: 0.9rem;
+  color: #333333;
+}
+
+.qty {
+  color: #555555;
+  font-size: 0.9rem;
+}
+
+.price {
+  font-weight: bold;
+  color: #b30000;
+  margin-top: 5px;
+}
+
+/* ========== Section 4: What Sets Us Apart ========== */
+.apart {
+  background: #ffffff;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.apart h1 {
+  color: #000000;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.apart-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.apart-card {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 325px;
+  height: 220px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.apart-card:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 16px rgba(179, 0, 0, 0.4);
+}
+
+.apart-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* ========== Section 5: Account Section ========== */
+.account-section {
+  background: #ffffff;
+  color: #000000;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.signup-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px; /* spacing between signup and login */
+  flex-wrap: wrap; /* stacks vertically on small screens */
+  margin-top: 40px;
+}
+
+.signup,
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signup p,
+.login p {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #000000;
+}
+
+.signup-btn,
+.login-btn {
+  background: transparent;
+  border: 2px solid #b30000 !important;
+  color: #b30000;
+  padding: 10px 25px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.signup-btn:hover,
+.login-btn:hover {
+  background: #b30000;
+  color: #ffffff;
+}
+
+/* Mobile view: stack vertically */
+@media (max-width: 768px) {
+  .signup-login {
+    flex-direction: column;
+    gap: 30px;
+  }
+}
