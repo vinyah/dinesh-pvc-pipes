@@ -100,9 +100,9 @@
 
   .hero {
     width: 100%;
-    min-height: 75vh;            /* not too tall */
-    padding-top: 32px;
-    padding-bottom: 40px;
+    min-height: 50vh;            /* not too tall */
+    padding-top: 20px;
+    padding-bottom: 20px;
 
     /* full-width image, looks like a proper banner */
     background-size: cover;
