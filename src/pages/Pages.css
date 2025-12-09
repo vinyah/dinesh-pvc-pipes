@@ -5,7 +5,7 @@
   min-height: 100vh;
 
   /* Background image comes from JSX */
-  background-color: #c8102e;  /* fallback */
+   /* fallback */
   background-size: cover;     /* good for desktop */
   background-position: center center;
   background-repeat: no-repeat;
@@ -100,8 +100,8 @@
   .hero {
     /* height adjusts based on content */
     min-height: auto;
-    padding-top: 110px;       /* pushes text below navbar */
-    padding-bottom: 40px;
+    padding-top: 90px;       /* pushes text below navbar */
+    padding-bottom: 90px;
 
     /* show full image (no cropping) */
     background-size: contain;
