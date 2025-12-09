@@ -2,7 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Pages.css";
-import heroBg from "../assets/hero-bg.png";
+
+// 🖼️ Desktop & Mobile hero images
+import heroBgDesktop from "../assets/hero-bg.png";
+import heroBgMobile from "../assets/hero-bg-mobile.png";
+
 import homeData from "../data/home.json";
 
 // 🔤 Texts for the changing hero line
@@ -18,14 +22,29 @@ const words = [
 
 function Home({ setShowModal }) {
   const [index, setIndex] = useState(0);
+  const [heroBg, setHeroBg] = useState(heroBgDesktop); // 👈 current bg image
   const navigate = useNavigate();
 
+  // 🔁 Change language text
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % words.length);
     }, 2000);
 
     return () => clearInterval(interval);
+  }, []);
+
+  // 📱💻 Switch hero background for mobile vs laptop
+  useEffect(() => {
+    const updateBg = () => {
+      const isMobile = window.innerWidth <= 768;
+      setHeroBg(isMobile ? heroBgMobile : heroBgDesktop);
+    };
+
+    updateBg(); // run once on mount
+    window.addEventListener("resize", updateBg);
+
+    return () => window.removeEventListener("resize", updateBg);
   }, []);
 
   return (
@@ -49,7 +68,6 @@ function Home({ setShowModal }) {
 
         <p className="hero-subtext">"Where Durability Meets Innovation"</p>
       </section>
-
       {/* === Section 2: About === */}
       <section className="about">
         <div className="about-content">
