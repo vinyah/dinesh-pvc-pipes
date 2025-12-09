@@ -108,16 +108,25 @@
     background-position: top center;
     background-repeat: no-repeat;
 
-    align-items: flex-start;  /* content starts from top */
+    /* stack content top-down */
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
   }
 
-  /* overlay should move with content instead of fixed shape */
+  /* overlay becomes normal block stacked inside hero */
   .hero-overlay {
     position: relative;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0 12px;
+    left: 0;
+    transform: none;
+    padding: 0 16px;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;          /* space between lines: changing text / Dinesh / PVC Pipes */
   }
 
   .changing-text {
@@ -132,7 +141,7 @@
     font-size: 1.4rem;
   }
 
-  /* Move tagline under content */
+  /* tagline comes after overlay, at the bottom of hero */
   .hero-subtext {
     position: relative;
     bottom: auto;
