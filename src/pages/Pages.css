@@ -96,7 +96,6 @@
 }
 
 /* ========== MOBILE FIX FOR HERO BACKGROUND & TEXT ========== */
-/* ========== MOBILE FIX FOR HERO BACKGROUND & TEXT ========== */
 @media (max-width: 600px) {
 
   .hero {
@@ -105,7 +104,7 @@
     padding-top: 40px;
     padding-bottom: 40px;
 
-    /* FIXED: show full image (no zoom, no cropping) */
+    /* show full image (no zoom, no cropping) */
     background-size: contain;
     background-position: top center;
     background-repeat: no-repeat;
@@ -115,7 +114,6 @@
     align-items: center;
     justify-content: flex-start;
 
-    /* remove unwanted bottom color if present */
     overflow: hidden;
   }
 
@@ -131,7 +129,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px; 
+    gap: 10px;
   }
 
   /* changing text at top, slightly left – parallel to first circle */
@@ -141,14 +139,14 @@
 
   .changing-text-mobile {
     align-self: flex-start;
-    margin-left: 12%;  /* adjust to match top-left circle */
+    margin-left: 12%;     /* adjust to match top-left circle */
     margin-top: 8px;
     font-size: 1.3rem;
   }
 
-  /* Dinesh + PVC Pipes centered lower */
+  /* Dinesh + PVC Pipes position */
   .hero-title-mobile {
-    margin-top: 22px;
+    margin-top: 6px;      /* moved up */
   }
 
   .hero-title-main-mobile {
@@ -160,20 +158,7 @@
     font-size: 1.45rem;
   }
 
-  /* tagline now positioned clean at bottom of hero */
-  .hero-subtext-mobile {
-    position: relative;
-    margin-top: 24px;
-    font-size: 1rem;
-    text-align: center;
-  }
-}
-
-  /* Dinesh + PVC Pipes a bit lower, centered – parallel to big circle */
-  .hero-title-mobile {
-    margin-top: 32px;  /* push down from top text */
-  }
-
+  /* Slightly smaller base sizes on mobile */
   .hero-title-main {
     font-size: 2.4rem;
   }
@@ -182,16 +167,7 @@
     font-size: 1.4rem;
   }
 
-  .hero-title-main-mobile {
-    font-size: 2.6rem;
-    letter-spacing: 1px;
-  }
-
-  .hero-title-sub-mobile {
-    font-size: 1.6rem;
-  }
-
-  /* tagline at the bottom of hero on mobile */
+  /* reset base hero-subtext on mobile */
   .hero-subtext {
     position: relative;
     bottom: auto;
@@ -202,15 +178,17 @@
     text-align: center;
   }
 
+  /* tagline fixed at bottom of hero */
   .hero-subtext-mobile {
     position: absolute;
-    bottom: 5px;
+    bottom: 15px;         /* your requested value */
     left: 50%;
     transform: translateX(-50%);
     margin-top: 0;
     font-size: 1rem;
+    text-align: center;
   }
-
+}
 
 /* ========== Section 2: About ========== */
 .about {
