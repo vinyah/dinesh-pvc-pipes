@@ -96,28 +96,30 @@
 }
 
 /* ========== MOBILE FIX FOR HERO BACKGROUND & TEXT ========== */
+/* ========== MOBILE FIX FOR HERO BACKGROUND & TEXT ========== */
 @media (max-width: 600px) {
+
   .hero {
-    /* fill screen and zoom a bit so bottom strip is hidden */
-    min-height: 100vh;
+    /* allow natural height – no forced zoom */
+    min-height: auto;
     padding-top: 40px;
     padding-bottom: 40px;
 
-    background-size: cover;          /* crop bottom extra color */
-    background-position: top center; /* show top with circles */
+    /* FIXED: show full image (no zoom, no cropping) */
+    background-size: contain;
+    background-position: top center;
     background-repeat: no-repeat;
 
+    /* layout needed for stacking text */
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+
+    /* remove unwanted bottom color if present */
+    overflow: hidden;
   }
 
-  /* hero-mobile is just for clarity if you want to target it later */
-  .hero.hero-mobile {
-    /* same as .hero for now */
-  }
-
-  /* overlay becomes normal block stacked inside hero */
+  /* Mobile overlay */
   .hero-overlay {
     position: relative;
     top: 0;
@@ -129,7 +131,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;      /* spacing between changing text / Dinesh / PVC Pipes */
+    gap: 10px; 
   }
 
   /* changing text at top, slightly left – parallel to first circle */
@@ -139,9 +141,33 @@
 
   .changing-text-mobile {
     align-self: flex-start;
-    margin-left: 12%;  /* adjust to line up with circle */
-    margin-top: 6px;
+    margin-left: 12%;  /* adjust to match top-left circle */
+    margin-top: 10px;
+    font-size: 1.3rem;
   }
+
+  /* Dinesh + PVC Pipes centered lower */
+  .hero-title-mobile {
+    margin-top: 28px;
+  }
+
+  .hero-title-main-mobile {
+    font-size: 2.6rem;
+    letter-spacing: 1px;
+  }
+
+  .hero-title-sub-mobile {
+    font-size: 1.45rem;
+  }
+
+  /* tagline now positioned clean at bottom of hero */
+  .hero-subtext-mobile {
+    position: relative;
+    margin-top: 20px;
+    font-size: 1rem;
+    text-align: center;
+  }
+}
 
   /* Dinesh + PVC Pipes a bit lower, centered – parallel to big circle */
   .hero-title-mobile {
@@ -184,7 +210,7 @@
     margin-top: 0;
     font-size: 1rem;
   }
-}
+
 
 /* ========== Section 2: About ========== */
 .about {
@@ -509,5 +535,26 @@
   .signup p,
   .login p {
     font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-help {
+    display: flex;
+    flex-direction: column;   /* stack one below another */
+    align-items: center;
+    margin-top: 12px;
+  }
+
+  .footer-help-text,
+  .footer-help-phone {
+    position: static;         /* remove any absolute positioning */
+    line-height: 1.6;         /* more height so they don’t touch */
+    margin: 0;                /* reset weird margins */
+    text-align: center;
+  }
+
+  .footer-help-phone {
+    margin-top: 4px;          /* little gap under the text */
   }
 }
