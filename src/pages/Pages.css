@@ -99,94 +99,80 @@
 @media (max-width: 600px) {
 
   .hero {
-    /* allow natural height – no forced zoom */
-    min-height: auto;
-    padding-top: 40px;
+    width: 100%;
+    min-height: 75vh;            /* not too tall */
+    padding-top: 32px;
     padding-bottom: 40px;
 
-    /* show full image (no zoom, no cropping) */
-    background-size: contain;
-    background-position: top center;
+    /* full-width image, looks like a proper banner */
+    background-size: cover;
+    background-position: center 10%;   /* circles slightly lower */
     background-repeat: no-repeat;
 
-    /* layout needed for stacking text */
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-
     overflow: hidden;
   }
 
-  /* Mobile overlay */
   .hero-overlay {
     position: relative;
     top: 0;
     left: 0;
     transform: none;
     padding: 0 16px;
-    text-align: center;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    text-align: center;
   }
 
-  /* changing text at top, slightly left – parallel to first circle */
+  /* top changing text */
   .changing-text {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .changing-text-mobile {
     align-self: flex-start;
-    margin-left: 12%;     /* adjust to match top-left circle */
-    margin-top: 8px;
-    font-size: 1.3rem;
+    margin-left: 14%;   /* lines up with top-left circle */
+    margin-top: 4px;
   }
 
-  /* Dinesh + PVC Pipes position */
+  /* Dinesh + PVC Pipes – slightly smaller & higher */
   .hero-title-mobile {
-    margin-top: 6px;      /* moved up */
+    margin-top: 14px;           /* move a bit up */
   }
 
   .hero-title-main-mobile {
-    font-size: 2.6rem;
+    font-size: 2.3rem;          /* not too huge */
     letter-spacing: 1px;
   }
 
   .hero-title-sub-mobile {
-    font-size: 1.45rem;
+    font-size: 1.4rem;
   }
 
-  /* Slightly smaller base sizes on mobile */
+  /* base text sizes on mobile */
   .hero-title-main {
-    font-size: 2.4rem;
+    font-size: 2.3rem;
   }
 
   .hero-title-sub {
     font-size: 1.4rem;
   }
 
-  /* reset base hero-subtext on mobile */
-  .hero-subtext {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    transform: none;
-    margin-top: 24px;
-    font-size: 1rem;
-    text-align: center;
-  }
-
-  /* tagline fixed at bottom of hero */
+  /* quote clearly at the bottom, not overlapping */
   .hero-subtext-mobile {
     position: absolute;
-    bottom: 15px;         /* your requested value */
+    bottom: 18px;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 0;
-    font-size: 1rem;
+    font-size: 0.95rem;
     text-align: center;
+    margin-top: 0;
   }
 }
 
