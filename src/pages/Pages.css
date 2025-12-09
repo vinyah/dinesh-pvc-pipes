@@ -61,7 +61,7 @@
 
 .hero-subtext {
   position: absolute;
-  bottom: 3%;
+  bottom: 4%;
   left: 50%;
   transform: translateX(-50%);
   font-size: 1.4rem;
@@ -142,13 +142,13 @@
   .changing-text-mobile {
     align-self: flex-start;
     margin-left: 12%;  /* adjust to match top-left circle */
-    margin-top: 10px;
+    margin-top: 8px;
     font-size: 1.3rem;
   }
 
   /* Dinesh + PVC Pipes centered lower */
   .hero-title-mobile {
-    margin-top: 28px;
+    margin-top: 22px;
   }
 
   .hero-title-main-mobile {
@@ -163,7 +163,7 @@
   /* tagline now positioned clean at bottom of hero */
   .hero-subtext-mobile {
     position: relative;
-    margin-top: 20px;
+    margin-top: 24px;
     font-size: 1rem;
     text-align: center;
   }
@@ -197,14 +197,14 @@
     bottom: auto;
     left: auto;
     transform: none;
-    margin-top: 18px;
+    margin-top: 24px;
     font-size: 1rem;
     text-align: center;
   }
 
   .hero-subtext-mobile {
     position: absolute;
-    bottom: 20px;
+    bottom: 5px;
     left: 50%;
     transform: translateX(-50%);
     margin-top: 0;
@@ -543,7 +543,7 @@
     display: flex;
     flex-direction: column;   /* stack one below another */
     align-items: center;
-    margin-top: 12px;
+    margin-top: 14px;
   }
 
   .footer-help-text,
