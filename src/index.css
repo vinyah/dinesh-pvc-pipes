@@ -1,7 +1,28 @@
-/* ===== Global Body Styling ===== */
+/* ===== Global Reset & Layout Guards ===== */
+html,
 body {
   margin: 0;
   padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;          /* 🚫 prevent horizontal scrolling */
+}
+
+/* Make sizing predictable everywhere */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* All images stay inside the screen */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ===== Global Body Styling ===== */
+body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
     'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
@@ -18,7 +39,8 @@ body {
 
 /* Code font */
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
 /* ===== Responsive Typography ===== */
@@ -27,7 +49,6 @@ code {
 @media (max-width: 900px) {
   body {
     font-size: 15px;           /* slightly smaller for tablets */
-    padding: 0;
   }
 }
 

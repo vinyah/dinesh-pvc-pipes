@@ -5,8 +5,8 @@
   min-height: 100vh;
 
   /* Background image comes from JSX */
-  background-color: #c8102e;  /* fallback if image fails */
-  background-size: cover;
+  background-color: #c8102e;  /* fallback */
+  background-size: cover;     /* good for desktop */
   background-position: center center;
   background-repeat: no-repeat;
 
@@ -16,7 +16,7 @@
   overflow: hidden;
 }
 
-/* Text area positioned above background */
+/* Text Area */
 .hero-overlay {
   position: absolute;
   top: 3%;
@@ -37,7 +37,7 @@
 
 @keyframes fade {
   from { opacity: 0.3; }
-  to { opacity: 1; }
+  to   { opacity: 1; }
 }
 
 .hero-title {
@@ -72,7 +72,7 @@
   z-index: 20;
 }
 
-/* ========== RESPONSIVE HERO TEXT ========== */
+/* ========== RESPONSIVE HERO TEXT (TABLETS) ========== */
 @media (max-width: 1024px) {
   .hero {
     min-height: 80vh;
@@ -95,23 +95,23 @@
   }
 }
 
-/* ✅ MOBILE FIX FOR HERO BACKGROUND & TEXT */
+/* ========== MOBILE FIX FOR HERO BACKGROUND & TEXT ========== */
 @media (max-width: 600px) {
   .hero {
-    /* let height be driven by content + padding */
+    /* height adjusts based on content */
     min-height: auto;
-    padding-top: 110px;        /* push content below navbar */
+    padding-top: 110px;       /* pushes text below navbar */
     padding-bottom: 40px;
 
-    /* show the full hero image nicely */
+    /* show full image (no cropping) */
     background-size: contain;
     background-position: top center;
     background-repeat: no-repeat;
 
-    align-items: flex-start;   /* content from top, not centered vertically */
+    align-items: flex-start;  /* content starts from top */
   }
 
-  /* make overlay flow with the document instead of absolute */
+  /* overlay should move with content instead of fixed shape */
   .hero-overlay {
     position: relative;
     top: 0;
@@ -132,7 +132,7 @@
     font-size: 1.4rem;
   }
 
-  /* put subtext under the circle instead of pinned at bottom */
+  /* Move tagline under content */
   .hero-subtext {
     position: relative;
     bottom: auto;
@@ -140,6 +140,7 @@
     transform: none;
     margin-top: 18px;
     font-size: 1rem;
+    text-align: center;
   }
 }
 
