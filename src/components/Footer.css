@@ -3,118 +3,158 @@
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
-  background: #b30000; /* red background */
-  color: white;
-  padding: 30px 20px;
   flex-wrap: wrap;
+  background: #b30000;
+  color: white;
+  padding: 20px 20px 10px;  /* ↓ smaller padding */
   position: relative;
+  gap: 10px;               /* controls spacing between blocks */
 }
 
-/* Each footer section */
+/* Sections */
 .footer-section {
-  flex: 1;
+  flex: 1 1 180px;
   min-width: 180px;
-  margin: 10px 15px;
+  margin: 5px 10px;        /* ↓ smaller margin */
 }
 
 .footer-section h3 {
-  margin-bottom: 10px;
-  padding-bottom: 5px;
+  margin-bottom: 6px;      /* ↓ tighter heading spacing */
   font-weight: 600;
 }
 
-/* Lists inside footer sections */
+/* List styling */
 .footer-section ul {
   list-style: none;
   padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 4px;      /* ↓ less vertical gap */
 }
 
 .footer-section ul li a {
   color: #ffffff;
   text-decoration: none;
   transition: 0.3s;
+  font-size: 0.95rem;
 }
 
 .footer-section ul li a:hover {
-  color: #ffd60a; /* gold hover */
+  color: #ffd60a;
 }
 
-/* ========== Logo & Follow Us ========== */
+/* ========== Logo Section ========== */
 .footer-logo {
-  width: 120px;
-  margin-bottom: 10px;
+  width: 100px;            /* ↓ slightly smaller logo */
+  margin-bottom: 8px;
 }
 
 .follow-title {
-  font-size: 1rem;
-  margin-bottom: 8px;
-  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .social-icons {
   display: flex;
-  gap: 15px;
+  gap: 10px;
   align-items: center;
-  justify-content: center;
-  margin-top: 10px;
 }
 
 .social-icons a {
-  color: #ffffff;
-  text-decoration: none;
+  color: #fff;
+  font-size: 20px;         /* ↓ slightly smaller icons */
   transition: 0.3s;
-  font-size: 22px;
 }
 
 .social-icons a:hover {
-  color: #ffd60a; /* hover highlight */
+  color: #ffd60a;
 }
 
-/* ========== Help & Support (moved to right of footer) ========== */
+/* ========== Help & Support (inline with sections) ========== */
 .footer-support {
-  position: absolute;
-  right: 40px;
-  bottom: 30px;
+  flex: 0 0 auto;
+  margin-left: auto;       /* push to right side */
   text-align: right;
+  margin-top: 0;          /* no extra vertical gap */
+  position: absolute;
+  right: 25px;       /* distance from right edge */
+  bottom: 75px;      /* distance ABOVE the footer-bottom line */
+  
+}
+
+.footer {
+  position: relative;   /* required for absolute child positioning */
 }
 
 .footer-support h4 {
-  margin: 0;
-  font-size: 1rem;
-  color: #ffffff;
+  font-size: 0.95rem;
+  margin-bottom: 3px;
 }
 
 .footer-support p {
-  margin: 3px 0 0 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #ffd60a;
+  margin: 0;
 }
 
 /* ========== Footer Bottom ========== */
 .footer-bottom {
   width: 100%;
   text-align: center;
+  margin-top: 10px;        /* ↓ smaller */
+  padding-top: 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.3);
-  margin-top: 25px;
-  padding-top: 15px;
-  font-size: 0.9rem;
-  color: #ffffff;
+  font-size: 0.85rem;
 }
 
-/* ========== Responsive Design ========== */
+/* ========== Footer Login/Signup Buttons ========== */
+.footer-auth-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0;
+}
+
+.footer-auth-btn:hover {
+  color: #ffd60a;
+  text-decoration: underline;
+}
+
+/* ========== Responsive ========== */
 @media (max-width: 768px) {
   .footer {
-    flex-direction: column;
-    align-items: center;
     text-align: center;
+    justify-content: center;
+    padding: 18px 16px 10px;
+  }
+
+  .logo-section {
+    align-items: center;
+  }
+
+  .footer-section {
+    text-align: center;
+    margin: 8px 0;
+  }
+
+  .social-icons {
+    justify-content: center;
   }
 
   .footer-support {
-    position: static;
-    margin-top: 20px;
+    width: 100%;
     text-align: center;
+    margin-top: 10px;
+    margin-left: 0;
   }
 }
-
-
-

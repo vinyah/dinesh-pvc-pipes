@@ -1,14 +1,27 @@
 .review-page {
   padding: 40px;
   font-family: "Poppins", sans-serif;
+  background: #f8f9fb;
+  min-height: 80vh;
 }
 
+/* Heading (if used) */
+.review-heading {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #111;
+}
+
+/* Main layout */
 .review-content {
   display: flex;
   justify-content: space-between;
   gap: 40px;
+  align-items: flex-start;
 }
 
+/* LEFT: items list */
 .review-items {
   flex: 2;
 }
@@ -19,16 +32,41 @@
   align-items: center;
   margin-bottom: 15px;
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 10px 14px;
   border-radius: 10px;
+  background: #ffffff;
 }
 
 .review-img {
   width: 100px;
   height: 100px;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
+.review-item-info h3 {
+  margin: 0 0 4px;
+}
+
+.review-item-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+}
+
+.review-meta {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 1px 0;
+}
+
+.review-price {
+  margin-top: 4px;
+  font-weight: 600;
+  color: #b30000;
+}
+
+/* RIGHT: summary card */
 .review-summary {
   flex: 1;
   border: 1px solid #ddd;
@@ -37,6 +75,37 @@
   background: #fafafa;
 }
 
+.summary-title {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: #111;
+}
+
+.summary-address-line {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.summary-address-missing {
+  font-size: 0.95rem;
+  color: #777;
+}
+
+.summary-total {
+  margin-top: 18px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-total span {
+  font-weight: 700;
+  color: #b30000;
+}
+
+/* Buttons */
 .place-btn {
   width: 100%;
   margin-top: 15px;
@@ -46,4 +115,100 @@
   padding: 12px;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.place-btn:hover {
+  background: #8b0000;
+}
+
+.back-btn {
+  width: 100%;
+  margin-top: 10px;
+  background: #ffffff;
+  color: #b30000;
+  border: 1px solid #b30000;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.back-btn:hover {
+  background: #b30000;
+  color: #ffffff;
+}
+
+/* Empty state (when cart is empty) */
+.empty-state {
+  text-align: center;
+}
+
+.empty-text {
+  margin-top: 10px;
+  color: #555;
+}
+
+/* ============================= */
+/* 💻 Medium screens (laptops)   */
+/* ============================= */
+@media (max-width: 1024px) {
+  .review-page {
+    padding: 32px 24px;
+  }
+
+  .review-content {
+    gap: 24px;
+  }
+}
+
+/* ============================= */
+/* 📱 Tablets & mobiles          */
+/* ============================= */
+@media (max-width: 768px) {
+  .review-page {
+    padding: 24px 16px;
+  }
+
+  .review-heading {
+    font-size: 1.7rem;
+    margin-bottom: 18px;
+  }
+
+  .review-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .review-summary {
+    width: 100%;
+  }
+
+  .review-item {
+    align-items: flex-start;
+  }
+}
+
+/* ============================= */
+/* 📱 Small mobiles              */
+/* ============================= */
+@media (max-width: 480px) {
+  .review-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .review-img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .place-btn,
+  .back-btn {
+    font-size: 0.9rem;
+  }
 }

@@ -5,8 +5,40 @@ import "./BoxPageA.css";
 
 const BoxPageA = () => {
   const { addToCart } = useCart(); // ✅ Access global addToCart function
-  const product = boxAData[0]; // Only one item
+
+  // ✅ Safely get the product (only one item expected)
+  const product = boxAData && boxAData.length > 0 ? boxAData[0] : null;
+
   const [activeImage, setActiveImage] = useState(0);
+  const [qty, setQty] = useState(1); // ✅ quantity starts from 1
+
+  // If JSON is empty or broken
+  if (!product) {
+    return (
+      <div className="boxA-page">
+        <h2>Product not available</h2>
+        <button className="back-btn" onClick={() => window.history.back()}>
+          ← Back To Products
+        </button>
+      </div>
+    );
+  }
+
+  // 🧮 Helper: ensure we always have a numeric unit price
+  const getUnitPrice = (rawPrice) => {
+    if (typeof rawPrice === "number") return rawPrice;
+
+    if (typeof rawPrice === "string") {
+      // remove everything except digits and decimal point (₹, spaces, etc.)
+      const cleaned = rawPrice.replace(/[^\d.]/g, "");
+      const num = Number(cleaned);
+      return isNaN(num) ? 0 : num;
+    }
+
+    return 0;
+  };
+
+  const unitPrice = getUnitPrice(product.price);
 
   // 🛒 Handle Add to Cart
   const handleAddToCart = () => {
@@ -14,15 +46,38 @@ const BoxPageA = () => {
       name: product.name,
       code: product.code,
       image: product.images[activeImage],
-      price: product.price,
+      price: unitPrice, // ✅ numeric price for calculations
       size: null,
       color: null,
       thickness: null,
       length: null,
+      quantity: qty, // ✅ send quantity to cart
     };
 
     addToCart(cartItem);
-    alert(`${product.name} added to cart 🛒`);
+    alert(`${product.name} x ${qty} added to cart 🛒`);
+  };
+
+  const handleIncrease = () => {
+    setQty((prev) => prev + 1);
+  };
+
+  const handleDecrease = () => {
+    setQty((prev) => (prev > 1 ? prev - 1 : 1)); // minimum 1
+  };
+
+  const handleQtyInputChange = (e) => {
+    const value = e.target.value;
+
+    if (value === "") {
+      setQty(1);
+      return;
+    }
+
+    const num = parseInt(value, 10);
+    if (!isNaN(num) && num >= 1) {
+      setQty(num);
+    }
   };
 
   return (
@@ -57,8 +112,35 @@ const BoxPageA = () => {
             <strong>Code:</strong> {product.code}
           </p>
 
-          {/* PRICE */}
-          <h2 className="price">₹{product.price}</h2>
+          {/* PRICE (per unit – using cleaned numeric value) */}
+          <h2 className="price">₹{unitPrice}</h2>
+
+          {/* ✅ QUANTITY ROW ABOVE ADD TO CART */}
+          <div className="qty-row">
+            <button
+              type="button"
+              className="qty-btn qty-minus"
+              onClick={handleDecrease}
+            >
+              −
+            </button>
+
+            <input
+              type="number"
+              className="qty-input"
+              value={qty}
+              onChange={handleQtyInputChange}
+              min="1"
+            />
+
+            <button
+              type="button"
+              className="qty-btn qty-plus"
+              onClick={handleIncrease}
+            >
+              +
+            </button>
+          </div>
 
           {/* ✅ ADD TO CART BUTTON */}
           <button className="add-cart" onClick={handleAddToCart}>
@@ -115,4 +197,3 @@ const BoxPageA = () => {
 };
 
 export default BoxPageA;
-

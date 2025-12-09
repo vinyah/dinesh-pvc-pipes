@@ -1,3 +1,11 @@
+/* Optional outer wrapper, matches JSX 'product-details-wrapper' */
+.product-details-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: "Poppins", sans-serif;
+}
+
 /* === SECTION 1: PRODUCT DETAILS === */
 .product-page {
   display: flex;
@@ -59,7 +67,7 @@
   color: #000000;
 }
 
-/* ✅ Make Code & Length bold and black */
+/* If you use this class in JSX for code/length */
 .product-info-line {
   color: #000000;
   font-weight: bold;
@@ -68,8 +76,12 @@
 }
 
 /* Option Buttons */
+.options {
+  margin: 8px 0 4px;
+}
+
 .options button {
-  margin: 6px;
+  margin: 6px 6px 0 0;
   padding: 8px 14px;
   border: 1px solid #b30000;
   background: white;
@@ -91,6 +103,62 @@
   font-weight: bold;
 }
 
+/* === Quantity Row === */
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 15px 0;
+}
+
+/* Square Buttons */
+.qty-btn {
+  width: 35px;
+  height: 35px;
+  border: 2px solid #b30000;
+  background: white;
+  font-size: 22px;
+  font-weight: bold;
+  color: #b30000;
+  cursor: pointer;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qty-btn:hover {
+  background: #b30000;
+  color: white;
+}
+
+/* Square Input Box */
+.qty-input {
+  width: 80px;
+  height: 35px;
+  text-align: center;
+  font-size: 18px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+.qty-input:focus {
+  border-color: #b30000;
+}
+
+/* Remove arrows in Chrome, Edge, Safari */
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove arrows in Firefox */
+.qty-input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 /* ADD TO CART BUTTON */
 .add-cart {
   width: 100%;
@@ -101,6 +169,7 @@
   margin-top: 15px;
   cursor: pointer;
   transition: 0.3s;
+  border: none;
 }
 
 .add-cart:hover {
@@ -120,6 +189,7 @@
   gap: 80px;
   margin: 50px 0;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 .feature-box img {
@@ -227,16 +297,118 @@
   background: #8b0000;
 }
 
-/* === RESPONSIVE FIX === */
+/* === PRODUCT NOT FOUND STATE (from JSX) === */
+.product-not-found {
+  text-align: center;
+  margin-top: 80px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ============================= */
+/* 💻 Medium screens (laptops)   */
+/* ============================= */
+@media (max-width: 1200px) {
+  .product-page {
+    padding: 40px 30px;
+    gap: 40px;
+  }
+
+  .left-images {
+    width: 45%;
+  }
+
+  .right-info {
+    width: 45%;
+  }
+
+  .recommend-section {
+    padding: 0 30px 40px 30px;
+  }
+}
+
+/* ============================= */
+/* 📱 Tablets / small laptops    */
+/* ============================= */
 @media (max-width: 900px) {
   .product-page {
     flex-direction: column;
     align-items: center;
+    padding: 30px 20px;
+    gap: 30px;
   }
 
   .left-images,
   .right-info {
     width: 100%;
     justify-content: center;
+  }
+
+  .main-img {
+    height: 320px;
+  }
+
+  .features-row {
+    gap: 40px;
+    margin: 40px 0;
+  }
+
+  .recommend-section {
+    padding: 0 20px 40px 20px;
+  }
+}
+
+/* ============================= */
+/* 📱 Small mobiles              */
+/* ============================= */
+@media (max-width: 600px) {
+  .product-details-wrapper {
+    padding: 30px 14px;
+  }
+
+  .product-page {
+    padding: 24px 14px;
+    gap: 24px;
+  }
+
+  .left-images {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .thumb-row {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .thumb {
+    width: 50px;
+    height: 50px;
+  }
+
+  .main-img {
+    height: 260px;
+  }
+
+  .right-info h2 {
+    font-size: 20px;
+  }
+
+  .price {
+    font-size: 24px;
+  }
+
+  .qty-row {
+    gap: 10px;
+  }
+
+  .recommend-card {
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .back-btn {
+    width: 100%;
+    max-width: 260px;
   }
 }

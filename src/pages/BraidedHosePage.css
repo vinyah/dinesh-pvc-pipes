@@ -5,6 +5,7 @@
   padding: 50px;
   justify-content: center;
   align-items: flex-start;
+  font-family: "Poppins", sans-serif;
 }
 
 /* LEFT IMAGE GALLERY */
@@ -83,6 +84,62 @@
   font-size: 28px;
   margin-top: 15px;
   font-weight: bold;
+}
+
+/* === Quantity Row === */
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 15px 0;
+}
+
+/* Square Buttons */
+.qty-btn {
+  width: 35px;
+  height: 35px;
+  border: 2px solid #b30000;
+  background: white;
+  font-size: 22px;
+  font-weight: bold;
+  color: #b30000;
+  cursor: pointer;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qty-btn:hover {
+  background: #b30000;
+  color: white;
+}
+
+/* Square Input Box */
+.qty-input {
+  width: 80px;
+  height: 35px;
+  text-align: center;
+  font-size: 18px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+.qty-input:focus {
+  border-color: #b30000;
+}
+
+/* Remove arrows in Chrome, Edge, Safari */
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove arrows in Firefox */
+.qty-input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 /* ADD TO CART */
@@ -224,11 +281,35 @@
   .braided-page {
     flex-direction: column;
     align-items: center;
+    padding: 30px 20px;
+    gap: 30px;
   }
 
   .left-images,
   .right-info {
     width: 100%;
     justify-content: center;
+  }
+
+  .main-img {
+    height: 280px;
+  }
+
+  .features-row {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .braided-page {
+    padding: 20px 15px;
+  }
+
+  .right-info h2 {
+    font-size: 20px;
+  }
+
+  .price {
+    font-size: 24px;
   }
 }

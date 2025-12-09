@@ -11,9 +11,14 @@ const ZebraHosePage = () => {
   const [activeImage, setActiveImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState("25mm");
   const [selectedLength, setSelectedLength] = useState("15m");
+  const [qty, setQty] = useState(1); // ✅ quantity starts from 1
 
   // ✅ Calculate price based on size & length
-  const price = product.rates[selectedSize][selectedLength];
+  const rawPrice = product.rates[selectedSize][selectedLength];
+  const price =
+    typeof rawPrice === "number"
+      ? rawPrice
+      : Number(String(rawPrice).replace(/[^\d.]/g, "")) || 0;
 
   // 🛒 Handle Add to Cart
   const handleAddToCart = () => {
@@ -21,19 +26,45 @@ const ZebraHosePage = () => {
       name: product.name,
       code: product.code,
       image: product.images[activeImage],
-      price: price,
+      price: price,              // ✅ numeric price for cart
+      displayPrice: rawPrice,    // (optional) original string
       size: selectedSize,
       length: selectedLength,
       color: null,
       thickness: null,
+      quantity: qty,             // ✅ send quantity to cart
     };
 
     addToCart(cartItem);
-    alert(`${product.name} (${selectedSize}, ${selectedLength}) added to cart 🛒`);
+    alert(
+      `${product.name} (${selectedSize}, ${selectedLength}) x ${qty} added to cart 🛒`
+    );
+  };
+
+  const handleIncrease = () => {
+    setQty((prev) => prev + 1);
+  };
+
+  const handleDecrease = () => {
+    setQty((prev) => (prev > 1 ? prev - 1 : 1)); // minimum 1
+  };
+
+  const handleQtyInputChange = (e) => {
+    const value = e.target.value;
+
+    if (value === "") {
+      setQty(1);
+      return;
+    }
+
+    const num = parseInt(value, 10);
+    if (!isNaN(num) && num >= 1) {
+      setQty(num);
+    }
   };
 
   return (
-    <div>
+    <div className="zebra-page-wrapper">
       {/* === PRODUCT DETAILS SECTION === */}
       <div className="zebra-page">
         {/* LEFT IMAGE GALLERY */}
@@ -43,34 +74,40 @@ const ZebraHosePage = () => {
               <img
                 key={i}
                 src={require(`../assets/${img}`)}
-                alt="thumbnail"
+                alt={`${product.name} thumbnail ${i + 1}`}
                 className={i === activeImage ? "thumb active" : "thumb"}
                 onClick={() => setActiveImage(i)}
+                loading="lazy"
               />
             ))}
           </div>
 
-          <img
-            src={require(`../assets/${product.images[activeImage]}`)}
-            alt="main"
-            className="main-img"
-          />
+          <div className="main-img-wrapper">
+            <img
+              src={require(`../assets/${product.images[activeImage]}`)}
+              alt={product.name}
+              className="main-img"
+            />
+          </div>
         </div>
 
         {/* RIGHT PRODUCT DETAILS */}
         <div className="right-info">
-          <h2>{product.name}</h2>
+          <h2 className="product-title">{product.name}</h2>
           <p className="product-code">
             <strong>Code:</strong> {product.code}
           </p>
 
           {/* SELECT LENGTH */}
-          <h4>Select Length</h4>
+          <h4 className="section-label">Select Length</h4>
           <div className="options">
             {["15m", "30m"].map((length) => (
               <button
                 key={length}
-                className={selectedLength === length ? "active" : ""}
+                type="button"
+                className={
+                  selectedLength === length ? "option-btn active" : "option-btn"
+                }
                 onClick={() => setSelectedLength(length)}
               >
                 {length}
@@ -79,12 +116,15 @@ const ZebraHosePage = () => {
           </div>
 
           {/* SELECT SIZE */}
-          <h4>Select Size</h4>
+          <h4 className="section-label">Select Size</h4>
           <div className="options">
             {["25mm", "32mm"].map((size) => (
               <button
                 key={size}
-                className={selectedSize === size ? "active" : ""}
+                type="button"
+                className={
+                  selectedSize === size ? "option-btn active" : "option-btn"
+                }
                 onClick={() => setSelectedSize(size)}
               >
                 {size}
@@ -92,11 +132,42 @@ const ZebraHosePage = () => {
             ))}
           </div>
 
-          {/* PRICE */}
+          {/* PRICE (per unit) */}
           <h2 className="price">₹{price}</h2>
 
+          {/* ✅ QUANTITY ROW ABOVE ADD TO CART */}
+          <div className="qty-row">
+            <button
+              type="button"
+              className="qty-btn qty-minus"
+              onClick={handleDecrease}
+            >
+              −
+            </button>
+
+            <input
+              type="number"
+              className="qty-input"
+              value={qty}
+              onChange={handleQtyInputChange}
+              min="1"
+            />
+
+            <button
+              type="button"
+              className="qty-btn qty-plus"
+              onClick={handleIncrease}
+            >
+              +
+            </button>
+          </div>
+
           {/* ✅ ADD TO CART BUTTON */}
-          <button className="add-cart" onClick={handleAddToCart}>
+          <button
+            type="button"
+            className="add-cart"
+            onClick={handleAddToCart}
+          >
             Add to Cart
           </button>
 
@@ -132,7 +203,12 @@ const ZebraHosePage = () => {
         <div className="recommend-grid">
           {product.recommendations.map((rec, i) => (
             <div key={i} className="recommend-card">
-              <img src={require(`../assets/${rec.image}`)} alt={rec.name} />
+              <img
+                src={require(`../assets/${rec.image}`)}
+                alt={rec.name}
+                className="recommend-img"
+                loading="lazy"
+              />
               <p className="rec-code">Code: {rec.code}</p>
               <h4 className="rec-name">{rec.name}</h4>
               <p className="rec-price">{rec.price}</p>
@@ -141,7 +217,11 @@ const ZebraHosePage = () => {
           ))}
         </div>
 
-        <button className="back-btn" onClick={() => window.history.back()}>
+        <button
+          type="button"
+          className="back-btn"
+          onClick={() => window.history.back()}
+        >
           ← Back To Products
         </button>
       </div>
@@ -150,4 +230,3 @@ const ZebraHosePage = () => {
 };
 
 export default ZebraHosePage;
-

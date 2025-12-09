@@ -71,7 +71,61 @@
   background: #b30000;
   color: white;
 }
+/* === Quantity Row === */
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 15px 0;
+}
 
+/* Square Buttons */
+.qty-btn {
+  width: 35px;
+  height: 35px;
+  border: 2px solid #b30000;
+  background: white;
+  font-size: 22px;
+  font-weight: bold;
+  color: #b30000;
+  cursor: pointer;
+  border-radius: 6px;   /* 🔥 Square edges */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qty-btn:hover {
+  background: #b30000;
+  color: white;
+}
+
+/* Square Input Box */
+.qty-input {
+  width: 80px;
+  height: 35px;
+  text-align: center;
+  font-size: 18px;
+  border: 2px solid #ccc;
+  border-radius: 6px;  /* 🔥 Square edges */
+  outline: none;
+}
+
+.qty-input:focus {
+  border-color: #b30000;
+}
+
+/* Remove arrows in Chrome, Edge, Safari */
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove arrows in Firefox */
+.qty-input[type="number"] {
+  -moz-appearance: textfield;
+}
 /* ===== Price & Buttons ===== */
 .price {
   color: #b30000;

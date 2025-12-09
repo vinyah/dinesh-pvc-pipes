@@ -6,27 +6,69 @@ import "./BoxPageC.css";
 const BoxPageC = () => {
   const { addToCart } = useCart(); // ✅ Access global addToCart function
   const product = boxCData[0];
+
   const [activeImage, setActiveImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState("19mm");
+  const [qty, setQty] = useState(1); // ✅ quantity starts from 1
 
-  // ✅ Get price based on size
-  const price = product.rates[selectedSize];
+  // ✅ Helper: get numeric price based on selected size
+  const getUnitPrice = () => {
+    const rawPrice = product.rates?.[selectedSize];
+
+    if (typeof rawPrice === "number") return rawPrice;
+
+    if (typeof rawPrice === "string") {
+      const cleaned = rawPrice.replace(/[^\d.]/g, ""); // keep digits + dot
+      const num = Number(cleaned);
+      return isNaN(num) ? 0 : num;
+    }
+
+    return 0;
+  };
+
+  const price = getUnitPrice();
 
   // 🛒 Handle Add to Cart
   const handleAddToCart = () => {
+    const unitPrice = getUnitPrice();
+
     const cartItem = {
       name: product.name,
       code: product.code,
       image: product.images[activeImage],
-      price: price,
+      price: unitPrice,                  // ✅ numeric price for cart calculations
+      displayPrice: product.rates?.[selectedSize], // (optional) original value
       size: selectedSize,
       color: null,
       thickness: null,
       length: null,
+      quantity: qty,                     // ✅ send quantity to cart
     };
 
     addToCart(cartItem);
-    alert(`${product.name} (${selectedSize}) added to cart 🛒`);
+    alert(`${product.name} (${selectedSize}) x ${qty} added to cart 🛒`);
+  };
+
+  const handleIncrease = () => {
+    setQty((prev) => prev + 1);
+  };
+
+  const handleDecrease = () => {
+    setQty((prev) => (prev > 1 ? prev - 1 : 1)); // minimum 1
+  };
+
+  const handleQtyInputChange = (e) => {
+    const value = e.target.value;
+
+    if (value === "") {
+      setQty(1);
+      return;
+    }
+
+    const num = parseInt(value, 10);
+    if (!isNaN(num) && num >= 1) {
+      setQty(num);
+    }
   };
 
   return (
@@ -78,8 +120,35 @@ const BoxPageC = () => {
             </button>
           </div>
 
-          {/* PRICE */}
+          {/* PRICE (per unit) */}
           <h2 className="price">₹{price}</h2>
+
+          {/* ✅ QUANTITY ROW ABOVE ADD TO CART */}
+          <div className="qty-row">
+            <button
+              type="button"
+              className="qty-btn qty-minus"
+              onClick={handleDecrease}
+            >
+              −
+            </button>
+
+            <input
+              type="number"
+              className="qty-input"
+              value={qty}
+              onChange={handleQtyInputChange}
+              min="1"
+            />
+
+            <button
+              type="button"
+              className="qty-btn qty-plus"
+              onClick={handleIncrease}
+            >
+              +
+            </button>
+          </div>
 
           {/* ✅ ADD TO CART BUTTON */}
           <button className="add-cart" onClick={handleAddToCart}>

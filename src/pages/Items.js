@@ -7,21 +7,23 @@ import itemsData from "../data/items.json";
 const Items = () => {
   return (
     <div className="item-page">
-      <h1 className="item-heading">
-        Explore Our <span className="highlight">Wide Range</span> of Products
-      </h1>
+      <div className="item-header">
+        <h1 className="item-heading">
+          Explore Our <span className="highlight">Wide Range</span> of Products
+        </h1>
 
-      <p className="item-subtext">
-        Discover our{" "}
-        <span className="emphasis">comprehensive collection</span> of
-        high-quality PVC pipes and electrical fittings.
-      </p>
+        <p className="item-subtext">
+          Discover our{" "}
+          <span className="emphasis">comprehensive collection</span> of
+          high-quality PVC pipes and electrical fittings.
+        </p>
+      </div>
 
       <div className="product-grid">
         {itemsData.map((product) => (
           <Link
             key={product.id}
-            to={product.link} // ✅ Uses each item's custom link from JSON
+            to={product.link}
             className="product-card-link"
           >
             <div className="product-card">
@@ -29,10 +31,11 @@ const Items = () => {
                 <img
                   src={require(`../assets/${product.image}`)}
                   alt={product.name}
+                  loading="lazy"
                 />
               </div>
               <div className="product-info">
-                <h3>{product.name}</h3>
+                <h3 className="product-name">{product.name}</h3>
               </div>
             </div>
           </Link>
@@ -43,4 +46,3 @@ const Items = () => {
 };
 
 export default Items;
-

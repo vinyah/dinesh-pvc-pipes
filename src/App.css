@@ -3,8 +3,29 @@
   flex-direction: column;
   min-height: 100vh;
 }
+
+/* Full-width main area for all pages */
 .main-content {
   flex: 1;
-  padding: 20px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;           /* no global padding – sections handle their own */
+  box-sizing: border-box;
 }
 
+
+/* 💻 Medium screens (tablets / small laptops) */
+@media (max-width: 900px) {
+  .main-content {
+    padding: 20px 24px;
+    max-width: 100%;
+  }
+}
+
+/* 📱 Small mobiles */
+@media (max-width: 600px) {
+  .main-content {
+    padding: 16px 12px;
+  }
+}

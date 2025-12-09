@@ -1,171 +1,287 @@
-/* === Fullscreen dark overlay === */
-.modal-overlay {
+/* === Overlay === */
+.lsm-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(3px);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 99999;  /* ⬅ SUPER IMPORTANT */
+  z-index: 1000;
+  padding: 16px;              /* helps on smaller screens */
+  overflow-y: auto;           /* modal scrolls if content is tall */
 }
 
-
-/* === Modal Box === */
-.modal-box {
-  background: #ffffff;
-  width: 360px;
-  border-radius: 12px;
-  padding: 25px 30px;
+/* === Card === */
+.lsm-card {
   position: relative;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
-  animation: fadeIn 0.3s ease-in-out;
-  font-family: "Poppins", sans-serif;
-  z-index: 100000; /* ⬅ ensures modal content is above overlay */
+  width: 480px;
+  max-width: 100%;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 32px 40px 30px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
 }
 
-
-/* === Fade-in Animation === */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* === Close Button === */
-.close-btn {
+/* Close button */
+.lsm-close {
   position: absolute;
-  top: 12px;
-  right: 15px;
-  cursor: pointer;
-  font-size: 20px;
-  color: #555;
-  transition: color 0.2s ease;
-}
-
-.close-btn:hover {
-  color: #e63900;
-}
-
-/* === Login/Admin Toggle Tabs === */
-.tabs {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 15px;
-  gap: 8px;
-}
-
-.tabs button {
-  flex: 1;
-  border: 1px solid #ddd;
-  background: #f4f4f4;
-  padding: 6px 0;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.tabs button.active {
-  background: #f97316;
-  color: white;
-  border-color: #f97316;
-}
-
-/* === Modal Title === */
-.modal-content h2 {
-  text-align: center;
-  color: #e63900;
-  margin-bottom: 15px;
-  font-weight: 600;
-}
-
-/* === Input Fields === */
-.modal-content input {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-  font-size: 14px;
-  transition: 0.2s ease;
-}
-
-.modal-content input:focus {
-  border-color: #f97316;
-  box-shadow: 0 0 5px rgba(249, 115, 22, 0.4);
-}
-
-/* === Buttons === */
-.modal-content button {
-  width: 100%;
-  padding: 10px;
-  background: #f97316;
+  top: 14px;
+  right: 18px;
   border: none;
-  border-radius: 6px;
-  color: white;
-  font-weight: bold;
+  background: transparent;
+  font-size: 22px;
   cursor: pointer;
-  transition: background 0.3s ease;
-  margin-top: 8px;
 }
 
-.modal-content button:hover {
-  background: #e05c00;
+/* Avatar circle */
+.lsm-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
 }
 
-/* === Popup Success/Error Message === */
-.popup-message {
-  text-align: center;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  animation: slideDown 0.3s ease-in-out;
-}
-
-.popup-message.success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
-.popup-message.error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
-
-/* === Slide-down animation for message === */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* === Fallback message style === */
-.message {
-  margin-top: 10px;
+.lsm-avatar-icon {
+  font-size: 34px;
   color: #b30000;
-  font-size: 0.9rem;
+}
+
+/* Title */
+.lsm-title {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 18px;
+  color: #4a2a2a;
+  font-weight: 700;
+}
+
+/* Tabs */
+.lsm-tabs {
+  display: flex;
+  background: #f4f4f4;
+  border-radius: 999px;
+  padding: 4px;
+  margin-bottom: 18px;
+}
+
+.lsm-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  padding: 8px 0;
+  font-size: 15px;
+  cursor: pointer;
+  color: #555;
+  font-weight: 500;
+}
+
+.lsm-tab-active {
+  background: #b30000;
+  color: #ffffff;
+}
+
+/* Message */
+.lsm-message {
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 13px;
+  margin-bottom: 10px;
   text-align: center;
 }
 
-.message.success {
-  color: green;
+.lsm-success {
+  background: #e8f7e8;
+  color: #227a22;
+}
+
+.lsm-error {
+  background: #ffe6e6;
+  color: #b00020;
+}
+
+/* Form */
+.lsm-form {
+  margin-top: 5px;
+}
+
+.lsm-label {
+  display: block;
+  margin: 10px 0 4px;
+  font-size: 13px;
+  color: #444;
+}
+
+.lsm-input-wrapper {
+  display: flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  padding: 4px 14px;
+  background: #fafafa;
+}
+
+.lsm-input-icon {
+  margin-right: 8px;
+  font-size: 15px;
+}
+
+.lsm-input-wrapper input {
+  border: none;
+  outline: none;
+  flex: 1;
+  background: transparent;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+/* Extra row */
+.lsm-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0 16px;
+  font-size: 13px;
+  gap: 8px;
+  flex-wrap: wrap;     /* better on small screens */
+}
+
+.lsm-remember input {
+  margin-right: 6px;
+}
+
+.lsm-link-btn {
+  border: none;
+  background: none;
+  color: #b30000;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Buttons */
+.lsm-primary-btn,
+.lsm-secondary-btn {
+  width: 100%;
+  border: 2px solid #b30000;    /* red border matching theme */
+  border-radius: 6px;           /* rectangle with curved corners */
+  padding: 10px 0;
+  margin-top: 4px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  background: white;            /* white background */
+  color: #b30000;               /* red text */
+  transition: 0.3s ease;
+}
+
+.lsm-primary-btn:hover,
+.lsm-secondary-btn:hover {
+  background: #b30000;
+  color: white;                 /* white text on hover */
+}
+
+/* Additional text */
+.lsm-alt-text {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #777;
+}
+
+.lsm-terms {
+  margin-top: 10px;
+  font-size: 12px;
+  text-align: center;
+  color: #777;
+}
+
+.lsm-terms span {
+  color: #b30000;
+  font-weight: 500;
+}
+
+/* ===================================== */
+/* 💻 Medium screens (tablets / laptops) */
+/* ===================================== */
+@media (max-width: 1024px) {
+  .lsm-card {
+    width: 420px;
+    padding: 28px 28px 26px;
+  }
+
+  .lsm-title {
+    font-size: 24px;
+  }
+}
+
+/* ============================= */
+/* 📱 Small tablets & mobiles    */
+/* ============================= */
+@media (max-width: 768px) {
+  .lsm-overlay {
+    align-items: flex-start;
+  }
+
+  .lsm-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 24px 20px 22px;
+    margin-top: 40px;
+  }
+
+  .lsm-title {
+    font-size: 22px;
+  }
+
+  .lsm-tabs {
+    font-size: 14px;
+  }
+
+  .lsm-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lsm-link-btn {
+    align-self: flex-end;
+    padding-top: 4px;
+  }
+}
+
+/* ============================= */
+/* 📱 Very small mobiles         */
+/* ============================= */
+@media (max-width: 480px) {
+  .lsm-card {
+    padding: 20px 16px 20px;
+    border-radius: 14px;
+    margin-top: 30px;
+  }
+
+  .lsm-title {
+    font-size: 20px;
+  }
+
+  .lsm-avatar {
+    width: 70px;
+    height: 70px;
+  }
+
+  .lsm-input-wrapper {
+    padding: 4px 10px;
+  }
+
+  .lsm-input-wrapper input {
+    font-size: 13px;
+  }
+
+  .lsm-primary-btn,
+  .lsm-secondary-btn {
+    font-size: 14px;
+    padding: 9px 0;
+  }
 }

@@ -1,13 +1,40 @@
+/* ===== Global Body Styling ===== */
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background-color: #f8f9fb;   /* subtle clean background */
+  color: #222;                 /* rich text color */
+
+  font-size: 16px;             /* base font for laptops */
+  line-height: 1.6;
 }
 
+/* Code font */
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* ===== Responsive Typography ===== */
+
+/* 💻 Medium screens (tablets / small laptops) */
+@media (max-width: 900px) {
+  body {
+    font-size: 15px;           /* slightly smaller for tablets */
+    padding: 0;
+  }
+}
+
+/* 📱 Mobile screens */
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;           /* comfortable reading size */
+    line-height: 1.5;
+  }
 }

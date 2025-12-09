@@ -13,11 +13,13 @@ const AddAddressPage = () => {
       alert("⚠️ Please fill all address fields before proceeding.");
       return;
     }
-    // Optionally store the address in localStorage
+
+    // ✅ Store the address so ReviewOrderPage can use it
     localStorage.setItem(
       "userAddress",
       JSON.stringify({ address, city, pincode })
     );
+
     navigate("/review-order");
   };
 
@@ -25,40 +27,42 @@ const AddAddressPage = () => {
     <div className="address-page">
       <h1 className="address-heading">Add Delivery Address</h1>
 
-      <div className="address-form">
-        <label>Address:</label>
-        <textarea
-          className="address-input"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          placeholder="Enter your address..."
-        />
+      <div className="address-card">
+        <div className="address-form">
+          <label className="address-label">Address</label>
+          <textarea
+            className="address-input address-textarea"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder="Enter your full address..."
+          />
 
-        <label>City:</label>
-        <input
-          type="text"
-          className="address-input"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          placeholder="Enter your city..."
-        />
+          <label className="address-label">City</label>
+          <input
+            type="text"
+            className="address-input"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="Enter your city..."
+          />
 
-        <label>Pincode:</label>
-        <input
-          type="text"
-          className="address-input"
-          value={pincode}
-          onChange={(e) => setPincode(e.target.value)}
-          placeholder="Enter your pincode..."
-        />
+          <label className="address-label">Pincode</label>
+          <input
+            type="text"
+            className="address-input"
+            value={pincode}
+            onChange={(e) => setPincode(e.target.value)}
+            placeholder="Enter your pincode..."
+          />
 
-        <button className="review-btn" onClick={handleReview}>
-          Review Order
-        </button>
+          <button className="review-btn" onClick={handleReview}>
+            Review Order
+          </button>
 
-        <button className="back-btn" onClick={() => navigate("/cart")}>
-          ← Back to Cart
-        </button>
+          <button className="back-btn" onClick={() => navigate("/cart")}>
+            ← Back to Cart
+          </button>
+        </div>
       </div>
     </div>
   );

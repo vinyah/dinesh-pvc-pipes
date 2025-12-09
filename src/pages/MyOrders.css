@@ -23,6 +23,7 @@
   margin-bottom: 25px;
   border-bottom: 1px solid #ddd;
   padding-bottom: 8px;
+  flex-wrap: wrap;           /* allow wrapping on smaller screens */
 }
 
 .tab-item {
@@ -31,6 +32,8 @@
   font-size: 1rem;
   position: relative;
   transition: color 0.3s ease;
+  border: none;
+  background: none;
 }
 
 .tab-item:hover {
@@ -62,6 +65,7 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 15px;
+  flex-wrap: wrap;         /* better on narrow widths */
 }
 
 .status-tag {
@@ -101,10 +105,12 @@
   width: 80px;
   height: 80px;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
 .order-details {
   flex: 1;
+  min-width: 0; /* helps text wrapping nicely */
 }
 
 .order-details h3 {
@@ -127,9 +133,102 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
+  white-space: nowrap; /* avoid breaking text */
 }
 
 .details-btn:hover {
   border-color: #000;
   color: #000;
+}
+
+/* ============================= */
+/* 💻 Medium screens (laptops)   */
+/* ============================= */
+@media (max-width: 1024px) {
+  .orders-container {
+    margin: 30px auto;
+    padding: 30px;
+  }
+
+  .orders-heading {
+    font-size: 1.6rem;
+  }
+}
+
+/* ============================= */
+/* 📱 Tablets & small laptops    */
+/* ============================= */
+@media (max-width: 768px) {
+  .orders-container {
+    margin: 20px auto;
+    padding: 24px 16px;
+  }
+
+  .orders-heading {
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+  }
+
+  .orders-tabs {
+    gap: 12px;
+    overflow-x: auto;         /* allow horizontal scroll if needed */
+    padding-bottom: 6px;
+  }
+
+  .tab-item {
+    font-size: 0.95rem;
+  }
+
+  .order-body {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .order-img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .details-btn {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+}
+
+/* ============================= */
+/* 📱 Small mobiles              */
+/* ============================= */
+@media (max-width: 480px) {
+  .orders-container {
+    margin: 10px auto;
+    padding: 18px 12px;
+  }
+
+  .orders-heading {
+    font-size: 1.3rem;
+  }
+
+  .orders-tabs {
+    gap: 10px;
+  }
+
+  .order-card {
+    padding: 14px;
+  }
+
+  .order-body {
+    flex-direction: column;      /* stack image, info, button */
+    align-items: flex-start;
+  }
+
+  .order-img {
+    margin-bottom: 8px;
+  }
+
+  .details-btn {
+    margin-top: 8px;
+    width: 100%;                 /* full width button on mobile */
+    text-align: center;
+  }
 }

@@ -42,8 +42,8 @@ import ZebraHosePage from "./pages/ZebraHosePage";
 import PipeBendPage from "./pages/PipeBendPage";
 
 // 🏠 Checkout Flow Pages
-import AddAddressPage from "./pages/AddAddressPage"; // ✅ NEW
-import ReviewOrderPage from "./pages/ReviewOrderPage"; // ✅ NEW
+import AddAddressPage from "./pages/AddAddressPage";
+import ReviewOrderPage from "./pages/ReviewOrderPage";
 
 // 🛒 Global Cart Context
 import { CartProvider } from "./context/CartContext";
@@ -52,22 +52,32 @@ import { CartProvider } from "./context/CartContext";
 import "./App.css";
 
 function App() {
-  const [showModal, setShowModal] = useState(null);
+  // controls global login / signup popup
+  const [showModal, setShowModal] = useState(null); // "login" | "signup" | null
 
   return (
     <CartProvider>
       <Router>
         <div className="app">
+          {/* Header (if you ever want auth buttons here, you can pass setShowModal as a prop) */}
           <Header />
 
           <main className="main-content">
             <Routes>
               {/* 🏠 MAIN PAGES */}
-              <Route path="/" element={<Home setShowModal={setShowModal} />} />
+              <Route
+                path="/"
+                element={<Home setShowModal={setShowModal} />}
+              />
               <Route path="/items" element={<Items />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/cart" element={<Cart />} />
-              <Route path="/account" element={<Account />} />
+
+              {/* 👤 Profile page (can also open login/signup modal) */}
+              <Route
+                path="/account"
+                element={<Account openAuthModal={setShowModal} />}
+              />
 
               {/* 🧩 PVC PRODUCT DETAILS */}
               <Route path="/product/:id" element={<ProductDetails />} />
@@ -103,12 +113,13 @@ function App() {
             </Routes>
           </main>
 
-          <Footer />
+          {/* Footer can also open Login / Signup via these props */}
+          <Footer setShowModal={setShowModal} />
 
-          {/* 🔐 LOGIN/SIGNUP MODAL */}
+          {/* 🔐 LOGIN/SIGNUP MODAL (shared globally) */}
           {showModal && (
             <LoginSignupModal
-              type={showModal}
+              type={showModal}          // "login" or "signup"
               onClose={() => setShowModal(null)}
             />
           )}
@@ -119,5 +130,3 @@ function App() {
 }
 
 export default App;
-
-

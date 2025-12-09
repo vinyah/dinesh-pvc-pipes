@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCart } from "../context/CartContext"; // ✅ Import Cart Context
+import { useCart } from "../context/CartContext"; // ✅ Import global Cart Context
 import braidedData from "../data/braidedHose.json";
 import "./BraidedHosePage.css";
 
@@ -10,9 +10,16 @@ const BraidedHosePage = () => {
   const [activeImage, setActiveImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState("25mm");
   const [selectedLength, setSelectedLength] = useState("15m");
+  const [qty, setQty] = useState(1); // ✅ quantity starts from 1
 
-  // ✅ Get price based on size & length
-  const price = product.rates[selectedSize][selectedLength];
+  // ✅ Safely get price based on size & length
+  const rawPrice =
+    product?.rates?.[selectedSize]?.[selectedLength] ?? 0;
+
+  const price =
+    typeof rawPrice === "number"
+      ? rawPrice
+      : Number(String(rawPrice).replace(/[^\d.]/g, "")) || 0;
 
   // 🛒 Handle Add to Cart
   const handleAddToCart = () => {
@@ -20,15 +27,41 @@ const BraidedHosePage = () => {
       name: product.name,
       code: product.code,
       image: product.images[activeImage],
-      price: price,
+      price: price,           // ✅ numeric price for calculations
+      displayPrice: rawPrice, // (optional) original price string
       size: selectedSize,
       length: selectedLength,
       color: null,
       thickness: null,
+      quantity: qty,          // ✅ send quantity to cart
     };
 
     addToCart(cartItem);
-    alert(`${product.name} (${selectedSize}, ${selectedLength}) added to cart 🛒`);
+    alert(
+      `${product.name} (${selectedSize}, ${selectedLength}) x ${qty} added to cart 🛒`
+    );
+  };
+
+  const handleIncrease = () => {
+    setQty((prev) => prev + 1);
+  };
+
+  const handleDecrease = () => {
+    setQty((prev) => (prev > 1 ? prev - 1 : 1)); // minimum 1
+  };
+
+  const handleQtyInputChange = (e) => {
+    const value = e.target.value;
+
+    if (value === "") {
+      setQty(1);
+      return;
+    }
+
+    const num = parseInt(value, 10);
+    if (!isNaN(num) && num >= 1) {
+      setQty(num);
+    }
   };
 
   return (
@@ -91,8 +124,35 @@ const BraidedHosePage = () => {
             ))}
           </div>
 
-          {/* PRICE */}
+          {/* PRICE (per unit) */}
           <h2 className="price">₹{price}</h2>
+
+          {/* ✅ QUANTITY ROW ABOVE ADD TO CART */}
+          <div className="qty-row">
+            <button
+              type="button"
+              className="qty-btn qty-minus"
+              onClick={handleDecrease}
+            >
+              −
+            </button>
+
+            <input
+              type="number"
+              className="qty-input"
+              value={qty}
+              onChange={handleQtyInputChange}
+              min="1"
+            />
+
+            <button
+              type="button"
+              className="qty-btn qty-plus"
+              onClick={handleIncrease}
+            >
+              +
+            </button>
+          </div>
 
           {/* ✅ ADD TO CART BUTTON */}
           <button className="add-cart" onClick={handleAddToCart}>

@@ -1,33 +1,98 @@
 .address-page {
-  padding: 40px;
+  padding: 40px 20px;
   font-family: "Poppins", sans-serif;
-  text-align: center;
-}
-
-.address-form {
-  width: 50%;
-  margin: 30px auto;
+  background-color: #ffffff;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  align-items: center;
+}
+
+.address-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #b30000;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Card wrapper */
+.address-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 25px 25px 30px;
+  width: 100%;
+  max-width: 520px;
+}
+
+/* Form layout */
+.address-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.address-label {
+  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333333;
 }
 
 .address-input {
-  padding: 10px;
-  border: 1.5px solid #ccc;
-  border-radius: 6px;
+  padding: 10px 12px;
+  border: 1.5px solid #cccccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
 }
 
+.address-input:focus {
+  border-color: #b30000;
+  box-shadow: 0 0 0 2px rgba(179, 0, 0, 0.12);
+}
+
+.address-textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+/* Primary button */
 .review-btn {
-  background-color: #d90429;
+  margin-top: 10px;
+  background-color: #b30000;
   color: white;
   border: none;
   padding: 12px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  font-size: 0.98rem;
+  transition: background 0.3s ease, transform 0.1s ease;
 }
 
 .review-btn:hover {
-  background-color: #b30000;
+  background-color: #8b0000;
+  transform: translateY(-1px);
+}
+
+/* Back button: use your global .back-btn style, but tweak spacing */
+.back-btn {
+  margin-top: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .address-page {
+    padding: 30px 15px;
+  }
+
+  .address-card {
+    padding: 20px;
+  }
+
+  .address-heading {
+    font-size: 1.6rem;
+  }
 }

@@ -1,40 +1,37 @@
-/* ========== General ========== */
-.page {
-  width: 100%;
-  font-family: 'Poppins', sans-serif;
-  background-color: #ffffff;
-  color: #000000;
-}
-
 /* ========== Section 1: Hero ========== */
 .hero {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background: #c8102e;
+
+  /* Background image comes from JSX */
+  background-color: #c8102e;  /* fallback if image fails */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
 }
 
-
-/* Central text area (now at top and above images) */
+/* Text area positioned above background */
 .hero-overlay {
   position: absolute;
-  top: 2.5%; /* moves the text near the top */
+  top: 3%;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
   color: #fff;
-  z-index: 20; /* ensures it’s above all images */
+  z-index: 20;
+  padding: 0 10px;
 }
-
 
 .changing-text {
   font-size: 1.8rem;
   font-weight: 600;
-  color: #fff;
+  color: #ffffff;
   animation: fade 2s ease-in-out infinite alternate;
 }
 
@@ -45,23 +42,22 @@
 
 .hero-title {
   font-weight: 700;
-  color: #fff;
   text-transform: uppercase;
   line-height: 1.1;
   margin: 15px 0;
 }
 
 .hero-title-main {
-  font-size: 4rem; /* Larger text for Dinesh */
+  font-size: 4rem;
   letter-spacing: 2px;
+  color: #fff;
 }
 
 .hero-title-sub {
-  font-size: 2.0rem;  /*Smaller text for PVC Pipes */
+  font-size: 2rem;
   font-weight: 400;
-  color: #ffe6e6; /* Slightly lighter shade if you like contrast */
+  color: #ffe6e6;
 }
-
 
 .hero-subtext {
   position: absolute;
@@ -73,81 +69,65 @@
   font-style: italic;
   font-weight: 600;
   text-align: center;
-  z-index: 10;
+  z-index: 20;
 }
 
-
-/* Pipe image styling */
-.pipe-img {
-  position: absolute;
-  z-index: 1;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.pipe-img img {
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
- 
-}
-
-.pipe-img:hover {
-  transform: scale(1.1);
-}
-
-/* ========== PIPE POSITIONS ========== */
-
-/* Left triangle formation */
-.pipe-1 { top: 14%; left: 3%; width: 90px; height: 90px; }
-.pipe-3 { top: 45%; left: 17%; width: 140px; height: 140px; }
-.pipe-5 { bottom: 14%; left: 3%; width: 160px; height: 160px; }
-
-/* Right diagonal formation (increasing size) */
-.pipe-2 { bottom: 9%; right: 24%; width: 120px; height: 120px; }
-.pipe-4 { bottom: 9%; right: 16%; width: 140px; height: 140px; }
-.pipe-6 { bottom: 9%; right: 6%; width: 160px; height: 160px; }
-
-/* Top right corner */
-.pipe-8 { top: 12%; right: 18%; width: 130px; height: 130px; }
-
-/* Center bottom pipe (Pipe 7) */
-.pipe-7 {
-  bottom: 40%;
-  left: 45%;
-  transform: translateX(-50%);
-  width: 180px;
-  height: 180px;
-}
-
-/* Fix hover for pipe 7 */
-.pipe-7:hover {
-  transform: translateX(-50%) scale(1.1);
-}
-
-/* Responsive adjustments */
+/* ========== RESPONSIVE HERO TEXT ========== */
 @media (max-width: 1024px) {
-  .pipe-img img {
-    width: 90px;
-    height: 90px;
+  .hero {
+    min-height: 80vh;
   }
 
-  .hero-title {
+  .changing-text {
+    font-size: 1.4rem;
+  }
+
+  .hero-title-main {
     font-size: 3rem;
+  }
+
+  .hero-title-sub {
+    font-size: 1.6rem;
   }
 
   .hero-subtext {
     font-size: 1.1rem;
-    bottom: 3%;
   }
 }
 
+@media (max-width: 600px) {
+  .hero {
+    min-height: 70vh;
+  }
+
+  .hero-overlay {
+    top: 8%;
+  }
+
+  .changing-text {
+    font-size: 1.2rem;
+  }
+
+  .hero-title-main {
+    font-size: 2.4rem;
+  }
+
+  .hero-title-sub {
+    font-size: 1.4rem;
+  }
+
+  .hero-subtext {
+    font-size: 1rem;
+    bottom: 6%;
+  }
+}
 
 /* ========== Section 2: About ========== */
 .about {
   background: url("../assets/pipe-background.png")
     no-repeat center center/cover;
   color: #000000;
-  padding: 30px 20px;
+  padding: 40px 20px;
   text-align: center;
 }
 
@@ -157,32 +137,30 @@
   text-align: center;
 }
 
-/* First paragraph: big, bold, and dark */
+/* First paragraph: big, bold */
 .about-content .intro-text {
   font-size: 4.8rem;
   font-weight: 600;
   font-family: sans-serif;
-  color: #111; /* dark blackish color */
+  color: #111;
   margin-bottom: 20px;
   line-height: 0.9;
 }
 
 .grey-word {
-  color: #555; /* soft grey tone */
-  font-weight: 600; /* optional – to keep emphasis */
+  color: #555;
+  font-weight: 600;
 }
 
-
-/* Second paragraph: softer, smaller, gray */
+/* Second paragraph */
 .about-content .desc-text {
   font-size: 1.3rem;
   font-weight: 400;
-  color: #555; /* gray text */
+  color: #555;
   max-width: 800px;
   margin: 0 auto 30px auto;
   line-height: 1.6;
 }
-
 
 .offer-btn {
   background: transparent;
@@ -198,8 +176,44 @@
 
 .offer-btn:hover {
   background: #b00000;
-  border-color: #b300000;
+  border-color: #b30000;
   color: #ffffff;
+}
+
+/* About – responsive */
+@media (max-width: 1024px) {
+  .about-content .intro-text {
+    font-size: 3.2rem;
+  }
+
+  .about-content .desc-text {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about {
+    padding: 30px 16px;
+  }
+
+  .about-content {
+    padding: 24px 16px;
+  }
+
+  .about-content .intro-text {
+    font-size: 2.4rem;
+    line-height: 1.05;
+  }
+
+  .about-content .desc-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-content .intro-text {
+    font-size: 2rem;
+  }
 }
 
 /* ========== Section 3: Products ========== */
@@ -212,7 +226,7 @@
 .products h1 {
   font-size: 2rem;
   color: #000000;
-  margin-bottom: 65px; /* add space below the heading */
+  margin-bottom: 40px;
 }
 
 .product-container {
@@ -222,41 +236,56 @@
   gap: 25px;
   margin-top: 30px;
 }
+
+/* Card */
 .product-card {
   background: #ffffff;
   border-radius: 12px;
   border: 1px solid #e0e0e0;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
   width: 250px;
+  min-height: 360px;
   padding: 15px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Hover effect for ALL product cards */
+/* Hover effect */
 .product-card:hover {
-  transform: translateY(-10px) scale(1.05);
+  transform: translateY(-8px) scale(1.03);
   box-shadow: 0 8px 18px rgba(179, 0, 0, 0.3);
 }
 
-/* Middle product card slightly lifted by default */
+/* Middle card slightly lifted */
 .product-container .product-card:nth-child(2) {
-  transform: translateY(-15px);
+  transform: translateY(-10px);
 }
 
-/* Middle product card hover (extra lift) */
+/* Middle card hover */
 .product-container .product-card:nth-child(2):hover {
-  transform: translateY(-25px) scale(1.05);
+  transform: translateY(-18px) scale(1.03);
 }
 
-
+/* Image */
 .product-card img {
   width: 100%;
+  height: 160px;
+  object-fit: contain;
   border-radius: 8px;
+  margin-bottom: 12px;
 }
 
+/* Text below image */
 .code {
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 4px;
   color: #000000;
 }
 
@@ -273,7 +302,23 @@
 .price {
   font-weight: bold;
   color: #b30000;
-  margin-top: 5px;
+  margin-top: 8px;
+}
+
+/* Products – responsive */
+@media (max-width: 768px) {
+  .products {
+    padding: 40px 16px;
+  }
+
+  .product-card {
+    width: 90%;
+    min-height: auto;
+  }
+
+  .product-container .product-card:nth-child(2) {
+    transform: none;
+  }
 }
 
 /* ========== Section 4: What Sets Us Apart ========== */
@@ -320,21 +365,37 @@
   border-radius: 12px;
 }
 
+/* Apart – responsive */
+@media (max-width: 768px) {
+  .apart {
+    padding: 50px 16px;
+  }
+
+  .apart-card {
+    width: 90%;
+    height: auto;
+  }
+
+  .apart-card img {
+    height: 200px;
+  }
+}
+
 /* ========== Section 5: Account Section ========== */
 .account-section {
   background: #ffffff;
   color: #000000;
   text-align: center;
-  padding: 80px 20px;
+  padding: 30px 20px 40px;
 }
 
 .signup-login {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 80px; /* spacing between signup and login */
-  flex-wrap: wrap; /* stacks vertically on small screens */
-  margin-top: 40px;
+  gap: 80px;
+  flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 .signup,
@@ -352,29 +413,37 @@
   color: #000000;
 }
 
+/* Base button style */
 .signup-btn,
 .login-btn {
-  background: transparent;
+  background: transparent !important;
   border: 2px solid #b30000 !important;
-  color: #b30000;
-  padding: 10px 25px;
-  font-size: 1rem;
-  border-radius: 6px;
+  color: #b30000 !important;
+  padding: 10px 25px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  width: 150px !important;
+  text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-weight: 600;
 }
 
 .signup-btn:hover,
 .login-btn:hover {
-  background: #b30000;
-  color: #ffffff;
+  background: #b30000 !important;
+  color: #ffffff !important;
 }
 
-/* Mobile view: stack vertically */
+/* Account – responsive */
 @media (max-width: 768px) {
   .signup-login {
     flex-direction: column;
-    gap: 30px;
+    gap: 24px;
   }
-}
+
+  .signup p,
+  .login p {
+    font-size: 1.05rem;
+  }
+}                            

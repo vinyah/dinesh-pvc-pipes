@@ -1,22 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Header.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./Header.css";
+import logo from "../assets/Hlogo.png";
 import { Package, FileText, ShoppingCart, User, Search } from "lucide-react";
 
 function Header() {
   return (
     <header className="header">
-      {/* Left Section: Company name linked to home */}
+      {/* Left Section: Logo + Company name */}
       <div className="header-left">
         <Link to="/" className="home-link">
-          <h1>Dinesh PVC Pipes</h1>
+          <div className="header-logo-title">
+            <img src={logo} alt="Logo" className="header-logo" />
+            <h1>Dinesh PVC Pipes</h1>
+          </div>
         </Link>
       </div>
 
       {/* Right Section: Search + Navigation */}
       <div className="header-right">
         <div className="search-container">
-          <Search className="icon" style={{ color: '#b30000', marginRight: '8px' }} />
+          <Search className="icon" />
           <input type="text" className="search-bar" placeholder="Search..." />
         </div>
 
@@ -47,5 +51,3 @@ function Header() {
 }
 
 export default Header;
-
-

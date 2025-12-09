@@ -1,24 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Footer.css';
-import { Facebook, Instagram, Twitter } from 'lucide-react';
-import logo from '../assets/logo.png';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./Footer.css";
+import { Facebook, Instagram, Twitter } from "lucide-react";
+import logo from "../assets/logo.png";
 
-function Footer() {
+function Footer({ setShowModal }) {
   return (
     <footer className="footer">
 
-      {/* ✅ Logo + Follow Us */}
+      {/* Logo + Social */}
       <div className="footer-section logo-section">
-        <img
-          src={logo}
-          alt="Company Logo"
-          className="footer-logo"
-          style={{ width: "120px", marginBottom: "10px" }}
-        />
-        <h3 className="follow-title">Follow Us</h3>
+        <img src={logo} alt="Company Logo" className="footer-logo" />
 
-        {/* Social icons */}
+        <h3 className="follow-title">Follow Us</h3>
         <div className="social-icons">
           <a href="#"><Instagram /></a>
           <a href="#"><Twitter /></a>
@@ -26,18 +20,34 @@ function Footer() {
         </div>
       </div>
 
-      {/* ✅ Account Section */}
+      {/* Account Section */}
       <div className="footer-section">
         <h3>Your Account</h3>
         <ul>
-          <li><Link to="/account">Log In</Link></li>
-          <li><Link to="/account">Create Account</Link></li>
+          <li>
+            <button
+              className="footer-auth-btn"
+              onClick={() => setShowModal("login")}
+            >
+              Log In
+            </button>
+          </li>
+
+          <li>
+            <button
+              className="footer-auth-btn"
+              onClick={() => setShowModal("signup")}
+            >
+              Create Account
+            </button>
+          </li>
+
           <li><Link to="/orders">Orders History</Link></li>
           <li><Link to="/cart">Cart</Link></li>
         </ul>
       </div>
 
-      {/* ✅ Payments Section */}
+      {/* Payments Section */}
       <div className="footer-section">
         <h3>Payments</h3>
         <ul>
@@ -47,7 +57,7 @@ function Footer() {
         </ul>
       </div>
 
-      {/* ✅ Services Section */}
+      {/* Services Section */}
       <div className="footer-section">
         <h3>Services</h3>
         <ul>
@@ -57,13 +67,13 @@ function Footer() {
         </ul>
       </div>
 
-      {/* ✅ Help & Support moved to the right end of the footer */}
+      {/* Help & Support */}
       <div className="footer-support">
         <h4>Help & Support</h4>
         <p>1800 564 657</p>
       </div>
 
-      {/* ✅ Footer Bottom Line */}
+      {/* Footer Bottom */}
       <div className="footer-bottom">
         <p>© 2025 Dinesh PVC Pipes | All rights reserved</p>
       </div>
@@ -72,8 +82,3 @@ function Footer() {
 }
 
 export default Footer;
-
-
-
-
-

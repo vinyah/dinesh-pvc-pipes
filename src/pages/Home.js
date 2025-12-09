@@ -1,69 +1,52 @@
+// src/pages/Home.js
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Import for navigation
+import { useNavigate } from "react-router-dom";
 import "./Pages.css";
-import pipe1 from "../assets/1.png";
-import pipe2 from "../assets/2.png";
-import pipe3 from "../assets/3.png";
-import pipe4 from "../assets/4.png";
-import pipe5 from "../assets/5.png";
-import pipe6 from "../assets/6.png";
-import pipe7 from "../assets/7.png";
-import pipe8 from "../assets/8.png";
-import LoginSignupModal from "./LoginSignupModal";
+import heroBg from "../assets/hero-bg.png";
 import homeData from "../data/home.json";
 
-function Home() {
-  const [showModal, setShowModal] = useState(null);
-  const navigate = useNavigate(); // ✅ Create navigate function
+// 🔤 Texts for the changing hero line
+const words = [
+  "In Every House",
+  "ప్రతి ఇంటిలో",
+  "ഓരോ വീട്ടിലും",
+  "ஒவ்வொரு வீட்டிலும்",
+  "ಪ್ರತಿಯೊಂದು ಮನೆಯಲ್ಲಿ",
+  "हर घर में",
+  "In Every House",
+];
 
-  const words = [
-    "In Every House",
-    "ప్రతి ఇంటిలో",
-    "ഓരോ വീട്ടിലും",
-    "ஒவ்வொரு வீட்டிலும்",
-    "ಪ್ರತಿಯೊಂದು ಮನೆಯಲ್ಲಿ",
-    "हर घर में",
-    "In Every House",
-  ];
-
+function Home({ setShowModal }) {
   const [index, setIndex] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % words.length);
     }, 2000);
+
     return () => clearInterval(interval);
   }, []);
-
-  const pipeImages = [
-    { src: pipe1, link: "/1" },
-    { src: pipe2, link: "/2" },
-    { src: pipe3, link: "/3" },
-    { src: pipe4, link: "/4" },
-    { src: pipe5, link: "/5" },
-    { src: pipe6, link: "/6" },
-    { src: pipe7, link: "/7" },
-    { src: pipe8, link: "/8" },
-  ];
 
   return (
     <div className="page home">
       {/* === Section 1: Hero === */}
-      <section className="hero">
-        {pipeImages.map((pipe, i) => (
-          <a key={i} href={pipe.link} className={`pipe-img pipe-${i + 1}`}>
-            <img src={pipe.src} alt={`Pipe ${i + 1}`} />
-          </a>
-        ))}
-
+      <section
+        className="hero"
+        style={{
+          backgroundImage: `url(${heroBg})`,
+        }}
+      >
         <div className="hero-overlay">
           <h3 className="changing-text">{words[index]}</h3>
+
           <h1 className="hero-title">
             <span className="hero-title-main">Dinesh</span>
             <br />
             <span className="hero-title-sub">PVC Pipes</span>
           </h1>
         </div>
+
         <p className="hero-subtext">"Where Durability Meets Innovation"</p>
       </section>
 
@@ -73,11 +56,7 @@ function Home() {
           <p className="intro-text">{homeData.about.introText}</p>
           <p className="desc-text">{homeData.about.descText}</p>
 
-          {/* ✅ Updated Button: Navigates to /items */}
-          <button
-            className="offer-btn"
-            onClick={() => navigate("/items")}
-          >
+          <button className="offer-btn" onClick={() => navigate("/items")}>
             {homeData.about.buttonText || "See Products"}
           </button>
         </div>
@@ -138,14 +117,6 @@ function Home() {
           </div>
         </div>
       </section>
-
-      {/* === LOGIN/SIGNUP MODAL === */}
-      {showModal && (
-        <LoginSignupModal
-          type={showModal}
-          onClose={() => setShowModal(null)}
-        />
-      )}
     </div>
   );
 }

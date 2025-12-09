@@ -9,9 +9,14 @@ const PipeFittingPageB = () => {
 
   const [activeImage, setActiveImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState("19mm");
+  const [qty, setQty] = useState(1); // ✅ quantity starts from 1
 
-  // ✅ Price based on selected size
-  const price = product.rates[selectedSize];
+  // ✅ Price based on selected size (ensure numeric)
+  const rawPrice = product.rates[selectedSize];
+  const price =
+    typeof rawPrice === "number"
+      ? rawPrice
+      : Number(String(rawPrice).replace(/[^\d.]/g, "")) || 0;
 
   // 🛒 Handle Add to Cart
   const handleAddToCart = () => {
@@ -19,15 +24,39 @@ const PipeFittingPageB = () => {
       name: product.name,
       code: product.code,
       image: product.images[activeImage],
-      price: price,
+      price: price,             // ✅ numeric price for cart
+      displayPrice: rawPrice,   // (optional) original string if needed
       size: selectedSize,
       color: null,
       thickness: null,
       length: null,
+      quantity: qty,            // ✅ send quantity to cart
     };
 
     addToCart(cartItem);
-    alert(`${product.name} (${selectedSize}) added to cart 🛒`);
+    alert(`${product.name} (${selectedSize}) x ${qty} added to cart 🛒`);
+  };
+
+  const handleIncrease = () => {
+    setQty((prev) => prev + 1);
+  };
+
+  const handleDecrease = () => {
+    setQty((prev) => (prev > 1 ? prev - 1 : 1)); // minimum 1
+  };
+
+  const handleQtyInputChange = (e) => {
+    const value = e.target.value;
+
+    if (value === "") {
+      setQty(1);
+      return;
+    }
+
+    const num = parseInt(value, 10);
+    if (!isNaN(num) && num >= 1) {
+      setQty(num);
+    }
   };
 
   return (
@@ -76,8 +105,35 @@ const PipeFittingPageB = () => {
             ))}
           </div>
 
-          {/* PRICE */}
+          {/* PRICE (per unit) */}
           <h2 className="price">₹{price}</h2>
+
+          {/* ✅ QUANTITY ROW ABOVE ADD TO CART */}
+          <div className="qty-row">
+            <button
+              type="button"
+              className="qty-btn qty-minus"
+              onClick={handleDecrease}
+            >
+              −
+            </button>
+
+            <input
+              type="number"
+              className="qty-input"
+              value={qty}
+              onChange={handleQtyInputChange}
+              min="1"
+            />
+
+            <button
+              type="button"
+              className="qty-btn qty-plus"
+              onClick={handleIncrease}
+            >
+              +
+            </button>
+          </div>
 
           {/* ✅ ADD TO CART BUTTON */}
           <button className="add-cart" onClick={handleAddToCart}>
