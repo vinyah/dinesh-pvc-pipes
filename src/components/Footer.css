@@ -78,31 +78,37 @@
   color: #ffd60a;
 }
 
-/* ========== Help & Support (inline with sections) ========== */
+/* ========== Help & Support (desktop) ========== */
 .footer-support {
   flex: 0 0 auto;
   margin-left: auto;       /* push to right side */
   text-align: right;
-  margin-top: 0;          /* no extra vertical gap */
+  margin-top: 0;           /* no extra vertical gap */
   position: absolute;
-  right: 25px;       /* distance from right edge */
-  bottom: 75px;      /* distance ABOVE the footer-bottom line */
-  
+  right: 25px;             /* distance from right edge */
+  bottom: 75px;            /* distance ABOVE the footer-bottom line */
 }
 
-.footer {
-  position: relative;   /* required for absolute child positioning */
+.footer-support-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
-.footer-support h4 {
+.footer-support-text {
   font-size: 0.95rem;
   margin-bottom: 3px;
 }
 
-.footer-support p {
+.footer-support-phone {
   font-size: 0.85rem;
   color: #ffd60a;
   margin: 0;
+}
+
+/* Footer already relative for absolute child */
+.footer {
+  position: relative;
 }
 
 /* ========== Footer Bottom ========== */
@@ -151,10 +157,24 @@
     justify-content: center;
   }
 
+  /* Override desktop absolute positioning for mobile */
   .footer-support {
+    position: static;        /* 🔑 no more absolute overlap */
     width: 100%;
     text-align: center;
     margin-top: 10px;
     margin-left: 0;
+    right: auto;
+    bottom: auto;
+  }
+
+  .footer-support-inner {
+    align-items: center;
+  }
+
+  .footer-support-text,
+  .footer-support-phone {
+    text-align: center;
+    line-height: 1.6;
   }
 }

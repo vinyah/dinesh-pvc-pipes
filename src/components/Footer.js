@@ -1,3 +1,4 @@
+// src/components/Footer.js (or src/pages/Footer.js – wherever you keep it)
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Footer.css";
@@ -7,16 +8,21 @@ import logo from "../assets/logo.png";
 function Footer({ setShowModal }) {
   return (
     <footer className="footer">
-
       {/* Logo + Social */}
       <div className="footer-section logo-section">
         <img src={logo} alt="Company Logo" className="footer-logo" />
 
         <h3 className="follow-title">Follow Us</h3>
         <div className="social-icons">
-          <a href="#"><Instagram /></a>
-          <a href="#"><Twitter /></a>
-          <a href="#"><Facebook /></a>
+          <a href="#">
+            <Instagram />
+          </a>
+          <a href="#">
+            <Twitter />
+          </a>
+          <a href="#">
+            <Facebook />
+          </a>
         </div>
       </div>
 
@@ -42,8 +48,12 @@ function Footer({ setShowModal }) {
             </button>
           </li>
 
-          <li><Link to="/orders">Orders History</Link></li>
-          <li><Link to="/cart">Cart</Link></li>
+          <li>
+            <Link to="/orders">Orders History</Link>
+          </li>
+          <li>
+            <Link to="/cart">Cart</Link>
+          </li>
         </ul>
       </div>
 
@@ -51,9 +61,15 @@ function Footer({ setShowModal }) {
       <div className="footer-section">
         <h3>Payments</h3>
         <ul>
-          <li><Link to="/payments">Debit Card</Link></li>
-          <li><Link to="/payments">Credit Card</Link></li>
-          <li><Link to="/payments">Net Banking</Link></li>
+          <li>
+            <Link to="/payments">Debit Card</Link>
+          </li>
+          <li>
+            <Link to="/payments">Credit Card</Link>
+          </li>
+          <li>
+            <Link to="/payments">Net Banking</Link>
+          </li>
         </ul>
       </div>
 
@@ -61,16 +77,24 @@ function Footer({ setShowModal }) {
       <div className="footer-section">
         <h3>Services</h3>
         <ul>
-          <li><Link to="/services">Home Delivery</Link></li>
-          <li><Link to="/services">Installation</Link></li>
-          <li><Link to="/services">24/7 Customer Care</Link></li>
+          <li>
+            <Link to="/services">Home Delivery</Link>
+          </li>
+          <li>
+            <Link to="/services">Installation</Link>
+          </li>
+          <li>
+            <Link to="/services">24/7 Customer Care</Link>
+          </li>
         </ul>
       </div>
 
       {/* Help & Support */}
       <div className="footer-support">
-        <h4>Help & Support</h4>
-        <p>1800 564 657</p>
+        <div className="footer-support-inner">
+          <p className="footer-support-text">Help &amp; Support</p>
+          <p className="footer-support-phone">1800 564 657</p>
+        </div>
       </div>
 
       {/* Footer Bottom */}
