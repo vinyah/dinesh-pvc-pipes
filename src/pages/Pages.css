@@ -95,13 +95,29 @@
   }
 }
 
+/* ✅ MOBILE FIX FOR HERO BACKGROUND & TEXT */
 @media (max-width: 600px) {
   .hero {
-    min-height: 70vh;
+    /* let height be driven by content + padding */
+    min-height: auto;
+    padding-top: 110px;        /* push content below navbar */
+    padding-bottom: 40px;
+
+    /* show the full hero image nicely */
+    background-size: contain;
+    background-position: top center;
+    background-repeat: no-repeat;
+
+    align-items: flex-start;   /* content from top, not centered vertically */
   }
 
+  /* make overlay flow with the document instead of absolute */
   .hero-overlay {
-    top: 8%;
+    position: relative;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 12px;
   }
 
   .changing-text {
@@ -116,9 +132,14 @@
     font-size: 1.4rem;
   }
 
+  /* put subtext under the circle instead of pinned at bottom */
   .hero-subtext {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    margin-top: 18px;
     font-size: 1rem;
-    bottom: 6%;
   }
 }
 
@@ -446,4 +467,5 @@
   .login p {
     font-size: 1.05rem;
   }
-}                            
+}
+                        

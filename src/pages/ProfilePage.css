@@ -1,10 +1,16 @@
+/* ================= PROFILE PAGE WRAPPER ================= */
+
 .profile-page-wrapper {
+  box-sizing: border-box;          /* ✅ include padding in 100% width */
   min-height: 90vh;
   background: #f8f9fb;
   padding: 40px 40px 60px;
   font-family: "Poppins", sans-serif;
-  max-width: 1200px;
-  margin: 0 auto;
+
+  /* ✅ Full width for laptop/desktop without overflow */
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
 }
 
 /* Page title */
@@ -257,6 +263,7 @@
 @media (max-width: 900px) {
   .profile-page-wrapper {
     padding: 32px 24px 48px;
+    max-width: 100%;
   }
 
   .profile-layout {
@@ -296,7 +303,7 @@
   }
 
   .profile-sidebar-header {
-    display: none; /* optional: sidebar still has menu, but no duplicate user card */
+    display: none; /* sidebar still has menu, but no duplicate user card */
   }
 
   .profile-sidebar {
