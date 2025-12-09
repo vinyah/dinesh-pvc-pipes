@@ -5,7 +5,7 @@
   min-height: 100vh;
 
   /* Background image comes from JSX */
-   /* fallback */
+  /* fallback */
   background-size: cover;     /* good for desktop */
   background-position: center center;
   background-repeat: no-repeat;
@@ -98,20 +98,23 @@
 /* ========== MOBILE FIX FOR HERO BACKGROUND & TEXT ========== */
 @media (max-width: 600px) {
   .hero {
-    /* height adjusts based on content */
-    min-height: auto;
-    padding-top: 90px;       /* pushes text below navbar */
-    padding-bottom: 90px;
+    /* fill screen and zoom a bit so bottom strip is hidden */
+    min-height: 100vh;
+    padding-top: 40px;
+    padding-bottom: 40px;
 
-    /* show full image (no cropping) */
-    background-size: contain;
-    background-position: top center;
+    background-size: cover;          /* crop bottom extra color */
+    background-position: top center; /* show top with circles */
     background-repeat: no-repeat;
 
-    /* stack content top-down */
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+  }
+
+  /* hero-mobile is just for clarity if you want to target it later */
+  .hero.hero-mobile {
+    /* same as .hero for now */
   }
 
   /* overlay becomes normal block stacked inside hero */
@@ -126,11 +129,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;          /* space between lines: changing text / Dinesh / PVC Pipes */
+    gap: 10px;      /* spacing between changing text / Dinesh / PVC Pipes */
   }
 
+  /* changing text at top, slightly left – parallel to first circle */
   .changing-text {
     font-size: 1.2rem;
+  }
+
+  .changing-text-mobile {
+    align-self: flex-start;
+    margin-left: 12%;  /* adjust to line up with circle */
+    margin-top: 6px;
+  }
+
+  /* Dinesh + PVC Pipes a bit lower, centered – parallel to big circle */
+  .hero-title-mobile {
+    margin-top: 32px;  /* push down from top text */
   }
 
   .hero-title-main {
@@ -141,7 +156,16 @@
     font-size: 1.4rem;
   }
 
-  /* tagline comes after overlay, at the bottom of hero */
+  .hero-title-main-mobile {
+    font-size: 2.6rem;
+    letter-spacing: 1px;
+  }
+
+  .hero-title-sub-mobile {
+    font-size: 1.6rem;
+  }
+
+  /* tagline at the bottom of hero on mobile */
   .hero-subtext {
     position: relative;
     bottom: auto;
@@ -150,6 +174,15 @@
     margin-top: 18px;
     font-size: 1rem;
     text-align: center;
+  }
+
+  .hero-subtext-mobile {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0;
+    font-size: 1rem;
   }
 }
 
@@ -478,4 +511,3 @@
     font-size: 1.05rem;
   }
 }
-                        

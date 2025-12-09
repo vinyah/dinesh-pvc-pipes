@@ -22,7 +22,8 @@ const words = [
 
 function Home({ setShowModal }) {
   const [index, setIndex] = useState(0);
-  const [heroBg, setHeroBg] = useState(heroBgDesktop); // 👈 current bg image
+  const [heroBg, setHeroBg] = useState(heroBgDesktop); // current bg image
+  const [isMobile, setIsMobile] = useState(false); // 👉 track mobile vs laptop
   const navigate = useNavigate();
 
   // 🔁 Change language text
@@ -37,8 +38,9 @@ function Home({ setShowModal }) {
   // 📱💻 Switch hero background for mobile vs laptop
   useEffect(() => {
     const updateBg = () => {
-      const isMobile = window.innerWidth <= 768;
-      setHeroBg(isMobile ? heroBgMobile : heroBgDesktop);
+      const mobile = window.innerWidth <= 768;
+      setHeroBg(mobile ? heroBgMobile : heroBgDesktop);
+      setIsMobile(mobile);
     };
 
     updateBg(); // run once on mount
@@ -51,23 +53,54 @@ function Home({ setShowModal }) {
     <div className="page home">
       {/* === Section 1: Hero === */}
       <section
-        className="hero"
+        className={`hero ${isMobile ? "hero-mobile" : "hero-desktop"}`}
         style={{
           backgroundImage: `url(${heroBg})`,
         }}
       >
         <div className="hero-overlay">
-          <h3 className="changing-text">{words[index]}</h3>
+          {/* Desktop: keep EXACT same structure as before */}
+          {!isMobile && (
+            <>
+              <h3 className="changing-text">{words[index]}</h3>
 
-          <h1 className="hero-title">
-            <span className="hero-title-main">Dinesh</span>
-            <br />
-            <span className="hero-title-sub">PVC Pipes</span>
-          </h1>
+              <h1 className="hero-title">
+                <span className="hero-title-main">Dinesh</span>
+                <br />
+                <span className="hero-title-sub">PVC Pipes</span>
+              </h1>
+            </>
+          )}
+
+          {/* Mobile: separate classes so you can position parallel to circles */}
+          {isMobile && (
+            <>
+              <h3 className="changing-text changing-text-mobile">
+                {words[index]}
+              </h3>
+
+              <h1 className="hero-title hero-title-mobile">
+                <span className="hero-title-main hero-title-main-mobile">
+                  Dinesh
+                </span>
+                <br />
+                <span className="hero-title-sub hero-title-sub-mobile">
+                  PVC Pipes
+                </span>
+              </h1>
+            </>
+          )}
         </div>
 
-        <p className="hero-subtext">"Where Durability Meets Innovation"</p>
+        <p
+          className={`hero-subtext ${
+            isMobile ? "hero-subtext-mobile" : ""
+          }`}
+        >
+          "Where Durability Meets Innovation"
+        </p>
       </section>
+
       {/* === Section 2: About === */}
       <section className="about">
         <div className="about-content">
