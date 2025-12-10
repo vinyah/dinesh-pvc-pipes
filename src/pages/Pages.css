@@ -336,27 +336,32 @@
   margin-bottom: 12px;
 }
 
-/* Text below image */
+/* Text below image – tighter spacing */
 .code {
   font-weight: bold;
-  margin-top: 4px;
+  margin: 2px 0;
   color: #000000;
 }
 
 .desc {
   font-size: 0.9rem;
   color: #333333;
+  margin: 2px 0;
+  line-height: 1.2;
 }
 
 .qty {
   color: #555555;
   font-size: 0.9rem;
+  margin: 2px 0;
+  line-height: 1.2;
 }
 
 .price {
   font-weight: bold;
   color: #b30000;
-  margin-top: 8px;
+  margin-top: 4px;
+  margin-bottom: 2px;
 }
 
 /* Products – responsive */
@@ -374,6 +379,7 @@
     transform: none;
   }
 }
+
 
 /* ========== Section 4: What Sets Us Apart ========== */
 .apart {
