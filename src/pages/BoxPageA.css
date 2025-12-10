@@ -157,33 +157,68 @@
   margin-top: 6px;
   font-size: 14px;
 }
-
-/* FEATURES SECTION */
+/* ================= FEATURES SECTION – DESKTOP (HORIZONTAL) ================= */
 .features-row {
   display: flex;
   justify-content: center;
-  gap: 80px;
+  align-items: center;
+  gap: 90px;
   margin: 50px 0;
-  text-align: center;
-  flex-wrap: wrap;
 }
 
+.feature-box {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* slightly reduced gap */
+}
+
+/* Icon styling */
 .feature-box img {
   width: 55px;
   height: 55px;
-  margin-bottom: 8px;
 }
 
-.feature-box h4 {
-  font-size: 16px;
-  margin: 5px 0 2px;
+/* Text to the right of the icon */
+.feature-text h4 {
+  margin: 0;
+  padding: 0;
+
+  display: inline-block;   /* 🔥 prevents weird spacing */
+  font-size: 18px;
+  font-weight: 700;        /* Bold */
   color: #000;
+  line-height: 1;          /* 🔥 removes the "one high / one low" problem */
+  letter-spacing: 0px;     /* 🔥 removes extra space between words */
 }
 
-.feature-box p {
-  font-size: 14px;
-  color: #777;
+/* ================= MOBILE (STACK VERTICAL) ================= */
+@media (max-width: 768px) {
+  .features-row {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .feature-box {
+    width: 100%;
+    justify-content: flex-start;
+    padding-left: 20px;
+  }
+
+  .feature-text h4 {
+    font-size: 16px;
+    font-weight: 700; 
+    line-height: 1.1;  /* tighter + cleaner */
+  }
 }
+
+/* ================= FORCE BOLD & BLACK FOR ALL TEXT ================= */
+.features-row .feature-box h4,
+.features-row .feature-box p {
+  font-weight: 700 !important;
+  color: #000 !important;
+  margin: 0;
+}
+
 
 /* === RECOMMENDATION SECTION === */
 .recommend-section {
