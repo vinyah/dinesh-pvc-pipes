@@ -362,6 +362,7 @@
   color: #b30000;
   margin-top: 4px;
   margin-bottom: 2px;
+  font-size: 0.5rem;   /* ↓ Smaller price text */
 }
 
 /* Products – responsive */
