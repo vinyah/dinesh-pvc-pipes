@@ -229,7 +229,7 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
                     })
                   }
                 >
-                  Forgot Password?
+                  
                 </button>
               </div>
 
