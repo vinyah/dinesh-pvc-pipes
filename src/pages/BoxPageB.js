@@ -146,7 +146,7 @@ const BoxPageB = () => {
     <img src={require("../assets/genuine.png")} alt="Genuine" />
     <div className="feature-text">
       <span className="feature-main">Genuine</span>
-      <span className="feature-sub">Products</span>
+      <span className="feature-sub"> Products</span>
     </div>
   </div>
 
@@ -154,7 +154,7 @@ const BoxPageB = () => {
     <img src={require("../assets/support.png")} alt="Support" />
     <div className="feature-text">
       <span className="feature-main">Customer</span>
-      <span className="feature-sub">Support</span>
+      <span className="feature-sub"> Support</span>
     </div>
   </div>
 
@@ -162,7 +162,7 @@ const BoxPageB = () => {
     <img src={require("../assets/nonreturn.png")} alt="Non Returnable" />
     <div className="feature-text">
       <span className="feature-main">Non</span>
-      <span className="feature-sub">Returnable</span>
+      <span className="feature-sub"> Returnable</span>
     </div>
   </div>
 </div>
