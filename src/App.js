@@ -1,3 +1,4 @@
+// src/App.js
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -43,6 +44,7 @@ import PipeBendPage from "./pages/PipeBendPage";
 
 // 🏠 Checkout Flow Pages
 import AddAddressPage from "./pages/AddAddressPage";
+import DeliveryPage from "./pages/DeliveryPage"; // <-- added delivery page
 import ReviewOrderPage from "./pages/ReviewOrderPage";
 
 // 🛒 Global Cart Context
@@ -65,10 +67,7 @@ function App() {
           <main className="main-content">
             <Routes>
               {/* 🏠 MAIN PAGES */}
-              <Route
-                path="/"
-                element={<Home setShowModal={setShowModal} />}
-              />
+              <Route path="/" element={<Home setShowModal={setShowModal} />} />
               <Route path="/items" element={<Items />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/cart" element={<Cart />} />
@@ -109,6 +108,7 @@ function App() {
 
               {/* 🧾 CHECKOUT FLOW ROUTES */}
               <Route path="/add-address" element={<AddAddressPage />} />
+              <Route path="/delivery" element={<DeliveryPage />} />           {/* new */}
               <Route path="/review-order" element={<ReviewOrderPage />} />
             </Routes>
           </main>
@@ -118,10 +118,7 @@ function App() {
 
           {/* 🔐 LOGIN/SIGNUP MODAL (shared globally) */}
           {showModal && (
-            <LoginSignupModal
-              type={showModal}          // "login" or "signup"
-              onClose={() => setShowModal(null)}
-            />
+            <LoginSignupModal type={showModal} onClose={() => setShowModal(null)} />
           )}
         </div>
       </Router>

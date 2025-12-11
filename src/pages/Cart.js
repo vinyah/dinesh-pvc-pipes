@@ -199,7 +199,7 @@ const Cart = () => {
               className="add-address-btn"
               onClick={() => navigate("/add-address")}
             >
-              Add Address
+              Proceed to Checkout
             </button>
 
             <button
