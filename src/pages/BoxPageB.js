@@ -145,8 +145,8 @@ const BoxPageB = () => {
   <div className="feature-box">
     <img src={require("../assets/genuine.png")} alt="Genuine" />
     <div className="feature-text">
-      <span className="feature-main">Genuine</span>
-      <span className="feature-sub"> Products</span>
+      <span className="feature-main">Genuine Products</span>
+      
     </div>
   </div>
 
