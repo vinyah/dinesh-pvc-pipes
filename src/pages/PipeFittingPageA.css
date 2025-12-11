@@ -169,20 +169,70 @@
   margin-top: 8px;
 }
 
-/* ==== Features ==== */
+/* =============== FEATURES SECTION – DESKTOP =============== */
 .features-row {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 80px;
   margin: 50px 0;
-  text-align: center;
-  flex-wrap: wrap;
 }
 
+.feature-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Icon */
 .feature-box img {
   width: 55px;
   height: 55px;
-  margin-bottom: 8px;
+}
+
+/* Text container */
+.feature-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;     /* small spacing */
+}
+
+/* BOTH WORDS BOLD */
+.feature-main,
+.feature-sub {
+  font-size: 18px;
+  font-weight: 700;     /* BOLD */
+  color: #000;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+}
+
+/* =============== MOBILE VIEW =============== */
+@media (max-width: 768px) {
+  .features-row {
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .feature-box {
+    width: 100%;
+    justify-content: flex-start;
+    padding-left: 20px;
+  }
+
+  .feature-text {
+    flex-direction: column;  /* stack words on mobile */
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .feature-main,
+  .feature-sub {
+    font-size: 16px;
+    font-weight: 700;  /* still bold */
+  }
 }
 
 /* ==== Recommendations ==== */

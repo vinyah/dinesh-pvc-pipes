@@ -170,27 +170,27 @@ const PipeBendPage = () => {
 
       {/* === FEATURES SECTION === */}
       <div className="features-row">
-        <div className="feature-box">
-          <img src={require("../assets/genuine.png")} alt="Genuine" />
-          <h4>Genuine</h4>
-          <p>Products</p>
-        </div>
+  <div className="feature-box">
+    <img src={require("../assets/genuine.png")} alt="Genuine" />
+    <div className="feature-text">
+      <span className="feature-main">Genuine Products</span>
+    </div>
+  </div>
 
-        <div className="feature-box">
-          <img src={require("../assets/support.png")} alt="Support" />
-          <h4>Customer</h4>
-          <p>Support</p>
-        </div>
-
-        <div className="feature-box">
-          <img
-            src={require("../assets/nonreturn.png")}
-            alt="Non Returnable"
-          />
-          <h4>Non</h4>
-          <p>Returnable</p>
-        </div>
+  <div className="feature-box">
+    <img src={require("../assets/support.png")} alt="Support" />
+    <div className="feature-text">
+      <span className="feature-main">Customer Support</span>
       </div>
+  </div>
+
+  <div className="feature-box">
+    <img src={require("../assets/nonreturn.png")} alt="Non Returnable" />
+    <div className="feature-text">
+      <span className="feature-main">Non Returnable</span>
+      </div>
+  </div>
+</div>
 
       {/* === RECOMMENDATION SECTION === */}
       <div className="recommend-section">

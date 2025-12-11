@@ -157,45 +157,51 @@
   margin-top: 6px;
   font-size: 14px;
 }
-/* ================= FEATURES SECTION – DESKTOP (HORIZONTAL) ================= */
+/* =============== FEATURES SECTION – DESKTOP =============== */
 .features-row {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 90px;
+  gap: 80px;
   margin: 50px 0;
 }
 
 .feature-box {
   display: flex;
   align-items: center;
-  gap: 12px; /* slightly reduced gap */
+  gap: 12px;
 }
 
-/* Icon styling */
+/* Icon */
 .feature-box img {
   width: 55px;
   height: 55px;
 }
 
-/* Text to the right of the icon */
-.feature-text h4 {
-  margin: 0;
-  padding: 0;
-
-  display: inline-block;   /* 🔥 prevents weird spacing */
-  font-size: 18px;
-  font-weight: 700;        /* Bold */
-  color: #000;
-  line-height: 1;          /* 🔥 removes the "one high / one low" problem */
-  letter-spacing: 0px;     /* 🔥 removes extra space between words */
+/* Text container */
+.feature-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;     /* small spacing */
 }
 
-/* ================= MOBILE (STACK VERTICAL) ================= */
+/* BOTH WORDS BOLD */
+.feature-main,
+.feature-sub {
+  font-size: 18px;
+  font-weight: 700;     /* BOLD */
+  color: #000;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+}
+
+/* =============== MOBILE VIEW =============== */
 @media (max-width: 768px) {
   .features-row {
     flex-direction: column;
-    gap: 30px;
+    gap: 28px;
   }
 
   .feature-box {
@@ -204,20 +210,20 @@
     padding-left: 20px;
   }
 
-  .feature-text h4 {
+  .feature-text {
+    flex-direction: column;  /* stack words on mobile */
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .feature-main,
+  .feature-sub {
     font-size: 16px;
-    font-weight: 700; 
-    line-height: 1.1;  /* tighter + cleaner */
+    font-weight: 700;  /* still bold */
   }
 }
 
-/* ================= FORCE BOLD & BLACK FOR ALL TEXT ================= */
-.features-row .feature-box h4,
-.features-row .feature-box p {
-  font-weight: 700 !important;
-  color: #000 !important;
-  margin: 0;
-}
+
 
 
 /* === RECOMMENDATION SECTION === */

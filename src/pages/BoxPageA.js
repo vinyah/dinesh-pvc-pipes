@@ -156,25 +156,22 @@ const BoxPageA = () => {
   <div className="feature-box">
     <img src={require("../assets/genuine.png")} alt="Genuine" />
     <div className="feature-text">
-      <span className="feature-main">Genuine</span>
-      <span className="feature-sub">Products</span>
+      <span className="feature-main">Genuine Products</span>
     </div>
   </div>
 
   <div className="feature-box">
     <img src={require("../assets/support.png")} alt="Support" />
     <div className="feature-text">
-      <span className="feature-main">Customer</span>
-      <span className="feature-sub">Support</span>
-    </div>
+      <span className="feature-main">Customer Support</span>
+      </div>
   </div>
 
   <div className="feature-box">
     <img src={require("../assets/nonreturn.png")} alt="Non Returnable" />
     <div className="feature-text">
-      <span className="feature-main">Non</span>
-      <span className="feature-sub">Returnable</span>
-    </div>
+      <span className="feature-main">Non Returnable</span>
+      </div>
   </div>
 </div>
 
