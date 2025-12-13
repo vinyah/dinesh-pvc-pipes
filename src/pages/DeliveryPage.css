@@ -300,3 +300,31 @@
   display: none !important;
 }
 
+/* ===== FIX BUTTONS TO BOTTOM ON MOBILE ===== */
+@media (max-width: 768px) {
+  .delivery-actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 12px;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 999;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+  }
+
+  .btn,
+  .btn-primary,
+  .btn-ghost {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  /* Add padding at bottom so summary is not hidden behind buttons */
+  .delivery-page {
+    padding-bottom: 120px !important;
+  }
+}
