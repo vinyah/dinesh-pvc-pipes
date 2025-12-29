@@ -1,69 +1,54 @@
 import React, { useState } from "react";
-import { useCart } from "../context/CartContext"; // ✅ Import Cart Context
+import { useCart } from "../context/CartContext";
 import fittingData from "../data/pipefittingB.json";
 import "./PipeFittingPageB.css";
 
 const PipeFittingPageB = () => {
-  const { addToCart } = useCart(); // ✅ Access addToCart function
+  const { addToCart } = useCart();
   const product = fittingData[0];
 
   const [activeImage, setActiveImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState("19mm");
-  const [qty, setQty] = useState(1); // ✅ quantity starts from 1
+  const [qty, setQty] = useState(1);
 
-  // ✅ Price based on selected size (ensure numeric)
+  /* ===== PRICE ===== */
   const rawPrice = product.rates[selectedSize];
   const price =
     typeof rawPrice === "number"
       ? rawPrice
       : Number(String(rawPrice).replace(/[^\d.]/g, "")) || 0;
 
-  // 🛒 Handle Add to Cart
+  /* ===== ADD TO CART ===== */
   const handleAddToCart = () => {
-    const cartItem = {
+    addToCart({
       name: product.name,
       code: product.code,
       image: product.images[activeImage],
-      price: price,             // ✅ numeric price for cart
-      displayPrice: rawPrice,   // (optional) original string if needed
+      price,
+      displayPrice: rawPrice,
       size: selectedSize,
-      color: null,
-      thickness: null,
-      length: null,
-      quantity: qty,            // ✅ send quantity to cart
-    };
+      quantity: qty,
+    });
 
-    addToCart(cartItem);
     alert(`${product.name} (${selectedSize}) x ${qty} added to cart 🛒`);
   };
 
-  const handleIncrease = () => {
-    setQty((prev) => prev + 1);
-  };
-
-  const handleDecrease = () => {
-    setQty((prev) => (prev > 1 ? prev - 1 : 1)); // minimum 1
-  };
+  const handleIncrease = () => setQty((q) => q + 1);
+  const handleDecrease = () => setQty((q) => (q > 1 ? q - 1 : 1));
 
   const handleQtyInputChange = (e) => {
-    const value = e.target.value;
-
-    if (value === "") {
-      setQty(1);
-      return;
-    }
-
-    const num = parseInt(value, 10);
-    if (!isNaN(num) && num >= 1) {
-      setQty(num);
-    }
+    const val = parseInt(e.target.value, 10);
+    if (!isNaN(val) && val >= 1) setQty(val);
   };
 
   return (
-    <div>
-      {/* === SECTION 1 - PRODUCT DETAILS === */}
-      <div className="product-page">
-        {/* LEFT IMAGE SECTION */}
+    /* 🔥 TRUE FULL WIDTH PAGE (NO CONTAINER) */
+    <div className="pipefittingC-page-wrapper">
+
+      {/* ================= PRODUCT SECTION ================= */}
+      <section className="product-page">
+
+        {/* LEFT IMAGES */}
         <div className="left-images">
           <div className="thumb-row">
             {product.images.map((img, i) => (
@@ -71,7 +56,7 @@ const PipeFittingPageB = () => {
                 key={i}
                 src={require(`../assets/${img}`)}
                 alt="thumbnail"
-                className={i === activeImage ? "thumb active" : "thumb"}
+                className={`thumb ${i === activeImage ? "active" : ""}`}
                 onClick={() => setActiveImage(i)}
               />
             ))}
@@ -79,19 +64,19 @@ const PipeFittingPageB = () => {
 
           <img
             src={require(`../assets/${product.images[activeImage]}`)}
-            alt="main"
+            alt={product.name}
             className="main-img"
           />
         </div>
 
-        {/* RIGHT PRODUCT INFO */}
+        {/* RIGHT INFO */}
         <div className="right-info">
           <h2>{product.name}</h2>
+
           <p className="product-code">
             <strong>Code:</strong> {product.code}
           </p>
 
-          {/* SIZE OPTIONS */}
           <h4>Select Size</h4>
           <div className="options">
             {["19mm", "25mm"].map((size) => (
@@ -105,76 +90,60 @@ const PipeFittingPageB = () => {
             ))}
           </div>
 
-          {/* PRICE (per unit) */}
-          <h2 className="price">₹{price}</h2>
+          <div className="price">₹{price}</div>
 
-          {/* ✅ QUANTITY ROW ABOVE ADD TO CART */}
+          {/* QUANTITY */}
           <div className="qty-row">
-            <button
-              type="button"
-              className="qty-btn qty-minus"
-              onClick={handleDecrease}
-            >
-              −
-            </button>
+            <button className="qty-btn" onClick={handleDecrease}>−</button>
 
             <input
               type="number"
               className="qty-input"
               value={qty}
-              onChange={handleQtyInputChange}
               min="1"
+              onChange={handleQtyInputChange}
             />
 
-            <button
-              type="button"
-              className="qty-btn qty-plus"
-              onClick={handleIncrease}
-            >
-              +
-            </button>
+            <button className="qty-btn" onClick={handleIncrease}>+</button>
           </div>
 
-          {/* ✅ ADD TO CART BUTTON */}
           <button className="add-cart" onClick={handleAddToCart}>
             Add to Cart
           </button>
 
           <p className="save">Additional Saving 2.1%</p>
         </div>
-      </div>
+      </section>
 
-      {/* === FEATURES SECTION === */}
-      <div className="features-row">
-  <div className="feature-box">
-    <img src={require("../assets/genuine.png")} alt="Genuine" />
-    <div className="feature-text">
-      <span className="feature-main">Genuine Products</span>
-    </div>
-  </div>
+      {/* ================= FEATURES ================= */}
+      <section className="features-row">
+        <div className="feature-box">
+          <img src={require("../assets/genuine.png")} alt="Genuine" />
+          <span className="feature-main">Genuine Products</span>
+        </div>
 
-  <div className="feature-box">
-    <img src={require("../assets/support.png")} alt="Support" />
-    <div className="feature-text">
-      <span className="feature-main">Customer Support</span>
-      </div>
-  </div>
+        <div className="feature-box">
+          <img src={require("../assets/support.png")} alt="Support" />
+          <span className="feature-main">Customer Support</span>
+        </div>
 
-  <div className="feature-box">
-    <img src={require("../assets/nonreturn.png")} alt="Non Returnable" />
-    <div className="feature-text">
-      <span className="feature-main">Non Returnable</span>
-      </div>
-  </div>
-</div>
-      {/* === RECOMMENDED PRODUCTS === */}
-      <div className="recommend-section">
+        <div className="feature-box">
+          <img src={require("../assets/nonreturn.png")} alt="Non Returnable" />
+          <span className="feature-main">Non Returnable</span>
+        </div>
+      </section>
+
+      {/* ================= RECOMMENDED ================= */}
+      <section className="recommend-section">
         <h2>Recommended Products</h2>
 
         <div className="recommend-grid">
           {product.recommendations.map((rec, i) => (
             <div key={i} className="recommend-card">
-              <img src={require(`../assets/${rec.image}`)} alt={rec.name} />
+              <img
+                src={require(`../assets/${rec.image}`)}
+                alt={rec.name}
+              />
               <p className="rec-code">Code: {rec.code}</p>
               <h4 className="rec-name">{rec.name}</h4>
               <p className="rec-price">{rec.price}</p>
@@ -186,7 +155,7 @@ const PipeFittingPageB = () => {
         <button className="back-btn" onClick={() => window.history.back()}>
           ← Back To Pipe Fittings
         </button>
-      </div>
+      </section>
     </div>
   );
 };

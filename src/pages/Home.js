@@ -112,25 +112,30 @@ function Home({ setShowModal }) {
           </button>
         </div>
       </section>
+{/* === Section 3: Products === */}
+<section className="products">
+  <h1 className="products-title">Our Products</h1>
 
-      {/* === Section 3: Products === */}
-      <section className="products">
-        <h1>Our Products</h1>
-        <div className="product-container">
-          {homeData.products.map((product, i) => (
-            <div key={i} className="product-card">
-              <img
-                src={require(`../assets/${product.image}`)}
-                alt={product.desc}
-              />
-              <p className="code">Code: {product.code}</p>
-              <p className="desc">{product.desc}</p>
-              <p className="qty">{product.qty}</p>
-              <p className="price">{product.price}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+  <div className="product-container">
+    {homeData.products.map((product, i) => (
+      <div
+        key={i}
+        className={`product-card ${i === 1 ? "featured" : ""}`}
+      >
+        <img
+          src={require(`../assets/${product.image}`)}
+          alt={product.desc}
+        />
+
+        <p className="code">Code: {product.code}</p>
+        <p className="desc">{product.desc}</p>
+        <p className="qty">{product.qty}</p>
+        <p className="price">{product.price}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
 
       {/* === Section 4: What Sets Us Apart === */}
       <section className="apart">

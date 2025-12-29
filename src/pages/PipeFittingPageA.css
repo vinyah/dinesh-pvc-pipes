@@ -1,21 +1,33 @@
-/* Optional outer wrapper if you use it in JSX */
+/* ========================================================= */
+/* 🌟 FULL-WIDTH PRODUCT PAGE WRAPPER                       */
+/* ========================================================= */
 .pipefittingA-page-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
+  width: 100%;
+  margin: 0;
+  padding: 40px 40px;
+  box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+  background: #fff;
 }
 
-/* ==== Layout ==== */
+/* ========================================================= */
+/* 🌟 MAIN PRODUCT LAYOUT – FULL WIDTH                      */
+/* ========================================================= */
 .product-page {
+  width: 100%;
   display: flex;
   gap: 40px;
-  padding: 50px;
+  padding: 50px 40px;
+  box-sizing: border-box;
+  align-items: flex-start;
 }
 
-/* ==== Left Images ==== */
+/* ========================================================= */
+/* 🌟 LEFT IMAGE SECTION (FULL WIDTH STYLE)                 */
+/* ========================================================= */
 .left-images {
-  width: 25%;
+  flex: 1;                         /* expands naturally */
+  max-width: 420px;                /* prevents over-stretching */
   display: flex;
   gap: 15px;
 }
@@ -27,9 +39,9 @@
 }
 
 .thumb {
-  width: 60px;
-  height: 60px;
-  border-radius: 6px;
+  width: 75px;
+  height: 75px;
+  border-radius: 8px;
   cursor: pointer;
   opacity: 0.7;
   transition: 0.3s;
@@ -44,19 +56,25 @@
 
 .main-img {
   width: 100%;
-  height: 280px;
-  border-radius: 10px;
+  height: 320px;
+  border-radius: 12px;
   object-fit: contain;
+  background: #fff;
+  border: 1px solid #ddd;
 }
 
-/* ==== Right Info ==== */
+/* ========================================================= */
+/* 🌟 RIGHT PRODUCT INFO – FULL WIDTH                       */
+/* ========================================================= */
 .right-info {
-  width: 45%;
+  flex: 2;                         /* larger than left side */
+  width: 100%;
 }
 
 .right-info h2 {
-  font-size: 24px;
-  margin-bottom: 8px;
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: #000;
 }
 
 .product-code {
@@ -66,7 +84,9 @@
   font-weight: bold;
 }
 
-/* ==== Options ==== */
+/* ========================================================= */
+/* 🌟 OPTIONS (Color / Thickness / Size)                    */
+/* ========================================================= */
 .options {
   margin: 8px 0 4px;
 }
@@ -85,7 +105,9 @@
   color: white;
 }
 
-/* === Quantity Row === */
+/* ========================================================= */
+/* 🌟 QUANTITY SECTION                                     */
+/* ========================================================= */
 .qty-row {
   display: flex;
   align-items: center;
@@ -93,7 +115,6 @@
   margin: 15px 0;
 }
 
-/* Square Buttons */
 .qty-btn {
   width: 35px;
   height: 35px;
@@ -114,7 +135,6 @@
   color: white;
 }
 
-/* Square Input Box */
 .qty-input {
   width: 80px;
   height: 35px;
@@ -129,35 +149,38 @@
   border-color: #b30000;
 }
 
-/* Remove arrows in Chrome, Edge, Safari */
+/* remove number input arrows */
 .qty-input::-webkit-outer-spin-button,
 .qty-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Remove arrows in Firefox */
 .qty-input[type="number"] {
   -moz-appearance: textfield;
 }
 
-/* ==== Price & Buttons ==== */
+/* ========================================================= */
+/* 🌟 PRICE + ADD TO CART BUTTON                           */
+/* ========================================================= */
 .price {
   color: #b30000;
-  font-size: 26px;
-  margin-top: 20px;
+  font-size: 28px;
+  margin-top: 15px;
+  font-weight: bold;
 }
 
 .add-cart {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   background: #b30000;
   color: white;
   border: none;
-  border-radius: 8px;
-  margin-top: 10px;
+  border-radius: 10px;
+  margin-top: 15px;
   cursor: pointer;
   transition: 0.3s;
+  font-size: 17px;
 }
 
 .add-cart:hover {
@@ -166,10 +189,13 @@
 
 .save {
   color: green;
-  margin-top: 8px;
+  margin-top: 6px;
+  font-size: 14px;
 }
 
-/* =============== FEATURES SECTION – DESKTOP =============== */
+/* ========================================================= */
+/* 🌟 FEATURES SECTION                                     */
+/* ========================================================= */
 .features-row {
   display: flex;
   justify-content: center;
@@ -184,61 +210,29 @@
   gap: 12px;
 }
 
-/* Icon */
 .feature-box img {
   width: 55px;
   height: 55px;
 }
 
-/* Text container */
 .feature-text {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 6px;     /* small spacing */
+  gap: 6px;
 }
 
-/* BOTH WORDS BOLD */
 .feature-main,
 .feature-sub {
   font-size: 18px;
-  font-weight: 700;     /* BOLD */
+  font-weight: 700;
   color: #000;
-  margin: 0;
-  padding: 0;
-  line-height: 1.2;
 }
 
-/* =============== MOBILE VIEW =============== */
-@media (max-width: 768px) {
-  .features-row {
-    flex-direction: column;
-    gap: 28px;
-  }
-
-  .feature-box {
-    width: 100%;
-    justify-content: flex-start;
-    padding-left: 20px;
-  }
-
-  .feature-text {
-    flex-direction: column;  /* stack words on mobile */
-    align-items: flex-start;
-    gap: 2px;
-  }
-
-  .feature-main,
-  .feature-sub {
-    font-size: 16px;
-    font-weight: 700;  /* still bold */
-  }
-}
-
-/* ==== Recommendations ==== */
+/* ========================================================= */
+/* 🌟 RECOMMENDED PRODUCTS                                  */
+/* ========================================================= */
 .recommend-section {
   margin-top: 60px;
-  padding: 0 50px 50px 50px;
+  padding: 0 40px 50px 40px;
 }
 
 .recommend-section h2 {
@@ -251,7 +245,7 @@
 .recommend-grid {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 22px;
   flex-wrap: wrap;
 }
 
@@ -276,29 +270,13 @@
   margin-bottom: 10px;
 }
 
-.rec-code {
-  font-size: 13px;
-  color: #777;
-}
+/* Text */
+.rec-code { font-size: 13px; color: #777; }
+.rec-name { font-size: 15px; font-weight: bold; }
+.rec-price { font-size: 18px; color: #b30000; }
+.rec-save { font-size: 13px; color: green; }
 
-.rec-name {
-  font-size: 15px;
-  font-weight: bold;
-  margin: 5px 0;
-}
-
-.rec-price {
-  font-size: 18px;
-  color: #b30000;
-  margin-top: 4px;
-}
-
-.rec-save {
-  font-size: 13px;
-  color: green;
-}
-
-/* ==== Back Button ==== */
+/* BACK BUTTON */
 .back-btn {
   display: block;
   margin: 40px auto 0 auto;
@@ -314,108 +292,49 @@
   background: #8b0000;
 }
 
-/* ============================= */
-/* 💻 Medium screens (laptops)   */
-/* ============================= */
+/* ========================================================= */
+/* 🌟 RESPONSIVE (TABLET & MOBILE)                          */
+/* ========================================================= */
+
+/* Laptop / Medium */
 @media (max-width: 1200px) {
   .product-page {
+    flex-direction: row;
     padding: 40px 30px;
-    gap: 32px;
   }
-
-  .left-images {
-    width: 30%;
-  }
-
-  .right-info {
-    width: 50%;
-  }
-
-  .recommend-section {
-    padding: 0 30px 40px 30px;
-  }
+  .recommend-section { padding: 0 20px 40px 20px; }
 }
 
-/* ============================= */
-/* 📱 Tablets / small laptops    */
-/* ============================= */
+/* Tablet */
 @media (max-width: 900px) {
   .product-page {
     flex-direction: column;
     padding: 30px 20px;
-    gap: 28px;
   }
-
-  .left-images,
-  .right-info {
-    width: 100%;
-  }
-
   .left-images {
+    max-width: 100%;
     justify-content: center;
   }
-
-  .main-img {
-    height: 260px;
-  }
-
-  .features-row {
-    gap: 40px;
-    margin: 40px 0;
-  }
-
-  .recommend-section {
-    padding: 0 20px 40px 20px;
-  }
+  .main-img { height: 260px; }
+  .right-info { width: 100%; }
 }
 
-/* ============================= */
-/* 📱 Small mobiles              */
-/* ============================= */
+/* Mobile */
 @media (max-width: 600px) {
   .product-page {
-    padding: 24px 14px;
-    gap: 22px;
+    padding: 20px 14px;
+    gap: 20px;
   }
-
-  .left-images {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .thumb-row {
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
   .thumb {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
   }
-
   .main-img {
-    height: 230px;
+    height: 240px;
   }
-
-  .right-info h2 {
-    font-size: 20px;
-  }
-
-  .price {
-    font-size: 24px;
-  }
-
-  .qty-row {
-    gap: 10px;
-  }
-
+  .right-info h2 { font-size: 22px; }
+  .price { font-size: 24px; }
   .recommend-card {
-    width: 100%;
-    max-width: 260px;
-  }
-
-  .back-btn {
     width: 100%;
     max-width: 260px;
   }
