@@ -134,11 +134,7 @@ function DeliveryPage() {
             <span>₹{total}</span>
           </div>
 
-          <ul className="summary-features">
-            <li>✓ Secure checkout</li>
-            <li>✓ Certified products</li>
-            <li>✓ 30-day return policy</li>
-          </ul>
+          
 
           {/* ✅ BUTTONS – LIKE 2ND IMAGE */}
           <div className="checkout-actions">
