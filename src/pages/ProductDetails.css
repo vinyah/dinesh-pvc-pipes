@@ -156,14 +156,7 @@ body {
   margin-top: 8px;
 }
 
-/* 📱 Mobile only */
-@media (max-width: 600px) {
-  .add-cart {
-    width: 90%;
-    margin: 8px auto 0;
-    display: block;
-  }
-}
+
 
 .add-cart:hover {
   background: #8b0000;
@@ -347,6 +340,35 @@ body {
   .right-info {
     width: 100%;
     padding: 0 14px;   /* keeps text breathing space */
+    box-sizing: border-box;
+  }
+}
+
+/* ============================= */
+/* ✅ MOBILE FINAL FIX           */
+/* ============================= */
+@media (max-width: 600px) {
+
+  /* Page wrapper */
+  .flexible-page {
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Right content */
+  .right-info {
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Add to Cart button */
+  .add-cart {
+    width: 100%;
+    max-width: 100%;
+    margin: 10px 0 0;
+    display: block;
     box-sizing: border-box;
   }
 }
