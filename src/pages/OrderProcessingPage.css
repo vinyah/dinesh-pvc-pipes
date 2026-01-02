@@ -1,0 +1,89 @@
+/* ===============================
+   FULL PAGE CENTER LAYOUT
+================================ */
+.order-processing-page {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #fff;
+  padding: 20px;
+}
+
+/* ===============================
+   ANIMATION TRACK (CENTERED)
+================================ */
+.truck-track {
+  position: relative;
+  width: 300px;           /* controls animation width */
+  height: 60px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+/* 📦 Box */
+.package {
+  position: absolute;
+  left: 0;
+  top: 12px;
+  font-size: 28px;
+}
+
+/* 🚚 Truck */
+.truck {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  font-size: 40px;
+
+  /* 🔁 FLIP TRUCK TO FACE RIGHT */
+  transform: scaleX(-1);
+
+  animation: drive 5s linear infinite;
+}
+
+/* ===============================
+   ANIMATION
+================================ */
+@keyframes drive {
+  0% {
+    transform: translateX(0) scaleX(-1);
+  }
+  100% {
+    transform: translateX(220px) scaleX(-1);
+  }
+}
+
+/* ===============================
+   TEXT
+================================ */
+.order-processing-page h2 {
+  margin-top: 10px;
+  font-size: 22px;
+}
+
+.order-processing-page p {
+  margin-top: 6px;
+  color: #666;
+}
+
+/* ===============================
+   MOBILE RESPONSIVE
+================================ */
+@media (max-width: 600px) {
+  .truck-track {
+    width: 220px;
+  }
+
+  @keyframes drive {
+    0% {
+      transform: translateX(0) scaleX(-1);
+    }
+    100% {
+      transform: translateX(160px) scaleX(-1);
+    }
+  }
+}
+

@@ -1,119 +1,86 @@
 import React, { useState } from "react";
-import { useCart } from "../context/CartContext"; // ✅ Import global cart context
+import { useCart } from "../context/CartContext";
 import flexibleData from "../data/flexiblepipe.json";
 import "./FlexiblePipePage.css";
 
 const FlexiblePipePage = () => {
-  const { addToCart } = useCart(); // ✅ Access addToCart
-  const product = flexibleData[0]; // assume one product
+  const { addToCart } = useCart();
+  const product = flexibleData[0];
 
   const [activeImage, setActiveImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState("16mm");
-  const [qty, setQty] = useState(1); // ✅ quantity starts from 1
+  const [qty, setQty] = useState(1);
 
-  // ✅ Helper: get numeric unit price from product.rates
+  // ✅ Get numeric price
   const getUnitPrice = () => {
-    const rawPrice = product.rates[selectedSize];
-
-    if (typeof rawPrice === "number") return rawPrice;
-
-    const cleaned = String(rawPrice).replace(/[^\d.]/g, "");
-    const num = Number(cleaned);
+    const raw = product.rates[selectedSize];
+    if (typeof raw === "number") return raw;
+    const num = Number(String(raw).replace(/[^\d.]/g, ""));
     return isNaN(num) ? 0 : num;
   };
 
   const price = getUnitPrice();
 
-  // 🛒 Handle Add to Cart
+  // 🛒 Add to cart
   const handleAddToCart = () => {
-    const cartItem = {
+    addToCart({
       name: product.name,
       code: product.code,
       image: product.images[activeImage],
-      price: price, // ✅ numeric price
-      displayPrice: product.rates[selectedSize], // optional original value
+      price,
+      displayPrice: product.rates[selectedSize],
       size: selectedSize,
-      color: null,
-      thickness: null,
-      length: product.length || null,
-      quantity: qty, // ✅ send quantity to cart
-    };
+      length: product.length,
+      quantity: qty,
+    });
 
-    addToCart(cartItem);
     alert(`${product.name} (${selectedSize}) x ${qty} added to cart 🛒`);
-  };
-
-  const handleIncrease = () => {
-    setQty((prev) => prev + 1);
-  };
-
-  const handleDecrease = () => {
-    setQty((prev) => (prev > 1 ? prev - 1 : 1)); // minimum 1
-  };
-
-  const handleQtyInputChange = (e) => {
-    const value = e.target.value;
-
-    if (value === "") {
-      setQty(1);
-      return;
-    }
-
-    const num = parseInt(value, 10);
-    if (!isNaN(num) && num >= 1) {
-      setQty(num);
-    }
   };
 
   return (
     <div className="flexible-page">
-      {/* === SECTION 1 - PRODUCT DETAILS === */}
+      {/* ================= PRODUCT SECTION ================= */}
       <div className="product-page">
-        {/* LEFT IMAGES */}
-        <div className="left-images">
-          <div className="thumb-row">
+        {/* 🔥 LEFT – IMAGE DOMINANT */}
+        <div className="product-images">
+          <div className="thumbs">
             {product.images.map((img, i) => (
               <img
                 key={i}
                 src={require(`../assets/${img}`)}
-                alt={`thumbnail ${i + 1}`}
+                alt="thumb"
                 className={i === activeImage ? "thumb active" : "thumb"}
                 onClick={() => setActiveImage(i)}
               />
             ))}
           </div>
 
-          <div className="main-img-wrapper">
+          <div className="main-image">
             <img
               src={require(`../assets/${product.images[activeImage]}`)}
               alt={product.name}
-              className="main-img"
             />
           </div>
         </div>
 
-        {/* RIGHT DETAILS */}
+        {/* 👉 RIGHT – COMPACT DETAILS */}
         <div className="right-info">
-          <h2 className="product-title">{product.name}</h2>
+          <h1>{product.name}</h1>
 
-          <p className="product-code">
+          <p className="code">
             <strong>Code:</strong> {product.code}
           </p>
-          <p className="product-length">
+
+          <p className="length">
             <strong>Length:</strong> {product.length}
           </p>
 
-          {/* Select Size */}
-          <h4 className="section-label">Select Size</h4>
-          <div className="options">
+          <h3>Select Size</h3>
+          <div className="sizes">
             {Object.keys(product.rates).map((size) => (
               <button
                 key={size}
-                className={
-                  selectedSize === size
-                    ? "option-btn active"
-                    : "option-btn"
-                }
+                className={selectedSize === size ? "active" : ""}
                 onClick={() => setSelectedSize(size)}
               >
                 {size}
@@ -121,69 +88,42 @@ const FlexiblePipePage = () => {
             ))}
           </div>
 
-          {/* PRICE (per unit) */}
-          <h2 className="price">₹{price}</h2>
+          <div className="price">₹{price}</div>
 
-          {/* ✅ QUANTITY ROW ABOVE ADD TO CART */}
-          <div className="qty-row">
-            <button
-              type="button"
-              className="qty-btn qty-minus"
-              onClick={handleDecrease}
-            >
-              −
-            </button>
-
-            <input
-              type="number"
-              className="qty-input"
-              value={qty}
-              onChange={handleQtyInputChange}
-              min="1"
-            />
-
-            <button
-              type="button"
-              className="qty-btn qty-plus"
-              onClick={handleIncrease}
-            >
-              +
-            </button>
+          {/* QTY */}
+          <div className="qty">
+            <button onClick={() => setQty(qty > 1 ? qty - 1 : 1)}>−</button>
+            <span>{qty}</span>
+            <button onClick={() => setQty(qty + 1)}>+</button>
           </div>
 
-          {/* ✅ ADD TO CART BUTTON */}
           <button className="add-cart" onClick={handleAddToCart}>
             Add to Cart
           </button>
 
-          <p className="save">Additional Saving 2.1%</p>
+          <p className="saving">Additional Saving 2.1%</p>
         </div>
       </div>
 
-      {/* === FEATURES SECTION === */}
+      {/* ================= FEATURES ================= */}
       <div className="features-row">
-  <div className="feature-box">
-    <img src={require("../assets/genuine.png")} alt="Genuine" />
-    <div className="feature-text">
-      <span className="feature-main">Genuine Products</span>
-    </div>
-  </div>
+        <div className="feature-box">
+          <img src={require("../assets/genuine.png")} alt="Genuine" />
+          <span>Genuine Products</span>
+        </div>
 
-  <div className="feature-box">
-    <img src={require("../assets/support.png")} alt="Support" />
-    <div className="feature-text">
-      <span className="feature-main">Customer Support</span>
-      </div>
-  </div>
+        <div className="feature-box">
+          <img src={require("../assets/support.png")} alt="Support" />
+          <span>Customer Support</span>
+        </div>
 
-  <div className="feature-box">
-    <img src={require("../assets/nonreturn.png")} alt="Non Returnable" />
-    <div className="feature-text">
-      <span className="feature-main">Non Returnable</span>
+        <div className="feature-box">
+          <img src={require("../assets/nonreturn.png")} alt="Non Return" />
+          <span>Non Returnable</span>
+        </div>
       </div>
-  </div>
-</div>
-      {/* === RECOMMENDED PRODUCTS === */}
+
+      {/* ================= RECOMMENDED ================= */}
       <div className="recommend-section">
         <h2>Recommended Products</h2>
 
@@ -193,10 +133,9 @@ const FlexiblePipePage = () => {
               <img
                 src={require(`../assets/${rec.image}`)}
                 alt={rec.name}
-                className="recommend-img"
               />
               <p className="rec-code">Code: {rec.code}</p>
-              <h4 className="rec-name">{rec.name}</h4>
+              <h4>{rec.name}</h4>
               <p className="rec-price">{rec.price}</p>
               <p className="rec-save">Additional Saving {rec.save}</p>
             </div>

@@ -1,90 +1,53 @@
 import React, { useState } from "react";
-import { useCart } from "../context/CartContext"; // ✅ Import Cart Context
+import { useCart } from "../context/CartContext";
 import boxAData from "../data/boxA.json";
 import "./BoxPageA.css";
 
 const BoxPageA = () => {
-  const { addToCart } = useCart(); // ✅ Access global addToCart function
+  const { addToCart } = useCart();
 
-  // ✅ Safely get the product (only one item expected)
   const product = boxAData && boxAData.length > 0 ? boxAData[0] : null;
 
   const [activeImage, setActiveImage] = useState(0);
-  const [qty, setQty] = useState(1); // ✅ quantity starts from 1
+  const [qty, setQty] = useState(1);
 
-  // If JSON is empty or broken
   if (!product) {
     return (
-      <div className="boxA-page">
+      <div className="boxA-wrapper">
         <h2>Product not available</h2>
-        <button className="back-btn" onClick={() => window.history.back()}>
-          ← Back To Products
-        </button>
       </div>
     );
   }
 
-  // 🧮 Helper: ensure we always have a numeric unit price
   const getUnitPrice = (rawPrice) => {
     if (typeof rawPrice === "number") return rawPrice;
-
     if (typeof rawPrice === "string") {
-      // remove everything except digits and decimal point (₹, spaces, etc.)
       const cleaned = rawPrice.replace(/[^\d.]/g, "");
       const num = Number(cleaned);
       return isNaN(num) ? 0 : num;
     }
-
     return 0;
   };
 
   const unitPrice = getUnitPrice(product.price);
 
-  // 🛒 Handle Add to Cart
   const handleAddToCart = () => {
-    const cartItem = {
+    addToCart({
       name: product.name,
       code: product.code,
       image: product.images[activeImage],
-      price: unitPrice, // ✅ numeric price for calculations
-      size: null,
-      color: null,
-      thickness: null,
-      length: null,
-      quantity: qty, // ✅ send quantity to cart
-    };
+      price: unitPrice,
+      quantity: qty,
+    });
 
-    addToCart(cartItem);
     alert(`${product.name} x ${qty} added to cart 🛒`);
   };
 
-  const handleIncrease = () => {
-    setQty((prev) => prev + 1);
-  };
-
-  const handleDecrease = () => {
-    setQty((prev) => (prev > 1 ? prev - 1 : 1)); // minimum 1
-  };
-
-  const handleQtyInputChange = (e) => {
-    const value = e.target.value;
-
-    if (value === "") {
-      setQty(1);
-      return;
-    }
-
-    const num = parseInt(value, 10);
-    if (!isNaN(num) && num >= 1) {
-      setQty(num);
-    }
-  };
-
   return (
-    <div>
-      {/* === PRODUCT DETAILS SECTION === */}
+    <div className="boxA-wrapper">
+      {/* ================= PRODUCT SECTION ================= */}
       <div className="boxA-page">
-        {/* LEFT IMAGES */}
+        {/* LEFT SIDE – IMAGES */}
         <div className="left-images">
           <div className="thumb-row">
             {product.images.map((img, i) => (
@@ -100,49 +63,43 @@ const BoxPageA = () => {
 
           <img
             src={require(`../assets/${product.images[activeImage]}`)}
-            alt="main"
+            alt={product.name}
             className="main-img"
           />
         </div>
 
-        {/* RIGHT DETAILS */}
+        {/* RIGHT SIDE – DETAILS (TOP ALIGNED) */}
         <div className="right-info">
           <h2>{product.name}</h2>
+
           <p className="product-code">
             <strong>Code:</strong> {product.code}
           </p>
 
-          {/* PRICE (per unit – using cleaned numeric value) */}
           <h2 className="price">₹{unitPrice}</h2>
 
-          {/* ✅ QUANTITY ROW ABOVE ADD TO CART */}
+          {/* QUANTITY */}
           <div className="qty-row">
             <button
               type="button"
-              className="qty-btn qty-minus"
-              onClick={handleDecrease}
+              className="qty-btn"
+              onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
             >
               −
             </button>
 
-            <input
-              type="number"
-              className="qty-input"
-              value={qty}
-              onChange={handleQtyInputChange}
-              min="1"
-            />
+            <span>{qty}</span>
 
             <button
               type="button"
-              className="qty-btn qty-plus"
-              onClick={handleIncrease}
+              className="qty-btn"
+              onClick={() => setQty(qty + 1)}
             >
               +
             </button>
           </div>
 
-          {/* ✅ ADD TO CART BUTTON */}
+          {/* ADD TO CART */}
           <button className="add-cart" onClick={handleAddToCart}>
             Add to Cart
           </button>
@@ -151,32 +108,25 @@ const BoxPageA = () => {
         </div>
       </div>
 
-      {/* === FEATURES SECTION === */}
+      {/* ================= FEATURES ================= */}
       <div className="features-row">
-  <div className="feature-box">
-    <img src={require("../assets/genuine.png")} alt="Genuine" />
-    <div className="feature-text">
-      <span className="feature-main">Genuine Products</span>
-    </div>
-  </div>
+        <div className="feature-box">
+          <img src={require("../assets/genuine.png")} alt="Genuine" />
+          <span className="feature-main">Genuine Products</span>
+        </div>
 
-  <div className="feature-box">
-    <img src={require("../assets/support.png")} alt="Support" />
-    <div className="feature-text">
-      <span className="feature-main">Customer Support</span>
+        <div className="feature-box">
+          <img src={require("../assets/support.png")} alt="Support" />
+          <span className="feature-main">Customer Support</span>
+        </div>
+
+        <div className="feature-box">
+          <img src={require("../assets/nonreturn.png")} alt="Non Returnable" />
+          <span className="feature-main">Non Returnable</span>
+        </div>
       </div>
-  </div>
 
-  <div className="feature-box">
-    <img src={require("../assets/nonreturn.png")} alt="Non Returnable" />
-    <div className="feature-text">
-      <span className="feature-main">Non Returnable</span>
-      </div>
-  </div>
-</div>
-
-
-      {/* === RECOMMENDATION SECTION === */}
+      {/* ================= RECOMMENDED ================= */}
       <div className="recommend-section">
         <h2>Recommended Products</h2>
 
@@ -185,16 +135,12 @@ const BoxPageA = () => {
             <div key={i} className="recommend-card">
               <img src={require(`../assets/${rec.image}`)} alt={rec.name} />
               <p className="rec-code">Code: {rec.code}</p>
-              <h4 className="rec-name">{rec.name}</h4>
+              <h4>{rec.name}</h4>
               <p className="rec-price">{rec.price}</p>
               <p className="rec-save">Additional Saving {rec.save}</p>
             </div>
           ))}
         </div>
-
-        <button className="back-btn" onClick={() => window.history.back()}>
-          ← Back To Products
-        </button>
       </div>
     </div>
   );

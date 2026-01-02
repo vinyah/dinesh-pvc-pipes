@@ -18,30 +18,30 @@
     "recommendations": [
       {
         "image": "r1.png",
-        "code": "PB1001",
-        "name": "PVC Coupling Set",
+        "code": "9005",
+        "name": "Pipe fitting",
         "price": "₹320",
         "save": "2.1%"
       },
       {
         "image": "r2.png",
-        "code": "PB1002",
-        "name": "PVC Elbow Pack",
+        "code": "9010",
+        "name": "Round Junction Box",
         "price": "₹180",
         "save": "2.1%"
       },
       {
         "image": "r3.png",
-        "code": "PB1003",
-        "name": "PVC Joint Box",
-        "price": "₹260",
+        "code": "9020",
+        "name": "Deep Junction Box",
+        "price": "₹160",
         "save": "2.1%"
       },
       {
         "image": "r4.png",
-        "code": "PB1004",
-        "name": "PVC Pipe Roll",
-        "price": "₹490",
+        "code": "9030",
+        "name": "Fan Box",
+        "price": "₹140",
         "save": "2.1%"
       }
     ]

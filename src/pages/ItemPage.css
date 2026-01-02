@@ -1,17 +1,22 @@
-/* ===== Item Page Container ===== */
+/* ============================= */
+/* 🌍 ITEM PAGE CONTAINER        */
+/* ============================= */
 .item-page {
   background: #ffffff;
   text-align: center;
   padding: 60px 30px;
   font-family: "Poppins", sans-serif;
 
-  width: 100%;
-  max-width: 1400px;        /* ✅ LIMIT PAGE WIDTH FOR PERFECT CENTERING */
-  margin: 0 auto;           /* ✅ CENTER PAGE (Equal left/right space) */
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-/* ===== Heading ===== */
+/* ============================= */
+/* HEADING                        */
+/* ============================= */
 .item-heading {
   font-size: 2.5rem;
   font-weight: 700;
@@ -23,7 +28,6 @@
   color: #b30000;
 }
 
-/* ===== Subtext ===== */
 .item-subtext {
   font-size: 1.2rem;
   color: #555555;
@@ -33,48 +37,56 @@
   margin-right: auto;
 }
 
-/* ===== Product Grid (Equal spacing & perfect centering) ===== */
+/* ============================= */
+/* PRODUCT GRID                  */
+/* ============================= */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 40px;
 
-  width: 100%;
-  margin: 0 auto;           /* ✅ CENTER GRID */
-  padding: 0 20px;
+  width: 100% !important;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
   box-sizing: border-box;
 }
 
-/* ===== Product Card Link ===== */
+/* ============================= */
+/* PRODUCT CARD LINK             */
+/* ============================= */
 .product-card-link {
   text-decoration: none;
   color: inherit;
-  width: 100%;
   display: block;
 }
 
-/* ===== Product Card ===== */
+/* ============================= */
+/* PRODUCT CARD                  */
+/* ============================= */
 .product-card {
-  width: 100%;
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
-/* ===== Image ===== */
+/* ============================= */
+/* IMAGE                          */
+/* ============================= */
 .product-img {
   width: 100%;
   height: 315px;
+  background: #ffffff;
   overflow: hidden;
-  background: #fff;
 }
 
 .product-img img {
@@ -88,33 +100,37 @@
   transform: scale(1.05);
 }
 
-/* ===== Info Bar ===== */
+/* ============================= */
+/* 🔴 INFO BAR (ALWAYS VISIBLE)  */
+/* ============================= */
 .product-info {
-  width: 100%;
-  background-color: #b30000;
-  color: #ffffff;
-  padding: 14px 0;
+  width: 100% !important;
+  background: #b30000 !important;     /* 🔴 ALWAYS RED */
+  color: #ffffff !important;          /* ⚪ ALWAYS WHITE */
+  padding: 14px 0 !important;
   border-radius: 0 0 16px 16px;
+  text-align: center;
+  transition: background-color 0.25s ease;
 }
 
 .product-info h3 {
-  margin: 0;
+  margin: 0 !important;
   font-size: 1.05rem;
   font-weight: 600;
+  color: #ffffff !important;          /* FORCE WHITE TEXT */
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
+/* 🔥 HOVER = DARKER RED ONLY */
 .product-card:hover .product-info {
-  background-color: #8b0000;
+  background: #8b0000 !important;
 }
 
-/* ===== Responsive Design ===== */
-
-/* Large tablets / small laptops */
+/* ============================= */
+/* RESPONSIVE                    */
+/* ============================= */
 @media (max-width: 1024px) {
-  .item-page {
-    padding: 50px 24px;
-  }
-
   .item-heading {
     font-size: 2.2rem;
   }
@@ -124,16 +140,11 @@
   }
 }
 
-/* Tablets & mobiles */
 @media (max-width: 768px) {
-  .item-page {
-    padding: 40px 20px;
-  }
-
   .product-grid {
     grid-template-columns: 1fr;
     gap: 25px;
-    padding: 0;
+    padding: 0 20px;
   }
 
   .product-card {
@@ -141,26 +152,12 @@
     margin: 0 auto;
   }
 
-  .item-heading {
-    font-size: 2rem;
-  }
-
-  .item-subtext {
-    font-size: 1rem;
-    margin-bottom: 40px;
-  }
-
   .product-img {
     height: 280px;
   }
 }
 
-/* Very small mobiles */
 @media (max-width: 480px) {
-  .item-page {
-    padding: 30px 16px;
-  }
-
   .item-heading {
     font-size: 1.7rem;
   }
@@ -174,27 +171,3 @@
   }
 }
 
-/* REMOVE ALL HORIZONTAL OVERFLOW */
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-/* ===== FORCE FULL SCREEN WIDTH ON LAPTOP ===== */
-.item-page {
-  width: 100vw !important;
-  max-width: 100vw !important;
-  margin: 0 !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-/* Navbar containers or parent wrappers may restrict width — override them */
-.item-page > div,
-.product-grid {
-  width: 100% !important;
-  max-width: 100vw !important;
-  margin: 0 auto !important;
-  padding-left: 40px !important;
-  padding-right: 40px !important;
-}

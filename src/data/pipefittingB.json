@@ -10,30 +10,30 @@
     "recommendations": [
       {
         "image": "r1.png",
-        "code": "9211",
-        "name": "PVC Connector",
-        "price": "₹90",
+        "code": "9005",
+        "name": "Pipe fitting",
+        "price": "₹320",
         "save": "2.1%"
       },
       {
         "image": "r2.png",
-        "code": "9212",
-        "name": "PVC Elbow Joint",
-        "price": "₹130",
+        "code": "9010",
+        "name": "Round Junction Box",
+        "price": "₹180",
         "save": "2.1%"
       },
       {
         "image": "r3.png",
-        "code": "9213",
-        "name": "PVC Coupler",
-        "price": "₹150",
+        "code": "9020",
+        "name": "Deep Junction Box",
+        "price": "₹160",
         "save": "2.1%"
       },
       {
         "image": "r4.png",
-        "code": "9214",
-        "name": "PVC 3-Way Bend",
-        "price": "₹170",
+        "code": "9030",
+        "name": "Fan Box",
+        "price": "₹140",
         "save": "2.1%"
       }
     ]

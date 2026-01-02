@@ -1,23 +1,34 @@
-/* === SECTION 1: PRODUCT DETAILS (FULL WIDTH) === */
+/* ============================= */
+/* 🌍 GLOBAL RESET               */
+/* ============================= */
+body {
+  background: #ffffff;
+  margin: 0;
+  font-size: 16px; /* 🔥 global text size */
+  font-family: "Poppins", sans-serif;
+}
+
+/* ============================= */
+/* PRODUCT DETAILS SECTION       */
+/* ============================= */
 .boxA-page {
   display: flex;
   gap: 60px;
-  padding: 50px 60px;
-  justify-content: flex-start;
-  align-items: flex-start;
-  font-family: "Poppins", sans-serif;
+  padding: 40px 60px; /* 🔽 reduced top gap */
+  align-items: flex-start; /* 🔥 start from top */
   width: 100%;
-  margin: 0;
   box-sizing: border-box;
   background: #ffffff;
 }
 
-/* LEFT IMAGE COLUMN */
+/* ============================= */
+/* LEFT – IMAGE COLUMN           */
+/* ============================= */
 .left-images {
   display: flex;
-  gap: 15px;
-  width: 40%;
-  min-width: 300px;
+  gap: 16px;
+  width: 45%;              /* 🔥 bigger image area */
+  min-width: 340px;
 }
 
 .thumb-row {
@@ -43,49 +54,61 @@
 
 .main-img {
   width: 100%;
-  height: 360px;
+  height: 420px;           /* 🔥 bigger image */
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: 14px;
   background: #ffffff;
   border: 1px solid #ddd;
+  padding: 14px;
 }
 
-/* RIGHT PRODUCT INFO */
+/* ============================= */
+/* RIGHT – PRODUCT INFO          */
+/* ============================= */
 .right-info {
   width: 40%;
-  min-width: 300px;
+  min-width: 320px;
+  margin-top: 0;           /* 🔥 remove offset */
 }
 
+/* Title */
 .right-info h2 {
-  font-size: 26px;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
 }
 
+/* Code */
 .product-code {
   color: #444;
-  font-weight: 600;
+  font-weight: 500;
+  margin-bottom: 10px;
 }
 
+/* Price */
 .price {
   color: #b30000;
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 700;
-  margin-top: 18px;
+  margin: 14px 0;
 }
 
-/* Quantity */
+/* ============================= */
+/* QUANTITY                      */
+/* ============================= */
 .qty-row {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin: 18px 0;
+  margin: 14px 0;
 }
 
 .qty-btn {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border: 2px solid #b30000;
-  background: #fff;
-  font-size: 22px;
+  background: #ffffff;
+  font-size: 20px;
   color: #b30000;
   border-radius: 6px;
   cursor: pointer;
@@ -93,28 +116,32 @@
 
 .qty-btn:hover {
   background: #b30000;
-  color: #fff;
+  color: #ffffff;
 }
 
 .qty-input {
-  width: 90px;
-  height: 38px;
+  width: 80px;
+  height: 36px;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   border: 2px solid #ccc;
   border-radius: 6px;
 }
 
+/* ============================= */
+/* ADD TO CART                   */
+/* ============================= */
 .add-cart {
   width: 100%;
-  padding: 16px;
+  padding: 14px;
   background: #b30000;
-  color: #fff;
+  color: #ffffff;
   border-radius: 10px;
-  margin-top: 18px;
+  margin-top: 10px;
   font-size: 16px;
   font-weight: 600;
   border: none;
+  cursor: pointer;
 }
 
 .add-cart:hover {
@@ -122,20 +149,21 @@
 }
 
 .save {
-  color: green;
+  color: #1a9b1a;
   font-weight: 600;
-  margin-top: 8px;
+  margin-top: 6px;
+  font-size: 14px;
 }
 
-/* =====================================================
-   ✅ FEATURES SECTION – FINAL FIX (THIS WAS THE ISSUE)
-===================================================== */
+/* ===================================================== */
+/* FEATURES SECTION                                      */
+/* ===================================================== */
 .features-row {
   width: 100%;
   display: flex;
-  justify-content: space-between;   /* 🔥 FIX */
+  justify-content: space-between;
   align-items: center;
-  padding: 40px 80px;
+  padding: 32px 80px; /* 🔽 reduced */
   background: #ffffff;
   box-sizing: border-box;
 }
@@ -144,33 +172,34 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  min-width: 220px;                 /* prevents collapse */
+  min-width: 220px;
 }
 
 .feature-box img {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
 }
 
 .feature-main {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 16px; /* 🔥 match global */
+  font-weight: 600;
   white-space: nowrap;
 }
 
-/* =====================================================
-   RECOMMENDATION SECTION
-===================================================== */
+/* ===================================================== */
+/* RECOMMENDED SECTION                                   */
+/* ===================================================== */
 .recommend-section {
   width: 100%;
-  padding: 50px 60px;
+  padding: 40px 60px; /* 🔽 pulled up */
   background: #ffffff;
 }
 
 .recommend-section h2 {
-  font-size: 26px;
+  font-size: 24px;
   color: #b30000;
   text-align: center;
+  margin-bottom: 24px;
 }
 
 .recommend-grid {
@@ -184,8 +213,9 @@
   width: 200px;
   border: 1.5px solid #ddd;
   border-radius: 12px;
-  padding: 15px;
-  background: #fff;
+  padding: 14px;
+  background: #ffffff;
+  transition: 0.25s ease;
 }
 
 .recommend-card:hover {
@@ -193,9 +223,9 @@
   border-color: #b30000;
 }
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
+/* ===================================================== */
+/* RESPONSIVE                                            */
+/* ===================================================== */
 @media (max-width: 900px) {
   .boxA-page {
     flex-direction: column;
@@ -207,8 +237,12 @@
     width: 100%;
   }
 
+  .main-img {
+    height: 340px;
+  }
+
   .features-row {
-    padding: 30px 40px;
+    padding: 28px 40px;
   }
 }
 
@@ -216,8 +250,8 @@
   .features-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 24px;
-    padding: 30px 20px;
+    gap: 22px;
+    padding: 24px 20px;
   }
 
   .recommend-card {
@@ -225,4 +259,3 @@
     max-width: 260px;
   }
 }
-

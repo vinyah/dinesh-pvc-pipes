@@ -1,0 +1,70 @@
+/* src/pages/OrderAnimation.css */
+
+.order-animation-page,
+.order-success-page {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 🚚 Truck animation */
+.road {
+  width: 80%;
+  overflow: hidden;
+}
+
+.truck {
+  font-size: 60px;
+  animation: drive 3s linear infinite;
+  position: relative;
+}
+
+.box {
+  font-size: 30px;
+  position: absolute;
+  right: -20px;
+  top: 10px;
+}
+
+@keyframes drive {
+  from {
+    transform: translateX(-150%);
+  }
+  to {
+    transform: translateX(120%);
+  }
+}
+
+.processing-text {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #b30000;
+  font-weight: 500;
+}
+
+/* ✅ Success */
+.success-check {
+  font-size: 80px;
+  animation: pop 0.6s ease-in-out;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.success-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: #b30000;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

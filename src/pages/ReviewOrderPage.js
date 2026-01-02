@@ -5,19 +5,14 @@ import { useNavigate } from "react-router-dom";
 import "./ReviewOrderPage.css";
 
 const ReviewOrderPage = () => {
-  const { cartItems } = useCart(); // keep using your cart context
+  const { cartItems, clearCart } = useCart(); // ✅ get clearCart
   const navigate = useNavigate();
 
-  // local UI state
   const [address, setAddress] = useState(null);
   const [delivery, setDelivery] = useState(null);
   const [checkoutCart, setCheckoutCart] = useState(null);
 
-  // modal
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  // read persisted checkout info from sessionStorage (preferred) or fallback to localStorage
+  /* ================= LOAD CHECKOUT DATA ================= */
   useEffect(() => {
     try {
       const sCart = sessionStorage.getItem("checkoutCart");
@@ -27,12 +22,12 @@ const ReviewOrderPage = () => {
       if (sCart) {
         setCheckoutCart(JSON.parse(sCart));
       } else {
-        // fallback: compute from cartItems if session not set
         const subtotal = cartItems.reduce((sum, item) => {
           const price = Number(item.price || 0);
           const qty = Number(item.quantity || item.qty || 1);
           return sum + price * qty;
         }, 0);
+
         setCheckoutCart({
           items: cartItems,
           subtotal,
@@ -41,117 +36,100 @@ const ReviewOrderPage = () => {
         });
       }
 
-      if (sAddr) {
-        setAddress(JSON.parse(sAddr));
-      } else {
-        const localAddr = localStorage.getItem("userAddress");
-        if (localAddr) setAddress(JSON.parse(localAddr));
-      }
-
-      if (sDel) {
-        setDelivery(JSON.parse(sDel));
-      }
+      if (sAddr) setAddress(JSON.parse(sAddr));
+      if (sDel) setDelivery(JSON.parse(sDel));
     } catch (e) {
-      // ignore parse errors
-      console.warn("Error parsing checkout data", e);
+      console.warn("Checkout parse error", e);
     }
   }, [cartItems]);
 
-  // safe getters
-  const cart = checkoutCart || { items: cartItems || [], subtotal: 0, discount: 0, gst: 0 };
+  const cart =
+    checkoutCart || { items: cartItems || [], subtotal: 0, discount: 0, gst: 0 };
 
-  // compute totals
-  const deliveryPrice = delivery && Number(delivery.price ? delivery.price : 0) ? Number(delivery.price) : 0;
+  const deliveryPrice = delivery?.price ? Number(delivery.price) : 0;
   const subtotal = Number(cart.subtotal || 0);
   const discount = Number(cart.discount || 0);
   const gst = Number(cart.gst || 0);
-
   const total = subtotal - discount + gst + deliveryPrice;
 
-  // safe attempt to clear cart via context if function exists (optional)
-  const tryClearCart = () => {
-    try {
-      // some CartContext expose clearCart or setCartItems - we don't assume, but try if present
-      const cartCtx = require("../context/CartContext");
-      // Not calling from module; instead, we check if useCart returned a function - but since
-      // we only requested cartItems earlier, we can't rely. So we skip forced clearing here.
-    } catch {
-      // nothing
-    }
+  /* ================= SAVE ORDER ================= */
+  const saveOrderToMyOrders = () => {
+    const existingOrders =
+      JSON.parse(localStorage.getItem("myOrders")) || [];
+
+    const normalizedItems = cart.items.map((item) => ({
+      name: item.name,
+      image: item.image,
+      price: Number(item.price || 0),
+      quantity: Number(item.quantity || item.qty || 1),
+    }));
+
+    const newOrder = {
+      id: Date.now(),
+      orderId: "ORD" + Date.now(),
+      status: "Placed",
+      date: new Date().toLocaleDateString(),
+      items: normalizedItems,
+      total,
+    };
+
+    localStorage.setItem(
+      "myOrders",
+      JSON.stringify([newOrder, ...existingOrders])
+    );
   };
 
-  // open confirm dialog
+  /* ================= PLACE ORDER (NO POPUP) ================= */
   const handlePlaceOrder = () => {
-    if (!cart.items || cart.items.length === 0) {
-      alert("Your cart is empty. Add items before placing an order.");
+    if (!cart.items.length) {
+      alert("Your cart is empty.");
       navigate("/items");
       return;
     }
+
     if (!address) {
-      alert("Please add a delivery address before placing the order.");
+      alert("Please add a delivery address.");
       navigate("/add-address");
       return;
     }
-    setShowConfirm(true);
+
+    // ✅ DIRECTLY PLACE ORDER
+    saveOrderToMyOrders();
+    clearCart();
+
+    sessionStorage.removeItem("checkoutCart");
+    sessionStorage.removeItem("checkoutAddress");
+    sessionStorage.removeItem("checkoutDelivery");
+
+    // 🚚 Go to animation page
+    navigate("/order-processing");
   };
 
-  // confirm and finalize order
-  const confirmOrder = () => {
-    setShowConfirm(false);
-
-    // simulate order processing...
-    // Clear session checkout keys
-    try {
-      sessionStorage.removeItem("checkoutCart");
-      sessionStorage.removeItem("checkoutAddress");
-      sessionStorage.removeItem("checkoutDelivery");
-    } catch (e) {
-      // ignore
-    }
-
-    // attempt to clear cart from context if available (non-fatal)
-    try {
-      const ctx = require("../context/CartContext");
-      // If the cart context exports a clear function, it should be invoked via context hook.
-      // We intentionally don't force it here to avoid throwing if API differs.
-    } catch (e) {
-      // ignore
-    }
-
-    // show success UI
-    setShowSuccess(true);
-
-    // after a short delay navigate home (or to orders page)
-    setTimeout(() => {
-      setShowSuccess(false);
-      navigate("/");
-    }, 1600);
-  };
-
-  // cancel confirm
-  const cancelConfirm = () => setShowConfirm(false);
-
-  if (!cart.items || cart.items.length === 0) {
+  /* ================= EMPTY STATE ================= */
+  if (!cart.items.length) {
     return (
       <div className="review-page empty-state">
         <h1 className="review-heading">Review Your Order</h1>
         <p className="empty-text">Your cart is empty.</p>
-        <button type="button" className="back-btn" onClick={() => navigate("/items")}>
+        <button
+          type="button"
+          className="back-btn"
+          onClick={() => navigate("/items")}
+        >
           ← Back to Products
         </button>
       </div>
     );
   }
 
+  /* ================= UI ================= */
   return (
     <div className="review-page">
       <h1 className="review-heading">Review Your Order</h1>
 
       <div className="review-content">
-        {/* LEFT: ITEMS LIST */}
         <div className="review-items">
           {cart.items.map((item, i) => {
-            // support both item.image (filename) and item.image as full url
             let imgSrc = "";
             try {
               imgSrc = item.image ? require(`../assets/${item.image}`) : "";
@@ -165,21 +143,18 @@ const ReviewOrderPage = () => {
             return (
               <div key={i} className="review-item">
                 {imgSrc ? (
-                  <img src={imgSrc} alt={item.name} className="review-img" loading="lazy" />
+                  <img src={imgSrc} alt={item.name} className="review-img" />
                 ) : (
                   <div className="review-img placeholder" />
                 )}
 
                 <div className="review-item-info">
                   <h3 className="review-item-name">{item.name}</h3>
-
-                  {item.size && <p className="review-meta">Size: {item.size}</p>}
-                  {item.color && <p className="review-meta">Color: {item.color}</p>}
-                  {item.thickness && <p className="review-meta">Thickness: {item.thickness}</p>}
-
-                  <p className="review-meta">Qty: {qty}</p>
-
-                  <p className="review-price">Price: ₹{price}</p>
+                  {item.size && <p>Size: {item.size}</p>}
+                  {item.color && <p>Color: {item.color}</p>}
+                  {item.thickness && <p>Thickness: {item.thickness}</p>}
+                  <p>Qty: {qty}</p>
+                  <p>Price: ₹{price}</p>
                 </div>
 
                 <div className="review-line-total">₹{price * qty}</div>
@@ -188,21 +163,19 @@ const ReviewOrderPage = () => {
           })}
         </div>
 
-        {/* RIGHT: SUMMARY */}
         <div className="review-summary">
           <h3 className="summary-title">Delivery Address</h3>
 
-          {address ? (
+          {address && (
             <>
-              <p className="summary-address-line">{address.name}</p>
-              <p className="summary-address-line">{address.line1 || address.address}</p>
-              <p className="summary-address-line">
-                {address.city}, {address.state} - {address.pin || address.pincode}
+              <p>{address.name}</p>
+              <p>{address.line1 || address.address}</p>
+              <p>
+                {address.city}, {address.state} -{" "}
+                {address.pin || address.pincode}
               </p>
-              <p className="summary-address-line">{address.phone}</p>
+              <p>{address.phone}</p>
             </>
-          ) : (
-            <p className="summary-address-missing">No address added yet.</p>
           )}
 
           <button
@@ -210,74 +183,31 @@ const ReviewOrderPage = () => {
             className="back-btn edit-address-btn"
             onClick={() => navigate("/add-address")}
           >
-            ← {address ? "Edit Address" : "Add Address"}
+            ← Edit Address
           </button>
 
           <hr />
 
           <div className="price-breakdown">
-            <div className="price-row">
-              <span>Subtotal</span>
-              <span>₹{subtotal}</span>
-            </div>
-
-            <div className="price-row">
-              <span>Discount</span>
-              <span>- ₹{discount}</span>
-            </div>
-
-            <div className="price-row">
-              <span>GST / Taxes</span>
-              <span>₹{gst}</span>
-            </div>
-
-            <div className="price-row">
+            <div><span>Subtotal</span><span>₹{subtotal}</span></div>
+            <div><span>Discount</span><span>- ₹{discount}</span></div>
+            <div><span>GST</span><span>₹{gst}</span></div>
+            <div>
               <span>Delivery</span>
               <span>{deliveryPrice ? `₹${deliveryPrice}` : "FREE"}</span>
             </div>
-
             <div className="divider" />
-
-            <div className="price-row total">
+            <div className="total">
               <span>Total</span>
               <span>₹{total}</span>
             </div>
           </div>
 
-          <button type="button" className="place-btn" onClick={handlePlaceOrder}>
+          <button className="place-btn" onClick={handlePlaceOrder}>
             Place Order
           </button>
         </div>
       </div>
-
-      {/* CONFIRMATION MODAL */}
-      {showConfirm && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>Confirm Order</h3>
-            <p>Are you sure you want to place the order?</p>
-
-            <div className="modal-actions">
-              <button className="btn ghost" onClick={cancelConfirm}>
-                Cancel
-              </button>
-              <button className="btn primary" onClick={confirmOrder}>
-                Yes, Place Order
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* SUCCESS FEEDBACK */}
-      {showSuccess && (
-        <div className="modal-overlay small">
-          <div className="modal success">
-            <h3>Order placed</h3>
-            <p>Thank you — your order has been placed successfully.</p>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

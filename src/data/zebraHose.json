@@ -18,30 +18,30 @@
     "recommendations": [
       {
         "image": "r1.png",
-        "code": "ZH1001",
-        "name": "PVC Flexible Pipe",
-        "price": "₹420",
+        "code": "9005",
+        "name": "Pipe fitting",
+        "price": "₹320",
         "save": "2.1%"
       },
       {
         "image": "r2.png",
-        "code": "ZH2001",
-        "name": "Braided Hose Pipe",
-        "price": "₹480",
+        "code": "9010",
+        "name": "Round Junction Box",
+        "price": "₹180",
         "save": "2.1%"
       },
       {
         "image": "r3.png",
-        "code": "ZH3001",
-        "name": "Tee Connector",
-        "price": "₹260",
+        "code": "9020",
+        "name": "Deep Junction Box",
+        "price": "₹160",
         "save": "2.1%"
       },
       {
         "image": "r4.png",
-        "code": "ZH4001",
-        "name": "PVC Joint Box",
-        "price": "₹300",
+        "code": "9030",
+        "name": "Fan Box",
+        "price": "₹140",
         "save": "2.1%"
       }
     ]

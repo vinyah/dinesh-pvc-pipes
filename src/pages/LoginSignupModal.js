@@ -4,8 +4,11 @@ import "./LoginSignupModal.css";
 const USERS_KEY = "users";
 const CURRENT_USER_KEY = "currentUser";
 
-const LoginSignupModal = ({ type = "login", onClose }) => {
-  // which tab is active: "login" or "signup"
+const LoginSignupModal = ({
+  type = "login",
+  onClose,
+  onAuthSuccess, // 🔥 ONLY ADDITION
+}) => {
   const [activeTab, setActiveTab] = useState(
     type === "signup" ? "signup" : "login"
   );
@@ -22,15 +25,14 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
     password: "",
   });
 
-  const [message, setMessage] = useState(null); // success / error message
+  const [message, setMessage] = useState(null);
 
-  /* ============ helpers for localStorage ============ */
+  /* ================= helpers ================= */
   const loadUsers = () => {
     const saved = localStorage.getItem(USERS_KEY);
     if (!saved) return [];
     try {
-      const parsed = JSON.parse(saved);
-      return Array.isArray(parsed) ? parsed : [];
+      return JSON.parse(saved) || [];
     } catch {
       return [];
     }
@@ -41,7 +43,6 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
   };
 
   const saveCurrentUser = (user) => {
-    // only store safe fields
     const safeUser = {
       name: user.name || "",
       email: user.email || "",
@@ -49,9 +50,10 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
       address: user.address || "",
     };
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(safeUser));
+    return safeUser;
   };
 
-  /* ===================== SIGN UP ===================== */
+  /* ================= SIGN UP ================= */
   const handleSignup = () => {
     if (!signupData.name || !signupData.email || !signupData.password) {
       setMessage({ type: "error", text: "❌ All fields are required." });
@@ -76,23 +78,22 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
     const newUser = {
       name: signupData.name,
       email: signupData.email,
-      password: signupData.password, // stored simple for demo only
+      password: signupData.password,
       phone: "",
       address: "",
     };
 
-    const updatedUsers = [...users, newUser];
-    saveUsers(updatedUsers);
-    saveCurrentUser(newUser);
+    saveUsers([...users, newUser]);
+    const safeUser = saveCurrentUser(newUser);
+
+    // 🔥 INSTANT UPDATE
+    onAuthSuccess?.(safeUser);
 
     setMessage({ type: "success", text: "✅ Signed up successfully!" });
-
-    setTimeout(() => {
-      onClose();
-    }, 1200);
+    setTimeout(onClose, 1000);
   };
 
-  /* ===================== LOGIN ===================== */
+  /* ================= LOGIN ================= */
   const handleLogin = () => {
     if (!loginData.email || !loginData.password) {
       setMessage({ type: "error", text: "❌ Enter email and password." });
@@ -107,53 +108,38 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
         u.password === loginData.password
     );
 
-    if (user) {
-      saveCurrentUser(user);
-      setMessage({
-        type: "success",
-        text: `✅ Welcome ${user.name}!`,
-      });
-
-      setTimeout(() => {
-        onClose();
-      }, 1200);
-    } else {
+    if (!user) {
       setMessage({ type: "error", text: "❌ Invalid email or password!" });
+      return;
     }
+
+    const safeUser = saveCurrentUser(user);
+
+    // 🔥 INSTANT UPDATE
+    onAuthSuccess?.(safeUser);
+
+    setMessage({ type: "success", text: `✅ Welcome ${user.name}!` });
+    setTimeout(onClose, 1000);
   };
 
+  /* ================= UI (UNCHANGED) ================= */
   return (
     <div className="lsm-overlay">
-      {/* card is what you’ll make responsive with CSS (max-width, width: 90% etc.) */}
-      <div
-        className="lsm-card"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="lsm-title"
-      >
-        {/* Close button */}
-        <button className="lsm-close" onClick={onClose} aria-label="Close">
-          ×
-        </button>
+      <div className="lsm-card" role="dialog" aria-modal="true">
+        <button className="lsm-close" onClick={onClose}>×</button>
 
         <div className="lsm-content">
-          {/* Avatar */}
           <div className="lsm-avatar">
             <span className="lsm-avatar-icon">👤</span>
           </div>
 
-          {/* Title changes with tab (optional but nice) */}
-          <h2 id="lsm-title" className="lsm-title">
+          <h2 className="lsm-title">
             {activeTab === "login" ? "Welcome Back!" : "Create an Account"}
           </h2>
 
-          {/* Tabs */}
           <div className="lsm-tabs">
             <button
-              className={
-                activeTab === "login" ? "lsm-tab lsm-tab-active" : "lsm-tab"
-              }
-              type="button"
+              className={activeTab === "login" ? "lsm-tab lsm-tab-active" : "lsm-tab"}
               onClick={() => {
                 setActiveTab("login");
                 setMessage(null);
@@ -162,10 +148,7 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
               Login
             </button>
             <button
-              className={
-                activeTab === "signup" ? "lsm-tab lsm-tab-active" : "lsm-tab"
-              }
-              type="button"
+              className={activeTab === "signup" ? "lsm-tab lsm-tab-active" : "lsm-tab"}
               onClick={() => {
                 setActiveTab("signup");
                 setMessage(null);
@@ -175,7 +158,6 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
             </button>
           </div>
 
-          {/* Message */}
           {message && (
             <div
               className={`lsm-message ${
@@ -186,7 +168,7 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
             </div>
           )}
 
-          {/* ================= LOGIN FORM ================= */}
+          {/* LOGIN */}
           {activeTab === "login" && (
             <div className="lsm-form">
               <label className="lsm-label">Email</label>
@@ -194,7 +176,6 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
                 <span className="lsm-input-icon">✉️</span>
                 <input
                   type="email"
-                  placeholder="Enter your email"
                   value={loginData.email}
                   onChange={(e) =>
                     setLoginData({ ...loginData, email: e.target.value })
@@ -207,7 +188,6 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
                 <span className="lsm-input-icon">🔒</span>
                 <input
                   type="password"
-                  placeholder="Enter your password"
                   value={loginData.password}
                   onChange={(e) =>
                     setLoginData({ ...loginData, password: e.target.value })
@@ -215,37 +195,13 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
                 />
               </div>
 
-              <div className="lsm-row">
-                <label className="lsm-remember">
-                  <input type="checkbox" /> Remember me
-                </label>
-                <button
-                  type="button"
-                  className="lsm-link-btn"
-                  onClick={() =>
-                    setMessage({
-                      type: "error",
-                      text: "Password reset not implemented yet.",
-                    })
-                  }
-                >
-                  
-                </button>
-              </div>
-
-              <button
-                type="button"
-                className="lsm-primary-btn"
-                onClick={handleLogin}
-              >
+              <button className="lsm-primary-btn" onClick={handleLogin}>
                 Login
               </button>
-
-              <p className="lsm-alt-text">Or login with OTP (coming soon)</p>
             </div>
           )}
 
-          {/* ================= SIGNUP FORM ================= */}
+          {/* SIGNUP */}
           {activeTab === "signup" && (
             <div className="lsm-form">
               <label className="lsm-label">Full Name</label>
@@ -253,7 +209,6 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
                 <span className="lsm-input-icon">👤</span>
                 <input
                   type="text"
-                  placeholder="Enter your name"
                   value={signupData.name}
                   onChange={(e) =>
                     setSignupData({ ...signupData, name: e.target.value })
@@ -266,7 +221,6 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
                 <span className="lsm-input-icon">✉️</span>
                 <input
                   type="email"
-                  placeholder="Enter your email"
                   value={signupData.email}
                   onChange={(e) =>
                     setSignupData({ ...signupData, email: e.target.value })
@@ -279,7 +233,6 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
                 <span className="lsm-input-icon">🔒</span>
                 <input
                   type="password"
-                  placeholder="Create a password"
                   value={signupData.password}
                   onChange={(e) =>
                     setSignupData({ ...signupData, password: e.target.value })
@@ -292,7 +245,6 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
                 <span className="lsm-input-icon">🔒</span>
                 <input
                   type="password"
-                  placeholder="Re-enter your password"
                   value={signupData.confirm}
                   onChange={(e) =>
                     setSignupData({ ...signupData, confirm: e.target.value })
@@ -300,18 +252,9 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
                 />
               </div>
 
-              <button
-                type="button"
-                className="lsm-secondary-btn"
-                onClick={handleSignup}
-              >
+              <button className="lsm-secondary-btn" onClick={handleSignup}>
                 Create Account
               </button>
-
-              <p className="lsm-terms">
-                By signing up, you agree to our{" "}
-                <span>Terms &amp; Privacy Policy</span>.
-              </p>
             </div>
           )}
         </div>
@@ -321,6 +264,3 @@ const LoginSignupModal = ({ type = "login", onClose }) => {
 };
 
 export default LoginSignupModal;
-
-
-

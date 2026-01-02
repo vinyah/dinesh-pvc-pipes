@@ -9,30 +9,30 @@
     "recommendations": [
       {
         "image": "r1.png",
-        "code": "BX2001",
-        "name": "Round Junction Box",
-        "price": "₹120",
+        "code": "9005",
+        "name": "Pipe fitting",
+        "price": "₹320",
         "save": "2.1%"
       },
       {
         "image": "r2.png",
-        "code": "BX2002",
-        "name": "Square Junction Box",
-        "price": "₹140",
+        "code": "9010",
+        "name": "Round Junction Box",
+        "price": "₹180",
         "save": "2.1%"
       },
       {
         "image": "r3.png",
-        "code": "BX2003",
-        "name": "19mm D Box",
+        "code": "9020",
+        "name": "Deep Junction Box",
         "price": "₹160",
         "save": "2.1%"
       },
       {
         "image": "r4.png",
-        "code": "BX2004",
-        "name": "25mm D Box",
-        "price": "₹190",
+        "code": "9030",
+        "name": "Fan Box",
+        "price": "₹140",
         "save": "2.1%"
       }
     ]
