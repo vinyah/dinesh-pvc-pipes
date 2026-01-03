@@ -1,4 +1,641 @@
 {
+  "products": {
+    "productdetails": [
+      {
+        "id": 1,
+        "name": "PVC Pipe",
+        "code": "9004",
+        "length": "100 mm",
+        "images": ["p1a.png", "p1b.png", "p1c.png", "p1d.png"],
+        "thicknessOptions": [
+          { "label": "1.00mm", "rates": { "19mm": 6300, "25mm": 9600 } },
+          { "label": "1.2mm", "rates": { "19mm": 8400, "25mm": 10800 } },
+          { "label": "1.5mm", "rates": { "19mm": 9300, "25mm": 12600 } },
+          { "label": "1.8mm", "rates": { "19mm": 11400, "25mm": 16800 } },
+          { "label": "2.0mm", "rates": { "19mm": 12900, "25mm": 19200 } }
+        ],
+        "recommendations": [
+          {
+            "image": "r1.png",
+            "code": "9005",
+            "name": "Pipe fitting",
+            "price": "₹320",
+            "save": "2.1%"
+          },
+          {
+            "image": "r2.png",
+            "code": "9010",
+            "name": "Round Junction Box",
+            "price": "₹180",
+            "save": "2.1%"
+          },
+          {
+            "image": "r3.png",
+            "code": "9020",
+            "name": "Deep Junction Box",
+            "price": "₹160",
+            "save": "2.1%"
+          },
+          {
+            "image": "r4.png",
+            "code": "9030",
+            "name": "Fan Box",
+            "price": "₹140",
+            "save": "2.1%"
+          }
+        ]
+      }
+    ],
+    "boxA": [
+      {
+        "id": 1,
+        "name": "Round Junction Box",
+        "code": "BX1001",
+        "price": "180",
+        "save": "2.1%",
+        "images": ["boxA1.png", "boxA2.png", "boxA3.png", "boxA4.png"],
+        "recommendations": [
+          {
+            "image": "r1.png",
+            "code": "9005",
+            "name": "Pipe fitting",
+            "price": "₹320",
+            "save": "2.1%"
+          },
+          {
+            "image": "r2.png",
+            "code": "9010",
+            "name": "Round Junction Box",
+            "price": "₹180",
+            "save": "2.1%"
+          },
+          {
+            "image": "r3.png",
+            "code": "9020",
+            "name": "Deep Junction Box",
+            "price": "₹160",
+            "save": "2.1%"
+          },
+          {
+            "image": "r4.png",
+            "code": "9030",
+            "name": "Fan Box",
+            "price": "₹140",
+            "save": "2.1%"
+          }
+        ]
+      }
+    ],
+    "boxB": [
+      {
+        "id": 2,
+        "name": "Square Junction Box",
+        "code": "BX2001",
+        "price": "150",
+        "save": "2.1%",
+        "images": ["boxB1.png", "boxB2.png", "boxB3.png", "boxB4.png"],
+        "recommendations": [
+          {
+            "image": "r1.png",
+            "code": "9005",
+            "name": "Pipe fitting",
+            "price": "₹320",
+            "save": "2.1%"
+          },
+          {
+            "image": "r2.png",
+            "code": "9010",
+            "name": "Round Junction Box",
+            "price": "₹180",
+            "save": "2.1%"
+          },
+          {
+            "image": "r3.png",
+            "code": "9020",
+            "name": "Deep Junction Box",
+            "price": "₹160",
+            "save": "2.1%"
+          },
+          {
+            "image": "r4.png",
+            "code": "9030",
+            "name": "Fan Box",
+            "price": "₹140",
+            "save": "2.1%"
+          }
+        ]
+      }
+    ],
+    "boxC": [
+      {
+        "id": 3,
+        "name": "Fan Box",
+        "code": "BX3001",
+        "save": "2.1%",
+        "images": ["boxC1.png", "boxC2.png", "boxC3.png", "boxC4.png"],
+        "rates": {
+          "19mm": 140,
+          "25mm": 180
+        },
+        "recommendations": [
+          {
+            "image": "r1.png",
+            "code": "9005",
+            "name": "Pipe fitting",
+            "price": "₹320",
+            "save": "2.1%"
+          },
+          {
+            "image": "r2.png",
+            "code": "9010",
+            "name": "Round Junction Box",
+            "price": "₹180",
+            "save": "2.1%"
+          },
+          {
+            "image": "r3.png",
+            "code": "9020",
+            "name": "Deep Junction Box",
+            "price": "₹160",
+            "save": "2.1%"
+          },
+          {
+            "image": "r4.png",
+            "code": "9030",
+            "name": "Fan Box",
+            "price": "₹140",
+            "save": "2.1%"
+          }
+        ]
+      }
+    ],
+    "boxD": [
+      {
+        "id": 4,
+        "name": "Deep Junction Box",
+        "code": "BX4001",
+        "save": "2.1%",
+        "images": ["boxD1.png", "boxD2.png", "boxD3.png", "boxD4.png"],
+        "rates": {
+          "19mm": 160,
+          "25mm": 190
+        },
+        "recommendations": [
+          {
+            "image": "r1.png",
+            "code": "9005",
+            "name": "Pipe fitting",
+            "price": "₹320",
+            "save": "2.1%"
+          },
+          {
+            "image": "r2.png",
+            "code": "9010",
+            "name": "Round Junction Box",
+            "price": "₹180",
+            "save": "2.1%"
+          },
+          {
+            "image": "r3.png",
+            "code": "9020",
+            "name": "Deep Junction Box",
+            "price": "₹160",
+            "save": "2.1%"
+          },
+          {
+            "image": "r4.png",
+            "code": "9030",
+            "name": "Fan Box",
+            "price": "₹140",
+            "save": "2.1%"
+          }
+        ]
+      }
+    ],
+    "braidedHose": [
+      {
+        "id": 5,
+        "name": "Braided Hose Pipe",
+        "code": "BH5001",
+        "save": "2.1%",
+        "images": ["bh1.png", "bh2.png", "bh3.png", "bh4.png"],
+        "rates": {
+          "25mm": {
+            "15m": 480,
+            "30m": 920
+          },
+          "32mm": {
+            "15m": 550,
+            "30m": 1050
+          }
+        },
+        "recommendations": [
+          {
+            "image": "r1.png",
+            "code": "9005",
+            "name": "Pipe fitting",
+            "price": "₹320",
+            "save": "2.1%"
+          },
+          {
+            "image": "r2.png",
+            "code": "9010",
+            "name": "Round Junction Box",
+            "price": "₹180",
+            "save": "2.1%"
+          },
+          {
+            "image": "r3.png",
+            "code": "9020",
+            "name": "Deep Junction Box",
+            "price": "₹160",
+            "save": "2.1%"
+          },
+          {
+            "image": "r4.png",
+            "code": "9030",
+            "name": "Fan Box",
+            "price": "₹140",
+            "save": "2.1%"
+          }
+        ]
+      }
+    ],
+    "flexiblepipe": [
+      {
+        "name": "Flexible Pipe",
+        "code": "9201",
+        "length": "30 meters",
+        "images": ["fp1a.png", "fp1b.png", "fp1c.png", "fp1d.png"],
+        "rates": {
+          "16mm": 550,
+          "20mm": 720,
+          "25mm": 890
+        },
+        "recommendations": [
+          {
+            "image": "r1.png",
+            "code": "9005",
+            "name": "Pipe fitting",
+            "price": "₹320",
+            "save": "2.1%"
+          },
+          {
+            "image": "r2.png",
+            "code": "9010",
+            "name": "Round Junction Box",
+            "price": "₹180",
+            "save": "2.1%"
+          },
+          {
+            "image": "r3.png",
+            "code": "9020",
+            "name": "Deep Junction Box",
+            "price": "₹160",
+            "save": "2.1%"
+          },
+          {
+            "image": "r4.png",
+            "code": "9030",
+            "name": "Fan Box",
+            "price": "₹140",
+            "save": "2.1%"
+          }
+        ]
+      }
+    ],
+    "pipebend": [
+      {
+        "id": 7,
+        "name": "PVC Pipe Bend",
+        "code": "PB7001",
+        "save": "2.1%",
+        "images": ["pb1.png", "pb2.png", "pb3.png", "pb4.png"],
+        "rates": {
+          "1.5": {
+            "19mm": 180,
+            "25mm": 230
+          },
+          "2.0": {
+            "19mm": 240,
+            "25mm": 290
+          }
+        },
+        "recommendations": [
+          {
+            "image": "r1.png",
+            "code": "9005",
+            "name": "Pipe fitting",
+            "price": "₹320",
+            "save": "2.1%"
+          },
+          {
+            "image": "r2.png",
+            "code": "9010",
+            "name": "Round Junction Box",
+            "price": "₹180",
+            "save": "2.1%"
+          },
+          {
+            "image": "r3.png",
+            "code": "9020",
+            "name": "Deep Junction Box",
+            "price": "₹160",
+            "save": "2.1%"
+          },
+          {
+            "image": "r4.png",
+            "code": "9030",
+            "name": "Fan Box",
+            "price": "₹140",
+            "save": "2.1%"
+          }
+        ]
+      }
+    ],
+    "pipefittingA": [
+      {
+        "name": "PVC L Bow (Elbow)",
+        "code": "9101",
+        "images": ["pf1a.png", "pf1b.png", "pf1c.png", "pf1d.png"],
+        "rates": {
+          "19mm": 320,
+          "25mm": 420
+        },
+        "recommendations": [
+          {
+            "image": "r1.png",
+            "code": "9005",
+            "name": "Pipe fitting",
+            "price": "₹320",
+            "save": "2.1%"
+          },
+          {
+            "image": "r2.png",
+            "code": "9010",
+            "name": "Round Junction Box",
+            "price": "₹180",
+            "save": "2.1%"
+          },
+          {
+            "image": "r3.png",
+            "code": "9020",
+            "name": "Deep Junction Box",
+            "price": "₹160",
+            "save": "2.1%"
+          },
+          {
+            "image": "r4.png",
+            "code": "9030",
+            "name": "Fan Box",
+            "price": "₹140",
+            "save": "2.1%"
+          }
+        ]
+      }
+    ],
+    "pipefittingB": [
+      {
+        "name": "PVC Tee Fitting",
+        "code": "9102",
+        "images": ["pf2a.png", "pf2b.png", "pf2c.png", "pf2d.png"],
+        "rates": {
+          "19mm": 290,
+          "25mm": 390
+        },
+        "recommendations": [
+          {
+            "image": "r1.png",
+            "code": "9005",
+            "name": "Pipe fitting",
+            "price": "₹320",
+            "save": "2.1%"
+          },
+          {
+            "image": "r2.png",
+            "code": "9010",
+            "name": "Round Junction Box",
+            "price": "₹180",
+            "save": "2.1%"
+          },
+          {
+            "image": "r3.png",
+            "code": "9020",
+            "name": "Deep Junction Box",
+            "price": "₹160",
+            "save": "2.1%"
+          },
+          {
+            "image": "r4.png",
+            "code": "9030",
+            "name": "Fan Box",
+            "price": "₹140",
+            "save": "2.1%"
+          }
+        ]
+      }
+    ],
+    "pipefittingC": [
+      {
+        "name": "PVC Reducer (19×25mm)",
+        "code": "9103",
+        "images": ["pf3a.png", "pf3b.png", "pf3c.png", "pf3d.png"],
+        "rates": {
+          "19x25mm": 210,
+          "25x32mm": 280
+        },
+        "recommendations": [
+          {
+            "image": "r1.png",
+            "code": "9005",
+            "name": "Pipe fitting",
+            "price": "₹320",
+            "save": "2.1%"
+          },
+          {
+            "image": "r2.png",
+            "code": "9010",
+            "name": "Round Junction Box",
+            "price": "₹180",
+            "save": "2.1%"
+          },
+          {
+            "image": "r3.png",
+            "code": "9020",
+            "name": "Deep Junction Box",
+            "price": "₹160",
+            "save": "2.1%"
+          },
+          {
+            "image": "r4.png",
+            "code": "9030",
+            "name": "Fan Box",
+            "price": "₹140",
+            "save": "2.1%"
+          }
+        ]
+      }
+    ],
+    "zebraHose": [
+      {
+        "id": 6,
+        "name": "Zebra Hose Pipe",
+        "code": "ZH6001",
+        "save": "2.1%",
+        "images": ["zh1.png", "zh2.png", "zh3.png", "zh4.png"],
+        "rates": {
+          "25mm": {
+            "15m": 560,
+            "30m": 1080
+          },
+          "32mm": {
+            "15m": 640,
+            "30m": 1220
+          }
+        },
+        "recommendations": [
+          {
+            "image": "r1.png",
+            "code": "9005",
+            "name": "Pipe fitting",
+            "price": "₹320",
+            "save": "2.1%"
+          },
+          {
+            "image": "r2.png",
+            "code": "9010",
+            "name": "Round Junction Box",
+            "price": "₹180",
+            "save": "2.1%"
+          },
+          {
+            "image": "r3.png",
+            "code": "9020",
+            "name": "Deep Junction Box",
+            "price": "₹160",
+            "save": "2.1%"
+          },
+          {
+            "image": "r4.png",
+            "code": "9030",
+            "name": "Fan Box",
+            "price": "₹140",
+            "save": "2.1%"
+          }
+        ]
+      }
+    ]
+  },
+  "pages": {
+    "home": {
+      "hero": {
+        "titleMain": "Dinesh",
+        "titleSub": "PVC Pipes",
+        "changingWords": [
+          "In Every House",
+          "ప్రతి ఇంటిలో",
+          "ഓരോ വീട്ടിലും",
+          "ஒவ்வொரு வீட்டிலும்",
+          "ಪ್ರತಿಯೊಂದು ಮನೆಯಲ್ಲಿ",
+          "हर घर में"
+        ],
+        "subText": "Where Durability Meets Innovation"
+      },
+      "about": {
+        "introText": "Explore our wide range of high-performance piping solutions designed for strength, reliability, and durability.",
+        "descText": "From plumbing and agriculture to industrial infrastructure, Million Plast offers comprehensive piping solutions that meet the highest standards of quality and performance.",
+        "buttonText": "See What We Offer"
+      },
+      "products": [
+        {
+          "image": "fp1a.png",
+          "code": "9201",
+          "desc": "Flexible Pipe",
+          "qty": "One",
+          "price": "₹550 Incl. GST"
+        },
+        {
+          "image": "pf3c.png",
+          "code": "9103",
+          "desc": "PVC Reducer",
+          "qty": "One",
+          "price": "₹210 Incl. GST"
+        },
+        {
+          "image": "p1a.png",
+          "code": "9004",
+          "desc": "PVC Pipe",
+          "qty": "One",
+          "price": "₹6300 Incl. GST"
+        }
+      ],
+      "apart": {
+        "title": "What Sets Us Apart",
+        "images": ["a.png", "b.png", "c.png", "d.png"]
+      },
+      "accountSection": {
+        "signupText": "Don't have an Account?",
+        "signupButton": "Sign Up",
+        "loginText": "Got an Account?",
+        "loginButton": "Login"
+      }
+    },
+    "boxes": [
+      {
+        "id": 1,
+        "name": "Round Junction Box",
+        "image": "box1.png",
+        "link": "/boxes/a"
+      },
+      {
+        "id": 2,
+        "name": "Square Junction Box",
+        "image": "box2.png",
+        "link": "/boxes/b"
+      },
+      {
+        "id": 3,
+        "name": "Fan Box",
+        "image": "box3.png",
+        "link": "/boxes/c"
+      },
+      {
+        "id": 4,
+        "name": "Deep Junction Box",
+        "image": "box4.png",
+        "link": "/boxes/d"
+      }
+    ],
+    "pipefitting": [
+      {
+        "id": 1,
+        "name": "L bow Fitting",
+        "image": "pf1.png",
+        "link": "/pipefitting/a"
+      },
+      {
+        "id": 2,
+        "name": "Tee Fitting",
+        "image": "pf2.png",
+        "link": "/pipefitting/b"
+      },
+      {
+        "id": 3,
+        "name": "Reducer Fitting",
+        "image": "pf3.png",
+        "link": "/pipefitting/c"
+      }
+    ],
+    "items": [
+      { "id": 1, "name": "PVC Pipe", "image": "i1.png", "link": "/product/1" },
+      { "id": 2, "name": "Pipe Fittings", "image": "i2.png", "link": "/pipefitting" },
+      { "id": 3, "name": "Flexible Pipe", "image": "i3.png", "link": "/flexiblepipe" },
+      { "id": 4, "name": "Boxes", "image": "i4.png", "link": "/boxes" },
+      { "id": 5, "name": "Braided Hose Pipe", "image": "i5.png", "link": "/braidedhose" },
+      { "id": 6, "name": "Zebra Hose Pipe", "image": "i6.png", "link": "/zebrahose" },
+      { "id": 7, "name": "Pipe Bend", "image": "i7.png", "link": "/pipebend" }
+    ]
+  },
   "profiles": [
     {
       "id": 1,
