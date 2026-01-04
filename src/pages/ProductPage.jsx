@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import db from "../../db.json";
@@ -89,7 +89,8 @@ const ProductPage = () => {
   const [activeImage, setActiveImage] = useState(0);
   const [selectedThickness, setSelectedThickness] = useState(0);
   const [selectedColor, setSelectedColor] = useState("GREEN");
-  const [selectedSize, setSelectedSize] = useState("19mm");
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedLength, setSelectedLength] = useState("");
   const [qty, setQty] = useState(1);
 
   const productData = db?.products?.[productConfig.key];
@@ -131,13 +132,62 @@ const ProductPage = () => {
 
   const recommendationRoutes = recommendationRoutesMap[actualProductType] || [];
 
+  // Initialize selectedSize and selectedLength to first available options for all products
+  useEffect(() => {
+    if (product) {
+      let availableSizes = [];
+      let hasNestedRates = false; // Check if rates structure is nested (size -> length)
+      
+      if (product.thicknessOptions && product.thicknessOptions[selectedThickness]?.rates) {
+        availableSizes = Object.keys(product.thicknessOptions[selectedThickness].rates);
+      } else if (product.rates) {
+        availableSizes = Object.keys(product.rates);
+        // Check if first size has nested structure (object with length keys)
+        if (availableSizes.length > 0 && typeof product.rates[availableSizes[0]] === 'object' && !Array.isArray(product.rates[availableSizes[0]])) {
+          hasNestedRates = true;
+        }
+      }
+      
+      // Reset to first available size when product or thickness changes
+      if (availableSizes.length > 0) {
+        // Only set if current size is not in available sizes or if not set
+        if (!availableSizes.includes(selectedSize) || !selectedSize || selectedSize === "") {
+          setSelectedSize(availableSizes[0]);
+          
+          // If nested rates structure, initialize length
+          if (hasNestedRates && product.rates[availableSizes[0]]) {
+            const availableLengths = Object.keys(product.rates[availableSizes[0]]);
+            if (availableLengths.length > 0) {
+              setSelectedLength(availableLengths[0]);
+            }
+          }
+        } else if (hasNestedRates && product.rates[selectedSize]) {
+          // If size changed and has nested rates, update length
+          const availableLengths = Object.keys(product.rates[selectedSize]);
+          if (availableLengths.length > 0 && !availableLengths.includes(selectedLength)) {
+            setSelectedLength(availableLengths[0]);
+          }
+        }
+      } else {
+        // No sizes available, reset to empty
+        setSelectedSize("");
+        setSelectedLength("");
+      }
+    }
+  }, [product, selectedThickness, selectedSize]);
+
   // Handle different price structures
   const getPrice = () => {
-    if (product.thicknessOptions) {
-      return product.thicknessOptions[selectedThickness]?.rates?.[selectedSize] ?? 
-             product.rates?.[selectedSize] ?? 0;
+    if (product.thicknessOptions && product.thicknessOptions[selectedThickness]?.rates) {
+      return product.thicknessOptions[selectedThickness].rates[selectedSize] ?? 0;
     }
     if (product.rates) {
+      // Check if nested structure (size -> length)
+      if (selectedSize && product.rates[selectedSize] && typeof product.rates[selectedSize] === 'object' && !Array.isArray(product.rates[selectedSize])) {
+        // Nested structure: rates[selectedSize][selectedLength]
+        return product.rates[selectedSize][selectedLength] ?? 0;
+      }
+      // Simple structure: rates[selectedSize]
       return product.rates[selectedSize] ?? 0;
     }
     if (product.price) {
@@ -165,7 +215,7 @@ const ProductPage = () => {
       color: product.thicknessOptions ? selectedColor : null,
       thickness: product.thicknessOptions ? product.thicknessOptions[selectedThickness]?.label : null,
       size: product.rates || product.thicknessOptions ? selectedSize : null,
-      length: product.length || null,
+      length: selectedLength || product.length || null,
       quantity: qty,
     });
 
@@ -287,7 +337,57 @@ const ProductPage = () => {
             </>
           )}
 
-          {(product.rates || product.thicknessOptions) && (
+          {/* Check if rates structure is nested (size -> length) for Braided Hose */}
+          {product.rates && Object.keys(product.rates).length > 0 && typeof product.rates[Object.keys(product.rates)[0]] === 'object' && !Array.isArray(product.rates[Object.keys(product.rates)[0]]) ? (
+            <>
+              {/* Size selection first */}
+              <h4 className="text-base my-1 mb-0.5">Select Size</h4>
+              <div className="flex flex-wrap gap-2.5">
+                {Object.keys(product.rates).map((size) => (
+                  <button
+                    key={size}
+                    className={`px-3 py-1 h-8 rounded-lg border text-sm cursor-pointer transition-colors ${
+                      selectedSize === size
+                        ? "bg-[#b30000] text-white border-[#b30000]"
+                        : "bg-white border-gray-400 text-black hover:border-[#b30000]"
+                    }`}
+                    onClick={() => {
+                      setSelectedSize(size);
+                      // Auto-select first length when size changes
+                      const lengths = Object.keys(product.rates[size]);
+                      if (lengths.length > 0) {
+                        setSelectedLength(lengths[0]);
+                      }
+                    }}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+
+              {/* Length selection - only show if size is selected */}
+              {selectedSize && product.rates[selectedSize] && (
+                <>
+                  <h4 className="text-base my-1 mb-0.5">Select Length</h4>
+                  <div className="flex flex-wrap gap-2.5">
+                    {Object.keys(product.rates[selectedSize]).map((length) => (
+                      <button
+                        key={length}
+                        className={`px-3 py-1 h-8 rounded-lg border text-sm cursor-pointer transition-colors ${
+                          selectedLength === length
+                            ? "bg-[#b30000] text-white border-[#b30000]"
+                            : "bg-white border-gray-400 text-black hover:border-[#b30000]"
+                        }`}
+                        onClick={() => setSelectedLength(length)}
+                      >
+                        {length}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
+          ) : (product.rates || product.thicknessOptions) && (
             <>
               <h4 className="text-base my-1 mb-0.5">Select Size</h4>
               <div className="flex flex-wrap gap-2.5">
