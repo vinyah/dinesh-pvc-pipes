@@ -1,4 +1,3 @@
-// src/pages/DeliveryPage.js
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
@@ -73,34 +72,46 @@ function DeliveryPage() {
   }, [selectedOption]);
 
   const onContinue = () => navigate("/review-order");
-  const onBack = () => navigate("/add-address");
+  const onContinueShopping = () => navigate("/items");
 
   return (
-    <div className="page delivery-page">
-      <div className="delivery-container">
-
+    <div className="w-full bg-white py-8 px-4 md:px-8 min-h-screen">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* LEFT — DELIVERY OPTIONS */}
-        <div className="delivery-left">
-          <h1 className="page-title">Choose Delivery Option</h1>
+        <div className="lg:col-span-2">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
+            Choose Delivery Option
+          </h1>
 
-          <div className="delivery-options">
+          <div className="space-y-4">
             {DELIVERY_OPTIONS.map((opt) => (
               <label
                 key={opt.id}
-                className={`delivery-card ${selected === opt.id ? "active" : ""}`}
+                className={`block bg-white rounded-lg border-2 p-5 cursor-pointer transition-all ${
+                  selected === opt.id
+                    ? "border-[#b30000]"
+                    : "border-gray-300 hover:border-gray-400"
+                }`}
               >
-                <input
-                  type="radio"
-                  name="delivery"
-                  checked={selected === opt.id}
-                  onChange={() => setSelected(opt.id)}
-                />
-                <div className="delivery-info">
-                  <div className="delivery-title-row">
-                    <div className="delivery-title">{opt.title}</div>
-                    <div className="delivery-price">{opt.label}</div>
+                <div className="flex items-start gap-4">
+                  <input
+                    type="radio"
+                    name="delivery"
+                    checked={selected === opt.id}
+                    onChange={() => setSelected(opt.id)}
+                    className="mt-1 w-5 h-5 text-[#b30000] focus:ring-[#b30000]"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="text-lg font-semibold text-gray-800">
+                        {opt.title}
+                      </div>
+                      <div className="text-lg font-bold text-[#b30000]">
+                        {opt.label}
+                      </div>
+                    </div>
+                    <div className="text-sm text-gray-600">{opt.desc}</div>
                   </div>
-                  <div className="delivery-desc">{opt.desc}</div>
                 </div>
               </label>
             ))}
@@ -108,42 +119,54 @@ function DeliveryPage() {
         </div>
 
         {/* RIGHT — ORDER SUMMARY */}
-        <aside className="delivery-summary">
-          <h3 className="summary-title">Order Summary</h3>
+        <aside className="lg:col-span-1">
+          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200 sticky top-4">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6">
+              Order Summary
+            </h3>
 
-          <div className="price-row">
-            <span>Subtotal</span>
-            <span>₹{subtotal}</span>
-          </div>
+            <div className="space-y-3 mb-4">
+              <div className="flex justify-between text-gray-700">
+                <span>Subtotal</span>
+                <span>₹{subtotal.toFixed(2)}</span>
+              </div>
 
-          <div className="price-row">
-            <span>Discount</span>
-            <span>{discount > 0 ? `-₹${discount}` : "—"}</span>
-          </div>
+              <div className="flex justify-between text-gray-700">
+                <span>Discount</span>
+                <span>{discount > 0 ? `-₹${discount.toFixed(2)}` : "—"}</span>
+              </div>
 
-          <div className="price-row">
-            <span>Delivery</span>
-            <span>{deliveryPrice > 0 ? `₹${deliveryPrice}` : "FREE"}</span>
-          </div>
+              <div className="flex justify-between text-gray-700">
+                <span>Delivery</span>
+                <span>{deliveryPrice > 0 ? `₹${deliveryPrice.toFixed(2)}` : "FREE"}</span>
+              </div>
+            </div>
 
-          <div className="divider" />
+            <div className="border-t border-gray-200 pt-4 mb-6">
+              <div className="flex justify-between items-center">
+                <span className="text-xl font-bold text-gray-800">Total</span>
+                <span className="text-xl font-bold text-[#b30000]">
+                  ₹{total.toFixed(2)}
+                </span>
+              </div>
+            </div>
 
-          <div className="price-row total">
-            <span>Total</span>
-            <span>₹{total}</span>
-          </div>
+            {/* Action Buttons */}
+            <div className="space-y-3">
+              <button
+                className="w-full px-6 py-3 bg-[#b30000] text-white rounded-lg font-semibold hover:bg-[#8b0000] transition-colors"
+                onClick={onContinue}
+              >
+                Proceed to Checkout
+              </button>
 
-          
-
-          {/* ✅ BUTTONS – LIKE 2ND IMAGE */}
-          <div className="checkout-actions">
-            <button className="checkout-btn primary" onClick={onContinue}>
-              Proceed to Checkout
-            </button>
-
-            <button className="checkout-btn secondary" onClick={onBack}>
-              Continue Shopping
-            </button>
+              <button
+                className="w-full px-6 py-3 bg-[#b30000] text-white rounded-lg font-semibold hover:bg-[#8b0000] transition-colors"
+                onClick={onContinueShopping}
+              >
+                Continue Shopping
+              </button>
+            </div>
           </div>
         </aside>
       </div>
@@ -152,4 +175,3 @@ function DeliveryPage() {
 }
 
 export default DeliveryPage;
-

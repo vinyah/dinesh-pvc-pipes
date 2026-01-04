@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 
 /* 🧩 COMPONENTS */
 import Header from "./components/Header";
@@ -83,6 +83,105 @@ class ErrorBoundary extends React.Component {
 
 const CURRENT_USER_KEY = "currentUser";
 
+// Inner component that has access to navigate (must be inside Router)
+function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
+  const navigate = useNavigate();
+
+  /* 🔑 AFTER LOGIN / SIGNUP */
+  const handleAuthSuccess = (user) => {
+    setCurrentUser(user);
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+    setShowModal(null);
+    
+    // If logging in during checkout, redirect to address page
+    const isCheckoutFlow = sessionStorage.getItem("checkoutFlow");
+    if (isCheckoutFlow === "true") {
+      sessionStorage.removeItem("checkoutFlow");
+      navigate("/add-address");
+    }
+  };
+
+  return (
+    <>
+      {/* HEADER */}
+      <Header
+        currentUser={currentUser}
+        openAuthModal={setShowModal}
+        setCurrentUser={setCurrentUser}
+      />
+
+      {/* MAIN CONTENT */}
+      <main className="w-full flex-1 max-md:!mt-0 max-md:!pt-0">
+        <Routes>
+          {/* 🏠 HOME */}
+          <Route path="/" element={<Home setShowModal={setShowModal} />} />
+          
+          {/* 📁 CATEGORY PAGES */}
+          <Route path="/category/:categoryType" element={<CategoryPage setShowModal={setShowModal} />} />
+          <Route path="/items" element={<CategoryPage setShowModal={setShowModal} />} />
+          <Route path="/boxes" element={<CategoryPage setShowModal={setShowModal} />} />
+          <Route path="/pipefitting" element={<CategoryPage setShowModal={setShowModal} />} />
+
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/cart" element={<Cart />} />
+
+          {/* 👤 ACCOUNT */}
+          <Route
+            path="/account"
+            element={
+              <Account
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                openAuthModal={setShowModal}
+              />
+            }
+          />
+
+          {/* 🧩 PRODUCT PAGES */}
+          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/product/:productType/:id" element={<ProductPage />} />
+          
+          {/* Legacy routes - redirect to new ProductPage */}
+          <Route path="/boxes/a" element={<ProductPage />} />
+          <Route path="/boxes/b" element={<ProductPage />} />
+          <Route path="/boxes/c" element={<ProductPage />} />
+          <Route path="/boxes/d" element={<ProductPage />} />
+          <Route path="/pipefitting/a" element={<ProductPage />} />
+          <Route path="/pipefitting/b" element={<ProductPage />} />
+          <Route path="/pipefitting/c" element={<ProductPage />} />
+          <Route path="/flexiblepipe" element={<ProductPage />} />
+          <Route path="/braidedhose" element={<ProductPage />} />
+          <Route path="/zebrahose" element={<ProductPage />} />
+          <Route path="/pipebend" element={<ProductPage />} />
+
+          {/* 🧾 CHECKOUT */}
+          <Route path="/checkout-auth" element={<CheckoutAuthPage setShowModal={setShowModal} />} />
+          <Route path="/add-address" element={<AddAddressPage />} />
+          <Route path="/delivery" element={<DeliveryPage />} />
+          <Route path="/review-order" element={<ReviewOrderPage />} />
+          <Route
+            path="/order-processing"
+            element={<OrderProcessingPage />}
+          />
+          <Route path="/order-success" element={<OrderSuccessPage />} />
+        </Routes>
+      </main>
+
+      {/* FOOTER */}
+      <Footer setShowModal={setShowModal} />
+
+      {/* LOGIN / SIGNUP MODAL */}
+      {showModal && (
+        <LoginSignupModal
+          type={showModal}
+          onClose={() => setShowModal(null)}
+          onAuthSuccess={handleAuthSuccess}
+        />
+      )}
+    </>
+  );
+}
+
 function App() {
   /* 🔐 AUTH STATE */
   const [currentUser, setCurrentUser] = useState(null);
@@ -100,96 +199,20 @@ function App() {
     }
   }, []);
 
-  /* 🔑 AFTER LOGIN / SIGNUP */
-  const handleAuthSuccess = (user) => {
-    setCurrentUser(user);
-    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
-    setShowModal(null);
-  };
-
   return (
     <ErrorBoundary>
       <CartProvider>
         <Router>
           <div className="w-full flex flex-col min-h-screen m-0 p-0">
-            {/* HEADER */}
-            <Header
+            <AppContent
               currentUser={currentUser}
-              openAuthModal={setShowModal}
               setCurrentUser={setCurrentUser}
+              showModal={showModal}
+              setShowModal={setShowModal}
             />
-
-            {/* MAIN CONTENT */}
-            <main className="w-full flex-1 max-md:!mt-0 max-md:!pt-0">
-              <Routes>
-              {/* 🏠 HOME */}
-              <Route path="/" element={<Home setShowModal={setShowModal} />} />
-              
-              {/* 📁 CATEGORY PAGES */}
-              <Route path="/category/:categoryType" element={<CategoryPage setShowModal={setShowModal} />} />
-              <Route path="/items" element={<CategoryPage setShowModal={setShowModal} />} />
-              <Route path="/boxes" element={<CategoryPage setShowModal={setShowModal} />} />
-              <Route path="/pipefitting" element={<CategoryPage setShowModal={setShowModal} />} />
-
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/cart" element={<Cart />} />
-
-              {/* 👤 ACCOUNT */}
-              <Route
-                path="/account"
-                element={
-                  <Account
-                    currentUser={currentUser}
-                    setCurrentUser={setCurrentUser}
-                    openAuthModal={setShowModal}
-                  />
-                }
-              />
-
-              {/* 🧩 PRODUCT PAGES */}
-              <Route path="/product/:id" element={<ProductPage />} />
-              <Route path="/product/:productType/:id" element={<ProductPage />} />
-              
-              {/* Legacy routes - redirect to new ProductPage */}
-              <Route path="/boxes/a" element={<ProductPage />} />
-              <Route path="/boxes/b" element={<ProductPage />} />
-              <Route path="/boxes/c" element={<ProductPage />} />
-              <Route path="/boxes/d" element={<ProductPage />} />
-              <Route path="/pipefitting/a" element={<ProductPage />} />
-              <Route path="/pipefitting/b" element={<ProductPage />} />
-              <Route path="/pipefitting/c" element={<ProductPage />} />
-              <Route path="/flexiblepipe" element={<ProductPage />} />
-              <Route path="/braidedhose" element={<ProductPage />} />
-              <Route path="/zebrahose" element={<ProductPage />} />
-              <Route path="/pipebend" element={<ProductPage />} />
-
-              {/* 🧾 CHECKOUT */}
-              <Route path="/checkout-auth" element={<CheckoutAuthPage />} />
-              <Route path="/add-address" element={<AddAddressPage />} />
-              <Route path="/delivery" element={<DeliveryPage />} />
-              <Route path="/review-order" element={<ReviewOrderPage />} />
-              <Route
-                path="/order-processing"
-                element={<OrderProcessingPage />}
-              />
-              <Route path="/order-success" element={<OrderSuccessPage />} />
-            </Routes>
-          </main>
-
-          {/* FOOTER */}
-          <Footer setShowModal={setShowModal} />
-
-          {/* LOGIN / SIGNUP MODAL */}
-          {showModal && (
-            <LoginSignupModal
-              type={showModal}
-              onClose={() => setShowModal(null)}
-              onAuthSuccess={handleAuthSuccess}
-            />
-          )}
-        </div>
-      </Router>
-    </CartProvider>
+          </div>
+        </Router>
+      </CartProvider>
     </ErrorBoundary>
   );
 }

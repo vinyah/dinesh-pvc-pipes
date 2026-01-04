@@ -76,10 +76,16 @@ const MyOrders = () => {
                 >
                   {/* Order Header */}
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 pb-4 border-b border-gray-200">
-                    <div className="mb-2 md:mb-0">
+                    <div className="mb-2 md:mb-0 flex items-center gap-2">
                       <span className="inline-block px-3 py-1 bg-[#b30000] text-white text-xs md:text-sm font-semibold rounded">
                         {order.status || "Placed"}
                       </span>
+                      {/* Item Count */}
+                      {order.items && order.items.length > 0 && (
+                        <span className="text-sm text-gray-600">
+                          {order.items.length} {order.items.length === 1 ? "item" : "items"}
+                        </span>
+                      )}
                     </div>
                     <div className="text-sm text-gray-600">
                       {order.date && (
@@ -143,17 +149,53 @@ const MyOrders = () => {
                     )}
                   </div>
 
-                  {/* Order Total */}
-                  {order.total && (
-                    <div className="mt-4 pt-4 border-t border-gray-200 flex justify-end">
+                  {/* Order Footer */}
+                  <div className="mt-4 pt-4 border-t border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    {/* Estimated Delivery Date - Bottom Left */}
+                    <div className="text-sm text-gray-600">
+                      {(() => {
+                        // Calculate estimated delivery date
+                        let orderDate = new Date();
+                        if (order.date) {
+                          // Try to parse the date (handle different formats)
+                          const parsed = new Date(order.date);
+                          if (!isNaN(parsed.getTime())) {
+                            orderDate = parsed;
+                          }
+                        }
+                        
+                        const deliveryOption = order.delivery || { id: "standard" };
+                        
+                        let daysToAdd = 7; // Default to Standard (5-7 days, use 7)
+                        if (deliveryOption.id === "express") {
+                          daysToAdd = 3; // 2-3 days, use 3
+                        } else if (deliveryOption.id === "premium") {
+                          daysToAdd = 1; // 1 day
+                        }
+                        
+                        const estimatedDate = new Date(orderDate);
+                        estimatedDate.setDate(estimatedDate.getDate() + daysToAdd);
+                        
+                        const formattedDate = estimatedDate.toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric'
+                        });
+                        
+                        return `Estimated Delivery: ${formattedDate}`;
+                      })()}
+                    </div>
+                    
+                    {/* Order Total - Bottom Right */}
+                    {order.total && (
                       <div className="text-right">
                         <p className="text-sm text-gray-600 mb-1">Total Amount</p>
                         <p className="text-xl font-bold text-[#b30000]">
                           ₹{order.total}
                         </p>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

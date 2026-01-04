@@ -1,8 +1,5 @@
-// src/pages/AddAddressPage.js
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
 
 const AddAddressPage = () => {
   const navigate = useNavigate();
@@ -80,84 +77,117 @@ const AddAddressPage = () => {
   };
 
   return (
-    <div className="address-page">
-      <h1 className="address-heading">Select Delivery Address</h1>
+    <div className="w-full bg-white py-8 px-4 md:px-8 min-h-screen">
+      {/* Page Title */}
+      <h1 className="text-3xl md:text-4xl font-bold text-[#b30000] text-center mb-8">
+        Select Delivery Address
+      </h1>
 
-      <div className="address-card">
-        <div className="address-form">
-          <label className="address-label">Full name</label>
-          <input
-            type="text"
-            className="address-input"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Recipient name (e.g. John Doe)"
-          />
-
-          <label className="address-label">Address</label>
-          <textarea
-            className="address-input address-textarea"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder="House no, street, landmark, etc."
-          />
-
-          <div className="row-two">
-            <div className="col">
-              <label className="address-label">City</label>
+      {/* Address Form Card */}
+      <div className="max-w-3xl mx-auto">
+        <div className="bg-white rounded-lg shadow-md p-6 md:p-8 border border-gray-200">
+          <div className="space-y-6">
+            {/* Full Name */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Full name
+              </label>
               <input
                 type="text"
-                className="address-input"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                placeholder="City"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b30000]"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Recipient name (e.g. John Doe)"
               />
             </div>
 
-            <div className="col">
-              <label className="address-label">State</label>
-              <input
-                type="text"
-                className="address-input"
-                value={stateVal}
-                onChange={(e) => setStateVal(e.target.value)}
-                placeholder="State"
-              />
-            </div>
-          </div>
-
-          <div className="row-two">
-            <div className="col">
-              <label className="address-label">Pincode</label>
-              <input
-                type="text"
-                className="address-input"
-                value={pincode}
-                onChange={(e) => setPincode(e.target.value)}
-                placeholder="Pincode"
+            {/* Address */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Address
+              </label>
+              <textarea
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b30000] resize-y min-h-[100px]"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="House no, street, landmark, etc."
               />
             </div>
 
-            <div className="col">
-              <label className="address-label">Phone</label>
-              <input
-                type="tel"
-                className="address-input"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="Mobile number"
-              />
+            {/* City & State Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  City
+                </label>
+                <input
+                  type="text"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b30000]"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="City"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  State
+                </label>
+                <input
+                  type="text"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b30000]"
+                  value={stateVal}
+                  onChange={(e) => setStateVal(e.target.value)}
+                  placeholder="State"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="actions-row">
-            <button className="back-btn" onClick={() => navigate("/cart")}>
-              Back to Cart
-            </button>
+            {/* Pincode & Phone Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Pincode
+                </label>
+                <input
+                  type="text"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b30000]"
+                  value={pincode}
+                  onChange={(e) => setPincode(e.target.value)}
+                  placeholder="Pincode"
+                />
+              </div>
 
-            <button className="continue-btn" onClick={handleContinue}>
-              Continue to Delivery Options
-            </button>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Phone
+                </label>
+                <input
+                  type="tel"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b30000]"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Mobile number"
+                />
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <button
+                className="flex-1 px-6 py-3 bg-[#b30000] text-white rounded-lg font-semibold hover:bg-[#8b0000] transition-colors"
+                onClick={() => navigate("/cart")}
+              >
+                Back to Cart
+              </button>
+
+              <button
+                className="flex-1 px-6 py-3 border-2 border-[#b30000] text-[#b30000] bg-white rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-colors"
+                onClick={handleContinue}
+              >
+                Continue to Delivery Options
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -166,4 +196,3 @@ const AddAddressPage = () => {
 };
 
 export default AddAddressPage;
-

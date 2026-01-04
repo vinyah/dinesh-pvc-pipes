@@ -6,6 +6,8 @@ import {
   FaBoxOpen,
   FaShoppingCart,
   FaSignOutAlt,
+  FaArrowRight,
+  FaDoorOpen,
 } from "react-icons/fa";
 
 const CURRENT_USER_KEY = "currentUser";
@@ -55,7 +57,7 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
     localStorage.removeItem(CURRENT_USER_KEY);
     setUser(null);
     setCurrentUser(null); // 🔥 APP STATE
-    navigate("/");
+    // Don't navigate - let the component show the "not logged in" message
   };
 
   /* 🔹 Edit handlers */
@@ -77,22 +79,40 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
     }
   };
 
+  /* 🔹 Open login modal */
+  const handleOpenLogin = () => {
+    if (typeof openAuthModal === "function") {
+      openAuthModal("login");
+    } else {
+      navigate("/");
+    }
+  };
+
   /* ================= NOT LOGGED IN ================= */
   if (!user) {
     return (
-      <div className="profile-page-wrapper profile-page-empty">
-        <div className="profile-empty-card">
-          <h2>You’re not logged in</h2>
-          <p>
-            Log in or create an account to see your profile details and orders.
+      <div className="w-full min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
+        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">You haven't logged in yet</h2>
+          <p className="text-gray-600 mb-6">
+            Please login to access your account and view your profile details.
           </p>
-          <button
-            type="button"
-            className="profile-primary-btn"
-            onClick={handleOpenSignup}
-          >
-            Sign Up
-          </button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              type="button"
+              className="px-6 py-3 bg-[#b30000] text-white rounded-lg font-semibold hover:bg-[#8b0000] transition-colors"
+              onClick={handleOpenLogin}
+            >
+              Log In
+            </button>
+            <button
+              type="button"
+              className="px-6 py-3 border-2 border-[#b30000] text-[#b30000] bg-white rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-colors"
+              onClick={goHome}
+            >
+              Home
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -100,106 +120,148 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
 
   /* ================= LOGGED IN ================= */
   return (
-    <div className="profile-page-wrapper">
-      {/* Mobile header */}
-      <header className="profile-header-mobile">
-        <div className="profile-header-user">
-          <div className="profile-avatar-circle">
-            <FaUser />
-          </div>
-          <div>
-            <div className="profile-header-name">{user.name}</div>
-            <div className="profile-header-email">{user.email}</div>
-          </div>
-        </div>
-      </header>
+    <div className="w-full bg-white py-8 px-4 md:px-8">
+      {/* Page Title */}
+      <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8">My Account</h1>
 
-      <h1 className="profile-page-title">My Account</h1>
-
-      <div className="profile-layout">
-        {/* ===== SIDEBAR ===== */}
-        <aside className="profile-sidebar">
-          <div className="profile-sidebar-header">
-            <div className="profile-avatar-circle">
-              <FaUser />
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* ===== LEFT SIDEBAR ===== */}
+        <aside className="lg:col-span-1">
+          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            {/* Avatar and User Info */}
+            <div className="flex flex-col items-center mb-6">
+              <div className="w-20 h-20 bg-[#b30000] rounded-full flex items-center justify-center mb-4">
+                <FaUser className="text-white text-2xl" />
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-semibold text-gray-800">{user.name}</div>
+                <div className="text-sm text-gray-600 mt-1">{user.email}</div>
+              </div>
             </div>
-            <div>
-              <div className="profile-sidebar-name">{user.name}</div>
-              <div className="profile-sidebar-email">{user.email}</div>
-            </div>
+
+            {/* Navigation Menu */}
+            <nav className="space-y-2">
+              <button
+                className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors text-left"
+                onClick={goHome}
+              >
+                <FaHome className="text-gray-600" />
+                <span>Home</span>
+              </button>
+
+              <button
+                className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors text-left"
+                onClick={goItems}
+              >
+                <FaBoxOpen className="text-gray-600" />
+                <span>Items</span>
+              </button>
+
+              <button
+                className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors text-left"
+                onClick={goCart}
+              >
+                <FaShoppingCart className="text-gray-600" />
+                <span>Cart</span>
+              </button>
+
+              <button
+                className="w-full flex items-center gap-3 px-4 py-3 text-[#b30000] hover:bg-red-50 rounded-lg transition-colors text-left"
+                onClick={handleLogout}
+              >
+                <FaArrowRight className="text-[#b30000]" />
+                <FaDoorOpen className="text-[#b30000]" />
+                <span className="text-[#b30000]">Logout</span>
+              </button>
+            </nav>
           </div>
-
-          <hr className="profile-divider" />
-
-          <nav className="profile-menu">
-            <button className="profile-menu-item" onClick={goHome}>
-              <FaHome /> <span>Home</span>
-            </button>
-
-            <button className="profile-menu-item" onClick={goItems}>
-              <FaBoxOpen /> <span>Items</span>
-            </button>
-
-            <button className="profile-menu-item" onClick={goCart}>
-              <FaShoppingCart /> <span>Cart</span>
-            </button>
-
-            <button
-              className="profile-menu-item logout"
-              onClick={handleLogout}
-            >
-              <FaSignOutAlt /> <span>Logout</span>
-            </button>
-          </nav>
         </aside>
 
-        {/* ===== MAIN ===== */}
-        <main className="profile-main">
-          <section className="profile-overview-card">
-            <h2>Account Overview</h2>
+        {/* ===== RIGHT PANEL - ACCOUNT OVERVIEW ===== */}
+        <main className="lg:col-span-2">
+          <div className="bg-white rounded-lg shadow-md p-6 md:p-8 border border-gray-200">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Account Overview</h2>
 
-            <div className="overview-grid">
-              {["name", "email", "phone", "address"].map((field) => (
-                <div key={field} className="overview-field">
-                  <span className="overview-label">
-                    {field.charAt(0).toUpperCase() + field.slice(1)}
-                  </span>
-
+            {/* Two Column Layout */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              {/* Left Column */}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
                   {isEditing ? (
                     <input
-                      className="overview-input"
-                      value={formData[field]}
-                      onChange={(e) =>
-                        handleChange(field, e.target.value)
-                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b30000]"
+                      value={formData.name}
+                      onChange={(e) => handleChange("name", e.target.value)}
                     />
                   ) : (
-                    <span className="overview-value">
-                      {user[field] || "Not set"}
-                    </span>
+                    <div className="text-base text-gray-800">{user.name || "Not set"}</div>
                   )}
                 </div>
-              ))}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                  {isEditing ? (
+                    <input
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b30000]"
+                      value={formData.phone}
+                      onChange={(e) => handleChange("phone", e.target.value)}
+                    />
+                  ) : (
+                    <div className="text-base text-gray-800">{user.phone || "Not set"}</div>
+                  )}
+                </div>
+              </div>
+
+              {/* Right Column */}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                  {isEditing ? (
+                    <input
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b30000]"
+                      value={formData.email}
+                      onChange={(e) => handleChange("email", e.target.value)}
+                    />
+                  ) : (
+                    <div className="text-base text-gray-800">{user.email || "Not set"}</div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                  {isEditing ? (
+                    <input
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b30000]"
+                      value={formData.address}
+                      onChange={(e) => handleChange("address", e.target.value)}
+                    />
+                  ) : (
+                    <div className="text-base text-gray-800">{user.address || "Not set"}</div>
+                  )}
+                </div>
+              </div>
             </div>
 
-            <div className="overview-footer">
+            {/* Edit Profile Button - Bottom Right */}
+            <div className="flex justify-end">
               {isEditing ? (
                 <button
-                  className="profile-primary-btn"
+                  className="px-6 py-2.5 bg-[#b30000] text-white rounded-lg font-semibold hover:bg-[#8b0000] transition-colors"
                   onClick={handleSave}
                 >
                   Save Changes
                 </button>
               ) : (
                 <button
-                  className="profile-ghost-btn"
+                  className="px-6 py-2.5 border-2 border-[#b30000] text-[#b30000] bg-white rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-colors"
                   onClick={() => setIsEditing(true)}
                 >
                   Edit Profile
                 </button>
               )}
             </div>
-          </section>
+          </div>
         </main>
       </div>
     </div>
