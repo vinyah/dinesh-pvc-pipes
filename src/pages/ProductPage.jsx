@@ -342,18 +342,18 @@ const ProductPage = () => {
       </div>
 
       {/* ================= FEATURES ================= */}
-      <div className="flex justify-center gap-2.5 py-2 mt-5">
-        <div className="flex items-center gap-2.5 flex-[0_1_auto]">
+      <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-4 md:gap-2.5 py-2 mt-10">
+        <div className="flex items-center gap-2.5 justify-center md:justify-start">
           <img src={getImageUrl("genuine.png")} alt="Genuine" className="w-12 h-12" />
           <span className="text-base font-semibold whitespace-nowrap">Genuine Products</span>
         </div>
 
-        <div className="flex items-center gap-2.5 flex-[0_1_auto]">
+        <div className="flex items-center gap-2.5 justify-center md:justify-start">
           <img src={getImageUrl("support.png")} alt="Support" className="w-12 h-12" />
           <span className="text-base font-semibold whitespace-nowrap">Customer Support</span>
         </div>
 
-        <div className="flex items-center gap-2.5 flex-[0_1_auto]">
+        <div className="flex items-center gap-2.5 justify-center md:justify-start">
           <img src={getImageUrl("nonreturn.png")} alt="Non Returnable" className="w-12 h-12" />
           <span className="text-base font-semibold whitespace-nowrap">Non Returnable</span>
         </div>
@@ -361,37 +361,39 @@ const ProductPage = () => {
 
       {/* ================= RECOMMENDED ================= */}
       {product.recommendations && product.recommendations.length > 0 && (
-        <div className="-mt-4 pb-5 w-full overflow-visible max-md:flex max-md:flex-col max-md:items-center max-md:w-full max-md:px-3.5 max-md:box-border">
-          <h2 className="text-base font-semibold mb-3 text-[#b30000] text-center max-md:text-center max-md:w-full max-md:mx-auto max-md:mb-3">Recommended Products</h2>
+        <div className="mt-8 pb-5 w-full overflow-visible max-md:flex max-md:flex-col max-md:items-center max-md:w-full max-md:px-3.5 max-md:box-border">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-[#b30000] text-center max-md:text-center max-md:w-full max-md:mx-auto max-md:mb-4">Recommended Products</h2>
 
-          <div className="grid grid-cols-4 gap-4.5 w-full box-border mx-auto max-md:grid-cols-2 max-md:gap-3.5 max-md:justify-items-stretch max-md:items-stretch max-md:mx-auto max-md:max-w-full max-md:px-3.5 max-md:box-border max-[420px]:grid-cols-1">
+          <div className="grid grid-cols-4 gap-6 w-full max-w-6xl mx-auto box-border max-md:grid-cols-2 max-md:gap-4 max-md:justify-items-stretch max-md:items-stretch max-md:mx-auto max-md:max-w-full max-md:px-3.5 max-md:box-border max-[420px]:grid-cols-1">
             {product.recommendations.map((rec, i) => (
               <Link
                 key={i}
                 to={recommendationRoutes[i] || "#"}
                 className="no-underline text-inherit block hover:no-underline"
               >
-                <div className="border border-gray-300 rounded-xl p-3 flex flex-col justify-between h-full min-h-[280px] bg-white box-border max-md:h-full max-md:min-h-[280px] max-md:w-full max-md:max-w-full max-md:flex max-md:flex-col max-md:box-border">
+                <div className="border border-gray-300 rounded-xl p-4 flex flex-col justify-between h-full min-h-[350px] bg-white box-border max-md:h-full max-md:min-h-[350px] max-md:w-full max-md:max-w-full max-md:flex max-md:flex-col max-md:box-border">
                   <img
                     src={getImageUrl(rec.image)}
                     alt={rec.name}
-                    className="w-full h-[120px] object-contain"
+                    className="w-full h-[180px] object-contain"
                   />
-                  <p className="text-sm text-black mt-1.5">Code: {rec.code}</p>
-                  <h4 className="text-base my-1.5 text-black no-underline">{rec.name}</h4>
-                  <p className="text-base font-semibold text-[#b30000]">{rec.price}</p>
-                  <p className="text-sm text-green-600">Additional Saving {rec.save}</p>
+                  <p className="text-base text-black mt-2">Code: {rec.code}</p>
+                  <h4 className="text-lg my-2 text-black no-underline font-semibold">{rec.name}</h4>
+                  <p className="text-lg font-semibold text-[#b30000]">{rec.price}</p>
+                  <p className="text-sm text-green-600 mt-1">Additional Saving {rec.save || "2.1%"}</p>
                 </div>
               </Link>
             ))}
           </div>
 
-          <button 
-            className="mt-5 px-5 py-2.5 bg-[#b30000] text-white rounded-lg border-none cursor-pointer text-sm font-medium hover:bg-[#8b0000] transition-colors"
-            onClick={() => navigate("/items")}
-          >
-            ← Back To Products
-          </button>
+          <div className="flex justify-center mt-6">
+            <button 
+              className="px-5 py-2.5 bg-[#b30000] text-white rounded-lg border-none cursor-pointer text-sm font-medium hover:bg-[#8b0000] transition-colors"
+              onClick={() => navigate("/items")}
+            >
+              ← Back To Products
+            </button>
+          </div>
         </div>
       )}
     </div>
