@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 // Background images
 import heroBgDesktop from "../assets/hero-bg.png";
@@ -40,6 +41,7 @@ const words = [
 
 function Home({ setShowModal }) {
   const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [index, setIndex] = useState(0);
   // Initialize with mobile check
   const [heroBg, setHeroBg] = useState(
@@ -152,38 +154,235 @@ function Home({ setShowModal }) {
         </div>
       </section>
 
-      {/* === Section 3: Products === */}
+      {/* === Section 3: Featured Categories === */}
       <section className="w-full py-16 px-4 bg-white">
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
-          Our Products
+        <h1 className="text-3xl md:text-4xl font-bold text-center mb-12 text-black">
+          Featured Categories
         </h1>
 
-        {/* Show only first 3 products, centered */}
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
-          {(homeData.products || []).slice(0, 3).map((product, i) => (
-            <Link
-              key={i}
-              to={getProductRoute(product.code)}
-              className={`bg-white rounded-lg shadow-md p-6 hover:shadow-lg hover:-translate-y-2 hover:border-2 hover:border-[#b30000] transition-all duration-300 cursor-pointer w-full md:w-auto md:flex-1 max-w-sm ${
-                i === 1 ? "md:-mt-8" : ""
-              }`}
-            >
-              <img
-                src={getImageUrl(product.image)}
-                alt={product.desc}
-                className="w-full h-48 object-contain mb-4"
-              />
+        {/* 4 Category Cards */}
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* PVC Pipes */}
+          <Link
+            to="/product/1"
+            className="relative rounded-lg overflow-hidden shadow-md hover:shadow-lg hover:border-2 hover:border-[#b30000] hover:-translate-y-2 transition-all duration-300 cursor-pointer group h-80"
+          >
+            <img
+              src={getImageUrl("i1.png")}
+              alt="PVC Pipes"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-red-900/90 via-red-800/80 to-transparent p-4">
+              <h3 className="text-white text-lg font-semibold mb-2">PVC Pipes</h3>
+              <span className="text-white text-sm font-medium flex items-center gap-1">
+                Shop Now <span className="text-white">></span>
+              </span>
+            </div>
+          </Link>
 
-              <p className="text-sm text-gray-600 mb-2">Code: {product.code}</p>
-              <p className="text-lg font-semibold mb-2 text-gray-800">{product.desc}</p>
-              <p className="text-sm text-gray-600 mb-2">{product.qty}</p>
-              <p className="text-xl font-bold text-[#b30000]">{product.price}</p>
-            </Link>
-          ))}
+          {/* Flexible Pipes */}
+          <Link
+            to="/flexiblepipe"
+            className="relative rounded-lg overflow-hidden shadow-md hover:shadow-lg hover:border-2 hover:border-[#b30000] hover:-translate-y-2 transition-all duration-300 cursor-pointer group h-80"
+          >
+            <img
+              src={getImageUrl("i3.png")}
+              alt="Flexible Pipes"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-red-900/90 via-red-800/80 to-transparent p-4">
+              <h3 className="text-white text-lg font-semibold mb-2">Flexible Pipes</h3>
+              <span className="text-white text-sm font-medium flex items-center gap-1">
+                Shop Now <span className="text-white">></span>
+              </span>
+            </div>
+          </Link>
+
+          {/* Pipe Bend */}
+          <Link
+            to="/pipebend"
+            className="relative rounded-lg overflow-hidden shadow-md hover:shadow-lg hover:border-2 hover:border-[#b30000] hover:-translate-y-2 transition-all duration-300 cursor-pointer group h-80"
+          >
+            <img
+              src={getImageUrl("i7.png")}
+              alt="Pipe Bend"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-red-900/90 via-red-800/80 to-transparent p-4">
+              <h3 className="text-white text-lg font-semibold mb-2">Pipe Bend</h3>
+              <span className="text-white text-sm font-medium flex items-center gap-1">
+                Shop Now <span className="text-white">></span>
+              </span>
+            </div>
+          </Link>
+
+          {/* Round Junction Box */}
+          <Link
+            to="/boxes/a"
+            className="relative rounded-lg overflow-hidden shadow-md hover:shadow-lg hover:border-2 hover:border-[#b30000] hover:-translate-y-2 transition-all duration-300 cursor-pointer group h-80"
+          >
+            <img
+              src={getImageUrl("boxA1.png")}
+              alt="Round Junction Box"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-red-900/90 via-red-800/80 to-transparent p-4">
+              <h3 className="text-white text-lg font-semibold mb-2">Round Junction Box</h3>
+              <span className="text-white text-sm font-medium flex items-center gap-1">
+                Shop Now <span className="text-white">></span>
+              </span>
+            </div>
+          </Link>
         </div>
       </section>
 
-      {/* === Section 4: What Sets Us Apart === */}
+      {/* === Section 4: Flagship Products === */}
+      <section className="w-full py-16 px-4 bg-white">
+        <h1 className="text-3xl md:text-4xl font-bold text-center mb-12 text-black">
+          Flagship Products
+        </h1>
+
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* PVC Pipe */}
+          <div 
+            onClick={() => navigate("/product/1")}
+            className="bg-white rounded-lg shadow-md border border-gray-200 p-4 hover:shadow-lg hover:-translate-y-2 transition-all duration-300 cursor-pointer"
+          >
+            <img
+              src={getImageUrl("p1a.png")}
+              alt="PVC Pipe"
+              className="w-full h-48 object-contain mb-4"
+            />
+            <h3 className="text-lg font-semibold text-black mb-2">PVC Pipe</h3>
+            <p className="text-base text-gray-600 mb-2">High-quality PVC pipes for all your plumbing needs</p>
+            <p className="text-sm text-gray-500 mb-2">Code: 9004</p>
+            <p className="text-xl font-bold text-black mb-4">₹6,300</p>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                const product = {
+                  name: "PVC Pipe",
+                  code: "9004",
+                  price: 6300,
+                  image: "p1a.png",
+                  size: "19mm",
+                  thickness: "1.00mm",
+                  quantity: 1
+                };
+                addToCart(product);
+                alert(`${product.name} x ${product.quantity} added to cart 🛒`);
+              }}
+              className="w-full bg-[#b30000] hover:bg-[#8b0000] text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+            >
+              Add to Cart
+            </button>
+          </div>
+
+          {/* Reducer Fitting */}
+          <div 
+            onClick={() => navigate("/pipefitting/c")}
+            className="bg-white rounded-lg shadow-md border border-gray-200 p-4 hover:shadow-lg hover:-translate-y-2 transition-all duration-300 cursor-pointer"
+          >
+            <img
+              src={getImageUrl("pf3a.png")}
+              alt="Reducer Fitting"
+              className="w-full h-48 object-contain mb-4"
+            />
+            <h3 className="text-lg font-semibold text-black mb-2">Reducer Fitting</h3>
+            <p className="text-base text-gray-600 mb-2">PVC Reducer (19×25mm) for pipe connections</p>
+            <p className="text-sm text-gray-500 mb-2">Code: 9103</p>
+            <p className="text-xl font-bold text-black mb-4">₹210</p>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                const product = {
+                  name: "PVC Reducer (19×25mm)",
+                  code: "9103",
+                  price: 210,
+                  image: "pf3a.png",
+                  size: "19x25mm",
+                  quantity: 1
+                };
+                addToCart(product);
+                alert(`${product.name} x ${product.quantity} added to cart 🛒`);
+              }}
+              className="w-full bg-[#b30000] hover:bg-[#8b0000] text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+            >
+              Add to Cart
+            </button>
+          </div>
+
+          {/* Square Junction Box */}
+          <div 
+            onClick={() => navigate("/boxes/b")}
+            className="bg-white rounded-lg shadow-md border border-gray-200 p-4 hover:shadow-lg hover:-translate-y-2 transition-all duration-300 cursor-pointer"
+          >
+            <img
+              src={getImageUrl("boxB1.png")}
+              alt="Square Junction Box"
+              className="w-full h-48 object-contain mb-4"
+            />
+            <h3 className="text-lg font-semibold text-black mb-2">Square Junction Box</h3>
+            <p className="text-base text-gray-600 mb-2">Durable square junction box for electrical installations</p>
+            <p className="text-sm text-gray-500 mb-2">Code: BX2001</p>
+            <p className="text-xl font-bold text-black mb-4">₹150</p>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                const product = {
+                  name: "Square Junction Box",
+                  code: "BX2001",
+                  price: 150,
+                  image: "boxB1.png",
+                  quantity: 1
+                };
+                addToCart(product);
+                alert(`${product.name} x ${product.quantity} added to cart 🛒`);
+              }}
+              className="w-full bg-[#b30000] hover:bg-[#8b0000] text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+            >
+              Add to Cart
+            </button>
+          </div>
+
+          {/* Flexible Pipe */}
+          <div 
+            onClick={() => navigate("/flexiblepipe")}
+            className="bg-white rounded-lg shadow-md border border-gray-200 p-4 hover:shadow-lg hover:-translate-y-2 transition-all duration-300 cursor-pointer"
+          >
+            <img
+              src={getImageUrl("fp1a.png")}
+              alt="Flexible Pipe"
+              className="w-full h-48 object-contain mb-4"
+            />
+            <h3 className="text-lg font-semibold text-black mb-2">Flexible Pipe</h3>
+            <p className="text-base text-gray-600 mb-2">Flexible PVC pipe for versatile applications</p>
+            <p className="text-sm text-gray-500 mb-2">Code: 9201</p>
+            <p className="text-xl font-bold text-black mb-4">₹550</p>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                const product = {
+                  name: "Flexible Pipe",
+                  code: "9201",
+                  price: 550,
+                  image: "fp1a.png",
+                  size: "16mm",
+                  length: "30 meters",
+                  quantity: 1
+                };
+                addToCart(product);
+                alert(`${product.name} x ${product.quantity} added to cart 🛒`);
+              }}
+              className="w-full bg-[#b30000] hover:bg-[#8b0000] text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+            >
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* === Section 5: What Sets Us Apart === */}
       <section className="w-full py-16 px-4 bg-white">
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
           What Sets Us Apart
@@ -192,7 +391,7 @@ function Home({ setShowModal }) {
           {(homeData.apart?.images || []).map((img, i) => (
             <div 
               key={i} 
-              className="bg-white rounded-lg shadow-md p-4 md:p-6 aspect-[3/2] md:aspect-[3/2] flex items-center justify-center hover:shadow-lg hover:scale-105 hover:border-2 hover:border-[#b30000] active:scale-95 transition-all duration-300 cursor-pointer overflow-hidden"
+              className="bg-white rounded-lg shadow-md p-4 md:p-6 aspect-[3/2] md:aspect-[3/2] flex items-center justify-center hover:shadow-lg hover:border-2 hover:border-[#b30000] hover:-translate-y-2 active:scale-95 transition-all duration-300 cursor-pointer overflow-hidden"
             >
               <img src={getImageUrl(img)} alt="Apart" className="w-full h-full object-contain" />
             </div>

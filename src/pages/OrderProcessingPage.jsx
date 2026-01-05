@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 const OrderProcessingPage = () => {
   const navigate = useNavigate();
 
-  // ⏱ Auto move to success page after 10 seconds
+  // ⏱ Auto move to success page after 6 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate("/order-success");
-    }, 10000); // 10 seconds
+    }, 6000); // 6 seconds
 
     return () => clearTimeout(timer);
   }, [navigate]);
