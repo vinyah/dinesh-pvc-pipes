@@ -13,7 +13,7 @@ function Footer({ setShowModal }) {
             <img 
               src={logo} 
               alt="Dinesh PVC Pipes Logo" 
-              className="h-20 md:h-24 w-auto object-contain filter brightness-0 invert"
+              className="h-28 md:h-36 w-auto object-contain filter brightness-0 invert"
             />
             <h3 className="text-base md:text-lg font-semibold">Follow Us</h3>
             <div className="flex items-center gap-4">

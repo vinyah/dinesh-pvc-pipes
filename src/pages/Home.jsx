@@ -166,17 +166,17 @@ function Home({ setShowModal }) {
         </p>
 
         {/* 4 Category Cards */}
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="max-w-sm md:max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* PVC Pipes */}
           <Link
             to="/product/1"
-            className="bg-gray-100 rounded-lg overflow-hidden cursor-pointer block hover:-translate-y-2 transition-all duration-300"
+            className="bg-white rounded-lg overflow-hidden cursor-pointer block hover:-translate-y-2 transition-all duration-300"
           >
-            <div className="w-full h-80 bg-gray-200 flex items-center justify-center overflow-hidden">
+            <div className="w-full h-56 md:h-80 bg-white flex items-center justify-center overflow-hidden">
               <img
                 src={getImageUrl("i1.png")}
                 alt="PVC Pipes"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
             <div className="bg-white py-4 text-center">
@@ -187,13 +187,13 @@ function Home({ setShowModal }) {
           {/* Flexible Pipes */}
           <Link
             to="/flexiblepipe"
-            className="bg-gray-100 rounded-lg overflow-hidden cursor-pointer block hover:-translate-y-2 transition-all duration-300"
+            className="bg-white rounded-lg overflow-hidden cursor-pointer block hover:-translate-y-2 transition-all duration-300"
           >
-            <div className="w-full h-80 bg-gray-200 flex items-center justify-center overflow-hidden">
+            <div className="w-full h-56 md:h-80 bg-white flex items-center justify-center overflow-hidden">
               <img
                 src={getImageUrl("i3.png")}
                 alt="Flexible Pipes"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
             <div className="bg-white py-4 text-center">
@@ -204,13 +204,13 @@ function Home({ setShowModal }) {
           {/* Pipe Bend */}
           <Link
             to="/pipebend"
-            className="bg-gray-100 rounded-lg overflow-hidden cursor-pointer block hover:-translate-y-2 transition-all duration-300"
+            className="bg-white rounded-lg overflow-hidden cursor-pointer block hover:-translate-y-2 transition-all duration-300"
           >
-            <div className="w-full h-80 bg-gray-200 flex items-center justify-center overflow-hidden">
+            <div className="w-full h-56 md:h-80 bg-white flex items-center justify-center overflow-hidden">
               <img
                 src={getImageUrl("i7.png")}
                 alt="Pipe Bend"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
             <div className="bg-white py-4 text-center">
@@ -221,13 +221,13 @@ function Home({ setShowModal }) {
           {/* Round Junction Box */}
           <Link
             to="/boxes/a"
-            className="bg-gray-100 rounded-lg overflow-hidden cursor-pointer block hover:-translate-y-2 transition-all duration-300"
+            className="bg-white rounded-lg overflow-hidden cursor-pointer block hover:-translate-y-2 transition-all duration-300"
           >
-            <div className="w-full h-80 bg-gray-200 flex items-center justify-center overflow-hidden">
+            <div className="w-full h-56 md:h-80 bg-white flex items-center justify-center overflow-hidden">
               <img
                 src={getImageUrl("boxA1.png")}
                 alt="Round Junction Box"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
             <div className="bg-white py-4 text-center">
@@ -248,7 +248,7 @@ function Home({ setShowModal }) {
           Showcasing our most trusted essentials
         </p>
 
-        <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="max-w-64 md:max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* PVC Pipe */}
           <Link
             to="/product/1"
