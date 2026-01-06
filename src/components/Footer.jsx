@@ -8,9 +8,9 @@ function Footer({ setShowModal }) {
     <footer className="w-full bg-[#b30000] text-white relative m-0 p-0">
       <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 py-12">
         {/* Main Footer Content - Multiple Columns */}
-        <div className="flex flex-wrap justify-between gap-8 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-8">
           {/* Products Column */}
-          <div className="flex flex-col gap-3 flex-1 min-w-[150px]">
+          <div className="flex flex-col gap-3">
             <h3 className="text-white font-semibold text-base mb-2">Products</h3>
             <ul className="flex flex-col gap-2">
               <li>
@@ -37,7 +37,7 @@ function Footer({ setShowModal }) {
           </div>
 
           {/* Your Account Column */}
-          <div className="flex flex-col gap-3 flex-1 min-w-[150px]">
+          <div className="flex flex-col gap-3">
             <h3 className="text-white font-semibold text-base mb-2">Your Account</h3>
             <ul className="flex flex-col gap-2">
               <li>
@@ -69,30 +69,8 @@ function Footer({ setShowModal }) {
             </ul>
           </div>
 
-          {/* Payments Column */}
-          <div className="flex flex-col gap-3 flex-1 min-w-[150px]">
-            <h3 className="text-white font-semibold text-base mb-2">Payments</h3>
-            <ul className="flex flex-col gap-2">
-              <li>
-                <Link to="/payments" className="text-white/80 hover:text-white hover:underline text-sm">
-                  Debit Card
-                </Link>
-              </li>
-              <li>
-                <Link to="/payments" className="text-white/80 hover:text-white hover:underline text-sm">
-                  Credit Card
-                </Link>
-              </li>
-              <li>
-                <Link to="/payments" className="text-white/80 hover:text-white hover:underline text-sm">
-                  Net Banking
-                </Link>
-              </li>
-            </ul>
-          </div>
-
           {/* Help Column */}
-          <div className="flex flex-col gap-3 flex-1 min-w-[150px]">
+          <div className="flex flex-col gap-3">
             <h3 className="text-white font-semibold text-base mb-2">Help</h3>
             <ul className="flex flex-col gap-2">
               <li>
@@ -117,7 +95,7 @@ function Footer({ setShowModal }) {
           </div>
 
           {/* About Us Column */}
-          <div className="flex flex-col gap-3 flex-1 min-w-[150px]">
+          <div className="flex flex-col gap-3">
             <h3 className="text-white font-semibold text-base mb-2">About Us</h3>
             <ul className="flex flex-col gap-2">
               <li>
