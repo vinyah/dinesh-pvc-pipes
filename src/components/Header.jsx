@@ -7,9 +7,9 @@ function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="w-full bg-white border-b-2 border-[#b30000]">
-      <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+    <header className="w-full bg-transparent border-b-2 border-[#b30000]" style={{ backgroundColor: 'transparent' }}>
+      <div className="w-full px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'transparent' }}>
+        <div className="flex items-center justify-between h-20" style={{ backgroundColor: 'transparent' }}>
           {/* Left Section: Logo + Company name */}
           <Link 
             to="/" 
@@ -33,7 +33,8 @@ function Header() {
               <Search className="absolute left-3 text-[#b30000] w-5 h-5 z-10" />
               <input 
                 type="text" 
-                className="w-full pl-10 pr-4 py-2 border-2 border-[#b30000] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b30000] focus:ring-offset-1 text-sm placeholder:text-red-300"
+                className="w-full pl-10 pr-4 py-2 border-2 border-[#b30000] rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-[#b30000] focus:ring-offset-1 text-sm text-[#b30000] placeholder:text-red-300"
+                style={{ backgroundColor: 'transparent' }}
                 placeholder="Search..." 
               />
             </div>
@@ -42,7 +43,8 @@ function Header() {
             <nav className="hidden md:flex items-center gap-2">
               <Link 
                 to="/items" 
-                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-white hover:bg-[#b30000] hover:text-white transition-all group"
+                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-transparent hover:bg-[#b30000] hover:text-white transition-all group"
+                style={{ backgroundColor: 'transparent' }}
               >
                 <Package className="w-5 h-5 text-[#b30000] group-hover:text-white transition-colors" />
                 <span className="text-xs font-medium text-[#b30000] group-hover:text-white transition-colors mt-1">Items</span>
@@ -50,7 +52,8 @@ function Header() {
 
               <Link 
                 to="/orders" 
-                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-white hover:bg-[#b30000] hover:text-white transition-all group"
+                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-transparent hover:bg-[#b30000] hover:text-white transition-all group"
+                style={{ backgroundColor: 'transparent' }}
               >
                 <FileText className="w-5 h-5 text-[#b30000] group-hover:text-white transition-colors" />
                 <span className="text-xs font-medium text-[#b30000] group-hover:text-white transition-colors mt-1">Orders</span>
@@ -58,7 +61,8 @@ function Header() {
 
               <Link 
                 to="/cart" 
-                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-white hover:bg-[#b30000] hover:text-white transition-all group"
+                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-transparent hover:bg-[#b30000] hover:text-white transition-all group"
+                style={{ backgroundColor: 'transparent' }}
               >
                 <ShoppingCart className="w-5 h-5 text-[#b30000] group-hover:text-white transition-colors" />
                 <span className="text-xs font-medium text-[#b30000] group-hover:text-white transition-colors mt-1">Cart</span>
@@ -66,7 +70,8 @@ function Header() {
 
               <Link 
                 to="/account" 
-                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-white hover:bg-[#b30000] hover:text-white transition-all group"
+                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-transparent hover:bg-[#b30000] hover:text-white transition-all group"
+                style={{ backgroundColor: 'transparent' }}
               >
                 <User className="w-5 h-5 text-[#b30000] group-hover:text-white transition-colors" />
                 <span className="text-xs font-medium text-[#b30000] group-hover:text-white transition-colors mt-1">Account</span>
@@ -92,7 +97,8 @@ function Header() {
             <Search className="absolute left-3 text-[#b30000] w-5 h-5 z-10" />
             <input 
               type="text" 
-              className="w-full pl-10 pr-4 py-2 border-2 border-[#b30000] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b30000] text-sm placeholder:text-red-300"
+              className="w-full pl-10 pr-4 py-2 border-2 border-[#b30000] rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-[#b30000] text-sm text-[#b30000] placeholder:text-red-300"
+              style={{ backgroundColor: 'transparent' }}
               placeholder="Search..." 
             />
           </div>

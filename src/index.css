@@ -43,6 +43,19 @@ img {
   height: auto;
 }
 
+/* Ensure header and inputs are transparent (but allow hover states) */
+header {
+  background-color: transparent !important;
+}
+
+header input[type="text"] {
+  background-color: transparent !important;
+}
+
+header a:not(:hover) {
+  background-color: transparent !important;
+}
+
 /* ===== Global Body Styling ===== */
 body {
   font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',

@@ -3,12 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
-// Background images
-import heroBgDesktop from "../assets/hero-bg.png";
-import heroBgMobile from "../assets/hero-bg-mobile.png";
-
 import db from "../../db.json";
 import { getImageUrl } from "../utils/imageLoader";
+
+// Sliding background images for hero section
+const heroImages = ["bg1.jpg", "bg2.jpg", "bg3.avif", "bg4.webp", "bg5.avif", "p1c.png"];
 
 // Safe access to home data
 const homeData = db?.pages?.home || {
@@ -29,50 +28,17 @@ const homeData = db?.pages?.home || {
   }
 };
 
-// Changing words for the hero section
-const words = [
-  "हर घर में",
-  "In Every House",
-  "ప్రతి ఇంటిలో",
-  "ഓരോ വീട്ടിലും",
-  "ஒவ்வொரு வீட்டிலும்",
-  "ಪ್ರತಿಯೊಂದು ಮನೆಯಲ್ಲಿ",
-];
-
 function Home({ setShowModal }) {
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  const [index, setIndex] = useState(0);
-  // Initialize with mobile check
-  const [heroBg, setHeroBg] = useState(
-    typeof window !== 'undefined' && window.innerWidth <= 768 
-      ? heroBgMobile 
-      : heroBgDesktop
-  );
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== 'undefined' && window.innerWidth <= 768
-  );
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Change language text every 2 seconds
+  // Change hero background image every 4 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % words.length);
-    }, 2000);
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 4000);
     return () => clearInterval(interval);
-  }, []);
-
-  // Switch hero background for mobile vs laptop
-  useEffect(() => {
-    const updateBg = () => {
-      const mobile = window.innerWidth <= 768;
-      setHeroBg(mobile ? heroBgMobile : heroBgDesktop);
-      setIsMobile(mobile);
-    };
-    // Set initial background
-    updateBg();
-    // Update on resize
-    window.addEventListener("resize", updateBg);
-    return () => window.removeEventListener("resize", updateBg);
   }, []);
 
   // Helper function to get route based on product code
@@ -89,36 +55,39 @@ function Home({ setShowModal }) {
     <div className="w-full min-h-screen">
       {/* === Section 1: Hero Banner === */}
       <section 
-        className="relative w-full min-h-[700px] max-md:min-h-[500px] flex flex-col items-center md:justify-center max-md:justify-start overflow-hidden max-md:bg-contain md:bg-cover bg-center bg-no-repeat max-md:mt-0 max-md:pt-0"
-        style={{
-          backgroundImage: `url(${heroBg})`,
-          ...(isMobile && { backgroundSize: '110%' }),
-        }}
+        className="relative w-full min-h-[700px] max-md:min-h-[500px] flex flex-col items-center md:justify-center max-md:justify-start overflow-hidden max-md:mt-0 max-md:pt-0"
       >
-        {/* Central Branding Text - exact positioning */}
-        <div className="relative z-10 text-center px-4 flex flex-col items-center md:justify-center max-md:justify-center w-full md:min-h-[700px] max-md:min-h-[500px] max-md:absolute max-md:inset-0">
-          {/* Center Content - Changing Words and Brand Name */}
-          <div className="flex flex-col items-center max-md:justify-center max-md:-mt-8 max-md:translate-x-6">
-            {/* Top Text - Changing Words - reduced size, moved up and right on mobile */}
-            <h3 className="text-white text-lg md:text-3xl font-semibold mb-3 md:mb-6 max-md:mb-2 max-md:-mt-8 md:mt-8">
-              {words[index]}
-            </h3>
-
-            {/* Main Brand Name - moved up */}
-            <h1 className="text-white text-4xl md:text-7xl font-semibold mb-2 max-md:mb-1">
-              DINESH
-            </h1>
-
-            {/* Sub Brand Name - moved up */}
-            <p className="text-white text-2xl md:text-4xl font-normal mb-4 md:mb-auto -mt-2 max-md:-mt-1">
-              PVC PIPES
-            </p>
+        {/* Sliding Background Images */}
+        <div className="absolute inset-0 w-full h-full">
+          {heroImages.map((img, idx) => (
+            <div
+              key={idx}
+              className={`absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
+                idx === currentImageIndex ? 'opacity-100 z-10' : idx === (currentImageIndex + 1) % heroImages.length ? 'opacity-0 z-0' : 'opacity-0 z-0'
+              }`}
+              style={{
+                backgroundImage: `url(${getImageUrl(img)})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundColor: 'transparent',
+              }}
+            />
+          ))}
+        </div>
+        
+        {/* Quarter Circle with Welcome Text */}
+        <div className="absolute left-0 bottom-0 w-96 h-96 md:w-[500px] md:h-[500px] z-20">
+          <div 
+            className="absolute left-0 bottom-0 w-full h-full rounded-tr-full"
+            style={{
+              background: 'rgba(255, 0, 0, 0.1)',
+              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.4), 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 50px rgba(0, 0, 0, 0.25)',
+            }}
+          >
+            <div className="absolute left-12 bottom-24 md:left-16 md:bottom-32 text-white font-semibold text-xl md:text-3xl">
+              Welcome to<br />Dinesh PVC Pipe
+            </div>
           </div>
-
-          {/* Bottom Slogan - moved up on mobile */}
-          <p className="text-white text-base md:text-xl font-medium italic max-md:absolute max-md:bottom-16 max-md:left-1/2 max-md:-translate-x-1/2 max-md:w-full max-md:px-4 md:mt-auto md:-mt-6 md:mb-4">
-            "Where Durability Meets Innovation"
-          </p>
         </div>
       </section>
 
@@ -155,18 +124,26 @@ function Home({ setShowModal }) {
       </section>
 
       {/* === Section 3: Featured Categories === */}
-      <section className="w-full py-16 px-4 bg-white">
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-4 text-black">
-          Featured Categories
-        </h1>
+      <section 
+        className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${getImageUrl("BGred.jpg")})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="relative z-10">
+          <h1 className="text-3xl md:text-4xl font-bold text-center mb-4 text-white">
+            Featured Categories
+          </h1>
 
-        {/* Descriptive Text */}
-        <p className="text-center mb-12 text-xl md:text-2xl text-black italic font-serif font-light tracking-wider leading-relaxed">
-          Quality piping products across essential categories
-        </p>
+          {/* Descriptive Text */}
+          <p className="text-center mb-12 text-xl md:text-2xl text-white italic font-serif font-light tracking-wider leading-relaxed">
+            Quality piping products across essential categories
+          </p>
 
-        {/* 4 Category Cards */}
-        <div className="max-w-sm md:max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* 4 Category Cards */}
+          <div className="max-w-sm md:max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* PVC Pipes */}
           <Link
             to="/product/1"
@@ -234,19 +211,28 @@ function Home({ setShowModal }) {
               <h3 className="text-lg font-semibold text-black">Round Junction Box</h3>
             </div>
           </Link>
+          </div>
         </div>
       </section>
 
       {/* === Section 4: Flagship Products === */}
-      <section className="w-full py-16 px-4 bg-white">
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-4 text-black">
-          Flagship Products
-        </h1>
+      <section 
+        className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${getImageUrl("BGred.jpg")})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="relative z-10">
+          <h1 className="text-3xl md:text-4xl font-bold text-center mb-4 text-white">
+            Flagship Products
+          </h1>
 
-        {/* Descriptive Text */}
-        <p className="text-center mb-12 text-xl md:text-2xl text-black italic font-serif font-light tracking-wider leading-relaxed">
-          Showcasing our most trusted essentials
-        </p>
+          {/* Descriptive Text */}
+          <p className="text-center mb-12 text-xl md:text-2xl text-white italic font-serif font-light tracking-wider leading-relaxed">
+            Showcasing our most trusted essentials
+          </p>
 
         <div className="max-w-64 md:max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* PVC Pipe */}
@@ -365,13 +351,22 @@ function Home({ setShowModal }) {
             </div>
           </Link>
         </div>
+        </div>
       </section>
 
       {/* === Section 5: What Sets Us Apart === */}
-      <section className="w-full py-16 px-4 bg-white">
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
-          What Sets Us Apart
-        </h1>
+      <section 
+        className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${getImageUrl("BGred.jpg")})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="relative z-10">
+          <h1 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
+            What Sets Us Apart
+          </h1>
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-6">
           {(homeData.apart?.images || []).map((img, i) => (
             <div 
@@ -382,13 +377,21 @@ function Home({ setShowModal }) {
             </div>
           ))}
         </div>
+        </div>
       </section>
 
-      {/* === Section 5: Sign Up / Login === */}
-      <section className="w-full py-16 px-4 bg-white">
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-8 justify-center items-center">
+      {/* === Section 6: Sign Up / Login === */}
+      <section 
+        className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${getImageUrl("BGred.jpg")})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="relative z-10 max-w-4xl mx-auto flex flex-col md:flex-row gap-8 justify-center items-center">
           <div className="text-center">
-            <p className="text-lg mb-4 text-gray-800">{homeData.accountSection.signupText}</p>
+            <p className="text-lg mb-4 text-white">{homeData.accountSection.signupText}</p>
             <button
               className="px-8 py-3 border-2 border-[#b30000] text-[#b30000] bg-white rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-colors"
               onClick={() => setShowModal("signup")}
@@ -398,7 +401,7 @@ function Home({ setShowModal }) {
           </div>
 
           <div className="text-center">
-            <p className="text-lg mb-4 text-gray-800">{homeData.accountSection.loginText}</p>
+            <p className="text-lg mb-4 text-white">{homeData.accountSection.loginText}</p>
             <button
               className="px-8 py-3 border-2 border-[#b30000] text-[#b30000] bg-white rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-colors"
               onClick={() => setShowModal("login")}
