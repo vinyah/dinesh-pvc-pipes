@@ -7,7 +7,7 @@ import db from "../../db.json";
 import { getImageUrl } from "../utils/imageLoader";
 
 // Sliding background images for hero section
-const heroImages = ["bg1.jpg", "bg2.jpg", "bg3.avif", "bg4.webp", "bg5.avif", "p1c.png"];
+const heroImages = ["p1c.png", "bg1.jpg", "bg2.webp", "bg4.webp", "bg5.avif"];
 
 // Safe access to home data
 const homeData = db?.pages?.home || {
@@ -55,7 +55,7 @@ function Home({ setShowModal }) {
     <div className="w-full min-h-screen">
       {/* === Section 1: Hero Banner === */}
       <section 
-        className="relative w-full min-h-[700px] max-md:min-h-[500px] flex flex-col items-center md:justify-center max-md:justify-start overflow-hidden max-md:mt-0 max-md:pt-0"
+        className="relative w-full min-h-[700px] max-md:min-h-[500px] flex flex-col items-center md:justify-center max-md:justify-start overflow-hidden max-md:mt-0 max-md:pt-0 bg-black"
       >
         {/* Sliding Background Images */}
         <div className="absolute inset-0 w-full h-full">
@@ -63,7 +63,7 @@ function Home({ setShowModal }) {
             <div
               key={idx}
               className={`absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
-                idx === currentImageIndex ? 'opacity-100 z-10' : idx === (currentImageIndex + 1) % heroImages.length ? 'opacity-0 z-0' : 'opacity-0 z-0'
+                idx === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
               }`}
               style={{
                 backgroundImage: `url(${getImageUrl(img)})`,
@@ -75,19 +75,17 @@ function Home({ setShowModal }) {
           ))}
         </div>
         
-        {/* Quarter Circle with Welcome Text */}
-        <div className="absolute left-0 bottom-0 w-96 h-96 md:w-[500px] md:h-[500px] z-20">
-          <div 
-            className="absolute left-0 bottom-0 w-full h-full rounded-tr-full"
-            style={{
-              background: 'rgba(255, 0, 0, 0.1)',
-              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.4), 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 50px rgba(0, 0, 0, 0.25)',
-            }}
+        {/* Left Bottom Corner Content */}
+        <div className="absolute left-4 bottom-16 md:left-12 md:bottom-20 z-20 flex flex-col items-start">
+          <h1 className="text-white font-bold text-4xl md:text-6xl lg:text-7xl mb-6 drop-shadow-lg">
+            Dinesh<br />PVC Pipes
+          </h1>
+          <button
+            onClick={() => navigate("/items")}
+            className="px-8 py-4 bg-[#b30000] text-white rounded-lg font-semibold text-lg md:text-xl hover:bg-[#8b0000] transition-colors shadow-lg"
           >
-            <div className="absolute left-12 bottom-24 md:left-16 md:bottom-32 text-white font-semibold text-xl md:text-3xl">
-              Welcome to<br />Dinesh PVC Pipe
-            </div>
-          </div>
+            Explore Products
+          </button>
         </div>
       </section>
 
@@ -127,7 +125,7 @@ function Home({ setShowModal }) {
       <section 
         className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${getImageUrl("BGred.jpg")})`,
+          backgroundImage: `url(${getImageUrl("BGred.webp")})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -219,7 +217,7 @@ function Home({ setShowModal }) {
       <section 
         className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${getImageUrl("BGred.jpg")})`,
+          backgroundImage: `url(${getImageUrl("BGred.webp")})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -358,7 +356,7 @@ function Home({ setShowModal }) {
       <section 
         className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${getImageUrl("BGred.jpg")})`,
+          backgroundImage: `url(${getImageUrl("BGred.webp")})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -384,7 +382,7 @@ function Home({ setShowModal }) {
       <section 
         className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${getImageUrl("BGred.jpg")})`,
+          backgroundImage: `url(${getImageUrl("BGred.webp")})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}

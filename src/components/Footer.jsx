@@ -1,35 +1,48 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import logo from "../assets/logo.png";
 
 function Footer({ setShowModal }) {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+  
+  // Home page: white background with red text
+  // Other pages: red background with white text
+  const bgClass = isHomePage ? "bg-white" : "bg-[#b30000]";
+  const textClass = isHomePage ? "text-[#b30000]" : "text-white";
+  const textOpacityClass = isHomePage ? "text-[#b30000]/80" : "text-white/80";
+  const borderClass = isHomePage ? "border-[#b30000]/20" : "border-white/20";
+  const borderIconClass = isHomePage ? "border-[#b30000]/30" : "border-white/30";
+  const hoverTextClass = isHomePage ? "hover:text-[#b30000]" : "hover:text-white";
+  const hoverBorderClass = isHomePage ? "hover:border-[#b30000]" : "hover:border-white";
+  
   return (
-    <footer className="w-full bg-transparent text-black relative m-0 p-0">
+    <footer className={`w-full ${bgClass} ${textClass} relative m-0 p-0`}>
       <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 py-12">
         {/* Main Footer Content - Multiple Columns */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-8">
           {/* Products Column */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-black font-semibold text-base mb-2">Products</h3>
+            <h3 className={`${textClass} font-semibold text-base mb-2`}>Products</h3>
             <ul className="flex flex-col gap-2">
               <li>
-                <Link to="/items" className="text-black/80 hover:text-black hover:underline text-sm">
+                <Link to="/items" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
                   PVC Pipes
                 </Link>
               </li>
               <li>
-                <Link to="/pipefitting" className="text-black/80 hover:text-black hover:underline text-sm">
+                <Link to="/pipefitting" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
                   Pipe Fittings
                 </Link>
               </li>
               <li>
-                <Link to="/boxes" className="text-black/80 hover:text-black hover:underline text-sm">
+                <Link to="/boxes" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
                   Junction Boxes
                 </Link>
               </li>
               <li>
-                <Link to="/items" className="text-black/80 hover:text-black hover:underline text-sm">
+                <Link to="/items" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
                   Flexible Pipes
                 </Link>
               </li>
@@ -38,11 +51,11 @@ function Footer({ setShowModal }) {
 
           {/* Your Account Column */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-black font-semibold text-base mb-2">Your Account</h3>
+            <h3 className={`${textClass} font-semibold text-base mb-2`}>Your Account</h3>
             <ul className="flex flex-col gap-2">
               <li>
                 <button
-                  className="text-black/80 hover:text-black hover:underline text-sm text-left"
+                  className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm text-left`}
                   onClick={() => setShowModal("login")}
                 >
                   Log In
@@ -50,19 +63,19 @@ function Footer({ setShowModal }) {
               </li>
               <li>
                 <button
-                  className="text-black/80 hover:text-black hover:underline text-sm text-left"
+                  className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm text-left`}
                   onClick={() => setShowModal("signup")}
                 >
                   Create Account
                 </button>
               </li>
               <li>
-                <Link to="/orders" className="text-black/80 hover:text-black hover:underline text-sm">
+                <Link to="/orders" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
                   Orders History
                 </Link>
               </li>
               <li>
-                <Link to="/cart" className="text-black/80 hover:text-black hover:underline text-sm">
+                <Link to="/cart" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
                   Cart
                 </Link>
               </li>
@@ -71,45 +84,45 @@ function Footer({ setShowModal }) {
 
           {/* Help Column */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-black font-semibold text-base mb-2">Help</h3>
+            <h3 className={`${textClass} font-semibold text-base mb-2`}>Help</h3>
             <ul className="flex flex-col gap-2">
               <li>
-                <Link to="/services" className="text-black/80 hover:text-black hover:underline text-sm">
+                <Link to="/services" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
                   Customer Care
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="text-black/80 hover:text-black hover:underline text-sm">
+                <Link to="/services" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
                   Home Delivery
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="text-black/80 hover:text-black hover:underline text-sm">
+                <Link to="/services" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
                   Installation
                 </Link>
               </li>
               <li>
-                <p className="text-black/80 text-sm">1800 564 657</p>
+                <p className={textOpacityClass + " text-sm"}>1800 564 657</p>
               </li>
             </ul>
           </div>
 
           {/* About Us Column */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-black font-semibold text-base mb-2">About Us</h3>
+            <h3 className={`${textClass} font-semibold text-base mb-2`}>About Us</h3>
             <ul className="flex flex-col gap-2">
               <li>
-                <Link to="/" className="text-black/80 hover:text-black hover:underline text-sm">
+                <Link to="/" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
                   Overview
                 </Link>
               </li>
               <li>
-                <Link to="/" className="text-black/80 hover:text-black hover:underline text-sm">
+                <Link to="/" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link to="/" className="text-black/80 hover:text-black hover:underline text-sm">
+                <Link to="/" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
                   Policies
                 </Link>
               </li>
@@ -118,51 +131,51 @@ function Footer({ setShowModal }) {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-black/20 my-8"></div>
+        <div className={`border-t ${borderClass} my-8`}></div>
 
         {/* Social Media Icons */}
         <div className="flex items-center justify-center gap-4 mb-8">
           <a 
             href="#" 
-            className="w-10 h-10 border border-black/30 rounded flex items-center justify-center hover:border-black transition-colors"
+            className={`w-10 h-10 border ${borderIconClass} rounded flex items-center justify-center ${hoverBorderClass} transition-colors`}
             aria-label="Instagram"
           >
-            <Instagram className="w-5 h-5 text-black" strokeWidth={1.5} />
+            <Instagram className={`w-5 h-5 ${textClass}`} strokeWidth={1.5} />
           </a>
           <a 
             href="#" 
-            className="w-10 h-10 border border-black/30 rounded flex items-center justify-center hover:border-black transition-colors"
+            className={`w-10 h-10 border ${borderIconClass} rounded flex items-center justify-center ${hoverBorderClass} transition-colors`}
             aria-label="Facebook"
           >
-            <Facebook className="w-5 h-5 text-black" strokeWidth={1.5} />
+            <Facebook className={`w-5 h-5 ${textClass}`} strokeWidth={1.5} />
           </a>
           <a 
             href="#" 
-            className="w-10 h-10 border border-black/30 rounded flex items-center justify-center hover:border-black transition-colors"
+            className={`w-10 h-10 border ${borderIconClass} rounded flex items-center justify-center ${hoverBorderClass} transition-colors`}
             aria-label="Twitter"
           >
-            <Twitter className="w-5 h-5 text-black" strokeWidth={1.5} />
+            <Twitter className={`w-5 h-5 ${textClass}`} strokeWidth={1.5} />
           </a>
         </div>
 
         {/* Divider */}
-        <div className="border-t border-black/20 my-8"></div>
+        <div className={`border-t ${borderClass} my-8`}></div>
 
         {/* Footer Bottom - Copyright and Legal Links */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-black/80 text-sm">
+          <p className={textOpacityClass + " text-sm"}>
             © 2025 Dinesh PVC Pipes | All rights reserved
           </p>
           <div className="flex items-center gap-4 text-sm">
-            <Link to="/sitemap" className="text-black/80 hover:text-black hover:underline">
+            <Link to="/sitemap" className={`${textOpacityClass} ${hoverTextClass} hover:underline`}>
               Sitemap
             </Link>
-            <span className="text-black/50">|</span>
-            <Link to="/privacy" className="text-black/80 hover:text-black hover:underline">
+            <span className={isHomePage ? "text-[#b30000]/50" : "text-white/50"}>|</span>
+            <Link to="/privacy" className={`${textOpacityClass} ${hoverTextClass} hover:underline`}>
               Privacy Policy
             </Link>
-            <span className="text-black/50">|</span>
-            <Link to="/terms" className="text-black/80 hover:text-black hover:underline">
+            <span className={isHomePage ? "text-[#b30000]/50" : "text-white/50"}>|</span>
+            <Link to="/terms" className={`${textOpacityClass} ${hoverTextClass} hover:underline`}>
               Terms of Use
             </Link>
           </div>

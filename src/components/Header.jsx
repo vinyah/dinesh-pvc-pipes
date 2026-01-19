@@ -43,38 +43,38 @@ function Header() {
             <nav className="hidden md:flex items-center gap-2">
               <Link 
                 to="/items" 
-                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-transparent hover:bg-[#b30000] hover:text-white transition-all group"
+                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-transparent hover:bg-red-50 transition-all group"
                 style={{ backgroundColor: 'transparent' }}
               >
-                <Package className="w-5 h-5 text-[#b30000] group-hover:text-white transition-colors" />
-                <span className="text-xs font-medium text-[#b30000] group-hover:text-white transition-colors mt-1">Items</span>
+                <Package className="w-5 h-5 text-[#b30000] group-hover:text-[#b30000] transition-colors" />
+                <span className="text-xs font-medium text-[#b30000] group-hover:text-[#b30000] transition-colors mt-1">Items</span>
               </Link>
 
               <Link 
                 to="/orders" 
-                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-transparent hover:bg-[#b30000] hover:text-white transition-all group"
+                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-transparent hover:bg-red-50 transition-all group"
                 style={{ backgroundColor: 'transparent' }}
               >
-                <FileText className="w-5 h-5 text-[#b30000] group-hover:text-white transition-colors" />
-                <span className="text-xs font-medium text-[#b30000] group-hover:text-white transition-colors mt-1">Orders</span>
+                <FileText className="w-5 h-5 text-[#b30000] group-hover:text-[#b30000] transition-colors" />
+                <span className="text-xs font-medium text-[#b30000] group-hover:text-[#b30000] transition-colors mt-1">Orders</span>
               </Link>
 
               <Link 
                 to="/cart" 
-                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-transparent hover:bg-[#b30000] hover:text-white transition-all group"
+                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-transparent hover:bg-red-50 transition-all group"
                 style={{ backgroundColor: 'transparent' }}
               >
-                <ShoppingCart className="w-5 h-5 text-[#b30000] group-hover:text-white transition-colors" />
-                <span className="text-xs font-medium text-[#b30000] group-hover:text-white transition-colors mt-1">Cart</span>
+                <ShoppingCart className="w-5 h-5 text-[#b30000] group-hover:text-[#b30000] transition-colors" />
+                <span className="text-xs font-medium text-[#b30000] group-hover:text-[#b30000] transition-colors mt-1">Cart</span>
               </Link>
 
               <Link 
                 to="/account" 
-                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-transparent hover:bg-[#b30000] hover:text-white transition-all group"
+                className="flex flex-col items-center justify-center w-16 h-16 border-2 border-[#b30000] rounded-lg bg-transparent hover:bg-red-50 transition-all group"
                 style={{ backgroundColor: 'transparent' }}
               >
-                <User className="w-5 h-5 text-[#b30000] group-hover:text-white transition-colors" />
-                <span className="text-xs font-medium text-[#b30000] group-hover:text-white transition-colors mt-1">Account</span>
+                <User className="w-5 h-5 text-[#b30000] group-hover:text-[#b30000] transition-colors" />
+                <span className="text-xs font-medium text-[#b30000] group-hover:text-[#b30000] transition-colors mt-1">Account</span>
               </Link>
             </nav>
 
