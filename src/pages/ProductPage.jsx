@@ -454,8 +454,8 @@ const ProductPage = () => {
         </div>
 
         <div className="flex items-center gap-2.5 justify-center md:justify-start">
-          <img src={getImageUrl("nonreturn.png")} alt="Non Returnable" className="w-12 h-12" />
-          <span className="text-base font-semibold whitespace-nowrap">Non Returnable</span>
+          <img src={getImageUrl("nonreturn.png")} alt="Returnable" className="w-12 h-12" />
+          <span className="text-base font-semibold whitespace-nowrap">Returnable</span>
         </div>
       </div>
 

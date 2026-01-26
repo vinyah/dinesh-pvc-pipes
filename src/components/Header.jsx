@@ -1,15 +1,134 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/Hlogo.png";
 import { Package, FileText, ShoppingCart, User, Search } from "lucide-react";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isMobileState, setIsMobileState] = useState(false);
+  const lastScrollYRef = React.useRef(0);
+  const mouseYRef = React.useRef(0);
+  const hideTimeoutRef = React.useRef(null);
+  const isMobileRef = React.useRef(false);
+
+  useEffect(() => {
+    // Detect if device is mobile - more comprehensive detection
+    const checkDevice = () => {
+      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth <= 768;
+      const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      const isMobile = (hasTouch && isSmallScreen) || isMobileUA;
+      isMobileRef.current = isMobile;
+      setIsMobileState(isMobile);
+      return isMobile;
+    };
+
+    const isMobile = checkDevice();
+    
+    // Handle window resize to re-detect device type
+    const handleResize = () => {
+      const wasMobile = isMobileRef.current;
+      const nowMobile = checkDevice();
+      
+      // If device type changed, remove old listeners and add new ones
+      if (wasMobile !== nowMobile) {
+        window.removeEventListener("scroll", handleScrollMobile);
+        window.removeEventListener("scroll", handleScrollDesktop);
+        window.removeEventListener("mousemove", handleMouseMove);
+        
+        // Update visibility state when switching between mobile/desktop
+        if (nowMobile) {
+          setIsVisible(true); // Always visible on mobile
+          window.addEventListener("scroll", handleScrollMobile, { passive: true });
+        } else {
+          setIsVisible(false); // Start hidden on desktop
+          window.addEventListener("scroll", handleScrollDesktop, { passive: true });
+          window.addEventListener("mousemove", handleMouseMove, { passive: true });
+        }
+      }
+    };
+
+    // Desktop/Laptop/Tablet behavior: Cursor-based + scroll
+    const handleScrollDesktop = () => {
+      // Only handle scroll if mouse is away from top (mouse handler takes priority when near top)
+      if (mouseYRef.current > 150) {
+        const currentScrollY = window.scrollY || window.pageYOffset || 0;
+        const lastScrollY = lastScrollYRef.current;
+        
+        // Scrolling up - show header (slide down from top)
+        if (currentScrollY < lastScrollY) {
+          setIsVisible(true);
+        }
+        // Scrolling down - hide header (slide up and hide)
+        else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          setIsVisible(false);
+        }
+        
+        lastScrollYRef.current = currentScrollY;
+      }
+    };
+
+    // Mobile behavior: Header is always fixed and visible
+    const handleScrollMobile = () => {
+      // On mobile, header is always visible - no scroll behavior needed
+      setIsVisible(true);
+    };
+
+    const handleMouseMove = (e) => {
+      // Only handle mouse events on desktop/tablet (not mobile)
+      if (isMobileRef.current) return;
+      
+      const mouseY = e.clientY;
+      mouseYRef.current = mouseY;
+      
+      // Mouse handler takes priority - show/hide based on cursor position
+      if (mouseY <= 150) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    // Set initial scroll position
+    lastScrollYRef.current = window.scrollY || window.pageYOffset || 0;
+    mouseYRef.current = window.innerHeight; // Start with mouse at bottom
+    
+    // Start hidden on desktop, always visible on mobile
+    setIsVisible(isMobile);
+    
+    // Add event listeners based on device type
+    if (isMobile) {
+      window.addEventListener("scroll", handleScrollMobile, { passive: true });
+    } else {
+      window.addEventListener("scroll", handleScrollDesktop, { passive: true });
+      window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    }
+    
+    window.addEventListener("resize", handleResize);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScrollDesktop);
+      window.removeEventListener("scroll", handleScrollMobile);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("resize", handleResize);
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <header className="w-full bg-transparent border-b-2 border-[#b30000]" style={{ backgroundColor: 'transparent' }}>
-      <div className="w-full px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'transparent' }}>
-        <div className="flex items-center justify-between h-20" style={{ backgroundColor: 'transparent' }}>
+    <header 
+      className="fixed top-0 left-0 right-0 w-full bg-white border-b-2 border-[#b30000] z-50 transition-transform duration-300"
+      style={{ 
+        transform: isMobileState ? 'translateY(0)' : (isVisible ? 'translateY(0)' : 'translateY(-100%)'),
+        backgroundColor: 'white'
+      }}
+    >
+      <div className="w-full px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="flex items-center justify-between h-20 bg-white">
           {/* Left Section: Logo + Company name */}
           <Link 
             to="/" 

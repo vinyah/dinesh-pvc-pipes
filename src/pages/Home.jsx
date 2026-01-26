@@ -55,7 +55,7 @@ function Home({ setShowModal }) {
     <div className="w-full min-h-screen">
       {/* === Section 1: Hero Banner === */}
       <section 
-        className="relative w-full min-h-[700px] max-md:min-h-[500px] flex flex-col items-center md:justify-center max-md:justify-start overflow-hidden max-md:mt-0 max-md:pt-0 bg-black"
+        className="relative w-full min-h-[700px] max-md:min-h-[500px] flex flex-col items-center md:justify-center max-md:justify-start overflow-hidden max-md:mt-0 max-md:pt-20 bg-black"
       >
         {/* Sliding Background Images */}
         <div className="absolute inset-0 w-full h-full">
@@ -125,7 +125,7 @@ function Home({ setShowModal }) {
       <section 
         className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${getImageUrl("BGred.webp")})`,
+          backgroundImage: `url(${getImageUrl("BGred.png")})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -214,23 +214,15 @@ function Home({ setShowModal }) {
       </section>
 
       {/* === Section 4: Flagship Products === */}
-      <section 
-        className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url(${getImageUrl("BGred.webp")})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        <div className="relative z-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-center mb-4 text-white">
-            Flagship Products
-          </h1>
+      <section className="w-full py-16 px-4 bg-white">
+        <h1 className="text-3xl md:text-4xl font-bold text-center mb-4 text-black">
+          Flagship Products
+        </h1>
 
-          {/* Descriptive Text */}
-          <p className="text-center mb-12 text-xl md:text-2xl text-white italic font-serif font-light tracking-wider leading-relaxed">
-            Showcasing our most trusted essentials
-          </p>
+        {/* Descriptive Text */}
+        <p className="text-center mb-12 text-xl md:text-2xl text-black italic font-serif font-light tracking-wider leading-relaxed">
+          Showcasing our most trusted essentials
+        </p>
 
         <div className="max-w-64 md:max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* PVC Pipe */}
@@ -349,14 +341,13 @@ function Home({ setShowModal }) {
             </div>
           </Link>
         </div>
-        </div>
       </section>
 
       {/* === Section 5: What Sets Us Apart === */}
       <section 
         className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${getImageUrl("BGred.webp")})`,
+          backgroundImage: `url(${getImageUrl("BGred.png")})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -382,7 +373,7 @@ function Home({ setShowModal }) {
       <section 
         className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${getImageUrl("BGred.webp")})`,
+          backgroundImage: `url(${getImageUrl("BGred.png")})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -391,7 +382,7 @@ function Home({ setShowModal }) {
           <div className="text-center">
             <p className="text-lg mb-4 text-white">{homeData.accountSection.signupText}</p>
             <button
-              className="px-8 py-3 border-2 border-[#b30000] text-[#b30000] bg-white rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-colors"
+              className="px-8 py-3 border-2 border-white text-white bg-transparent rounded-lg font-semibold hover:bg-white hover:text-[#b30000] transition-colors"
               onClick={() => setShowModal("signup")}
             >
               {homeData.accountSection.signupButton}
@@ -401,7 +392,7 @@ function Home({ setShowModal }) {
           <div className="text-center">
             <p className="text-lg mb-4 text-white">{homeData.accountSection.loginText}</p>
             <button
-              className="px-8 py-3 border-2 border-[#b30000] text-[#b30000] bg-white rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-colors"
+              className="px-8 py-3 border-2 border-white text-white bg-transparent rounded-lg font-semibold hover:bg-white hover:text-[#b30000] transition-colors"
               onClick={() => setShowModal("login")}
             >
               {homeData.accountSection.loginButton}
