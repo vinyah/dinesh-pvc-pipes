@@ -32,6 +32,7 @@ function Home({ setShowModal }) {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [clickedProduct, setClickedProduct] = useState(null); // Track clicked product on mobile
 
   // Change hero background image every 4 seconds
   useEffect(() => {
@@ -40,6 +41,20 @@ function Home({ setShowModal }) {
     }, 4000);
     return () => clearInterval(interval);
   }, []);
+
+  // Close overlay when clicking outside on mobile
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (window.innerWidth <= 768 && clickedProduct && !e.target.closest('.flagship-product')) {
+        setClickedProduct(null);
+      }
+    };
+    
+    if (clickedProduct) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [clickedProduct]);
 
   // Helper function to get route based on product code
   const getProductRoute = (code) => {
@@ -226,9 +241,19 @@ function Home({ setShowModal }) {
 
         <div className="max-w-64 md:max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* PVC Pipe */}
-          <Link
-            to="/product/1"
-            className="relative rounded-lg overflow-hidden aspect-square group cursor-pointer"
+          <div
+            className="flagship-product relative rounded-lg overflow-hidden aspect-square group cursor-pointer"
+            onClick={(e) => {
+              // On mobile, show overlay on click
+              if (window.innerWidth <= 768) {
+                e.preventDefault();
+                if (clickedProduct === "pvc") {
+                  setClickedProduct(null);
+                } else {
+                  setClickedProduct("pvc");
+                }
+              }
+            }}
           >
             <img
               src={getImageUrl("p1a.png")}
@@ -241,23 +266,47 @@ function Home({ setShowModal }) {
                 PVC Pipe
               </h3>
             </div>
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex flex-col items-center justify-center p-4">
-              <h3 className="text-white text-2xl md:text-3xl font-bold mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className={`absolute inset-0 transition-all duration-300 flex flex-col items-center justify-center p-4 ${
+              clickedProduct === "pvc" ? "bg-black/30 max-md:bg-black/30" : "bg-black/0 group-hover:bg-black/30"
+            }`}>
+              <h3 className={`text-white text-2xl md:text-3xl font-bold mb-2 transition-opacity duration-300 ${
+                clickedProduct === "pvc" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              }`}>
                 PVC Pipe
               </h3>
-              <p className="text-white text-base md:text-lg text-center mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <p className={`text-white text-base md:text-lg text-center mb-4 transition-opacity duration-300 ${
+                clickedProduct === "pvc" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              }`}>
                 Reliable PVC pipes for every project
               </p>
-              <button className="bg-white hover:bg-gray-100 text-black font-semibold px-6 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button 
+                className={`bg-white hover:bg-gray-100 text-black font-semibold px-6 py-2 rounded-lg transition-opacity duration-300 ${
+                  clickedProduct === "pvc" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/product/1");
+                }}
+              >
                 EXPLORE
               </button>
             </div>
-          </Link>
+          </div>
 
           {/* Reducer Fitting */}
-          <Link
-            to="/pipefitting/c"
-            className="relative rounded-lg overflow-hidden aspect-square group cursor-pointer"
+          <div
+            className="flagship-product relative rounded-lg overflow-hidden aspect-square group cursor-pointer"
+            onClick={(e) => {
+              // On mobile, show overlay on click
+              if (window.innerWidth <= 768) {
+                e.preventDefault();
+                if (clickedProduct === "reducer") {
+                  setClickedProduct(null);
+                } else {
+                  setClickedProduct("reducer");
+                }
+              }
+            }}
           >
             <img
               src={getImageUrl("pf3a.png")}
@@ -270,23 +319,47 @@ function Home({ setShowModal }) {
                 Reducer Fitting
               </h3>
             </div>
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex flex-col items-center justify-center p-4">
-              <h3 className="text-white text-2xl md:text-3xl font-bold mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className={`absolute inset-0 transition-all duration-300 flex flex-col items-center justify-center p-4 ${
+              clickedProduct === "reducer" ? "bg-black/30 max-md:bg-black/30" : "bg-black/0 group-hover:bg-black/30"
+            }`}>
+              <h3 className={`text-white text-2xl md:text-3xl font-bold mb-2 transition-opacity duration-300 ${
+                clickedProduct === "reducer" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              }`}>
                 Reducer Fitting
               </h3>
-              <p className="text-white text-base md:text-lg text-center mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <p className={`text-white text-base md:text-lg text-center mb-4 transition-opacity duration-300 ${
+                clickedProduct === "reducer" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              }`}>
                 Seamless pipe size reduction solutions
               </p>
-              <button className="bg-white hover:bg-gray-100 text-black font-semibold px-6 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button 
+                className={`bg-white hover:bg-gray-100 text-black font-semibold px-6 py-2 rounded-lg transition-opacity duration-300 ${
+                  clickedProduct === "reducer" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/pipefitting/c");
+                }}
+              >
                 EXPLORE
               </button>
             </div>
-          </Link>
+          </div>
 
           {/* Round Junction Box */}
-          <Link
-            to="/boxes/a"
-            className="relative rounded-lg overflow-hidden aspect-square group cursor-pointer"
+          <div
+            className="flagship-product relative rounded-lg overflow-hidden aspect-square group cursor-pointer"
+            onClick={(e) => {
+              // On mobile, show overlay on click
+              if (window.innerWidth <= 768) {
+                e.preventDefault();
+                if (clickedProduct === "box") {
+                  setClickedProduct(null);
+                } else {
+                  setClickedProduct("box");
+                }
+              }
+            }}
           >
             <img
               src={getImageUrl("boxA1.png")}
@@ -299,23 +372,47 @@ function Home({ setShowModal }) {
                 Round Junction Box
               </h3>
             </div>
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex flex-col items-center justify-center p-4">
-              <h3 className="text-white text-2xl md:text-3xl font-bold mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className={`absolute inset-0 transition-all duration-300 flex flex-col items-center justify-center p-4 ${
+              clickedProduct === "box" ? "bg-black/30 max-md:bg-black/30" : "bg-black/0 group-hover:bg-black/30"
+            }`}>
+              <h3 className={`text-white text-2xl md:text-3xl font-bold mb-2 transition-opacity duration-300 ${
+                clickedProduct === "box" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              }`}>
                 Round Junction Box
               </h3>
-              <p className="text-white text-base md:text-lg text-center mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <p className={`text-white text-base md:text-lg text-center mb-4 transition-opacity duration-300 ${
+                clickedProduct === "box" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              }`}>
                 Secure and neat wiring solutions
               </p>
-              <button className="bg-white hover:bg-gray-100 text-black font-semibold px-6 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button 
+                className={`bg-white hover:bg-gray-100 text-black font-semibold px-6 py-2 rounded-lg transition-opacity duration-300 ${
+                  clickedProduct === "box" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/boxes/a");
+                }}
+              >
                 EXPLORE
               </button>
             </div>
-          </Link>
+          </div>
 
           {/* Flexible Pipe */}
-          <Link
-            to="/flexiblepipe"
-            className="relative rounded-lg overflow-hidden aspect-square group cursor-pointer"
+          <div
+            className="flagship-product relative rounded-lg overflow-hidden aspect-square group cursor-pointer"
+            onClick={(e) => {
+              // On mobile, show overlay on click
+              if (window.innerWidth <= 768) {
+                e.preventDefault();
+                if (clickedProduct === "flexible") {
+                  setClickedProduct(null);
+                } else {
+                  setClickedProduct("flexible");
+                }
+              }
+            }}
           >
             <img
               src={getImageUrl("fp1a.png")}
@@ -328,18 +425,32 @@ function Home({ setShowModal }) {
                 Flexible Pipe
               </h3>
             </div>
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex flex-col items-center justify-center p-4">
-              <h3 className="text-white text-2xl md:text-3xl font-bold mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className={`absolute inset-0 transition-all duration-300 flex flex-col items-center justify-center p-4 ${
+              clickedProduct === "flexible" ? "bg-black/30 max-md:bg-black/30" : "bg-black/0 group-hover:bg-black/30"
+            }`}>
+              <h3 className={`text-white text-2xl md:text-3xl font-bold mb-2 transition-opacity duration-300 ${
+                clickedProduct === "flexible" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              }`}>
                 Flexible Pipe
               </h3>
-              <p className="text-white text-base md:text-lg text-center mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <p className={`text-white text-base md:text-lg text-center mb-4 transition-opacity duration-300 ${
+                clickedProduct === "flexible" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              }`}>
                 Flexible piping for easy installation
               </p>
-              <button className="bg-white hover:bg-gray-100 text-black font-semibold px-6 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button 
+                className={`bg-white hover:bg-gray-100 text-black font-semibold px-6 py-2 rounded-lg transition-opacity duration-300 ${
+                  clickedProduct === "flexible" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/flexiblepipe");
+                }}
+              >
                 EXPLORE
               </button>
             </div>
-          </Link>
+          </div>
         </div>
       </section>
 

@@ -128,7 +128,7 @@ function Header() {
       }}
     >
       <div className="w-full px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="flex items-center justify-between h-20 bg-white">
+        <div className="flex items-center justify-between h-16 md:h-20 bg-white">
           {/* Left Section: Logo + Company name */}
           <Link 
             to="/" 
@@ -138,9 +138,9 @@ function Header() {
             <img 
               src={logo} 
               alt="Dinesh PVC Pipes Logo" 
-              className="h-20 md:h-28 w-auto object-contain"
+              className="h-14 md:h-28 w-auto object-contain"
             />
-            <h1 className="text-xl md:text-3xl font-bold text-[#b30000] whitespace-nowrap">
+            <h1 className="text-lg md:text-3xl font-bold text-[#b30000] whitespace-nowrap">
               Dinesh PVC Pipes
             </h1>
           </Link>
@@ -211,12 +211,12 @@ function Header() {
         </div>
 
         {/* Mobile Search Bar */}
-        <div className="md:hidden pb-4">
+        <div className="md:hidden pb-3">
           <div className="flex items-center relative">
-            <Search className="absolute left-3 text-[#b30000] w-5 h-5 z-10" />
+            <Search className="absolute left-3 text-[#b30000] w-4 h-4 z-10" />
             <input 
               type="text" 
-              className="w-full pl-10 pr-4 py-2 border-2 border-[#b30000] rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-[#b30000] text-sm text-[#b30000] placeholder:text-red-300"
+              className="w-full pl-9 pr-4 py-1.5 border-2 border-[#b30000] rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-[#b30000] text-sm text-[#b30000] placeholder:text-red-300"
               style={{ backgroundColor: 'transparent' }}
               placeholder="Search..." 
             />

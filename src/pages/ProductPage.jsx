@@ -245,7 +245,7 @@ const ProductPage = () => {
       {/* ================= PRODUCT SECTION ================= */}
       <div className="grid grid-cols-2 gap-11 w-full items-start content-start max-md:grid-cols-1 max-md:w-full max-md:max-w-full max-md:gap-5">
         {/* LEFT – IMAGES */}
-        <div className="flex flex-col gap-4.5 max-md:-mt-2.5 md:-mt-2.5">
+        <div className="flex flex-col gap-4.5 max-md:mt-12 md:-mt-2.5">
           <div className="relative flex items-center gap-2.5 max-md:gap-1.5">
             <button 
               className="bg-white/90 border-2 border-[#b30000] text-[#b30000] w-10 h-10 rounded-full text-2xl font-bold cursor-pointer flex items-center justify-center transition-all z-10 flex-shrink-0 leading-none hover:bg-[#b30000] hover:text-white hover:scale-110 active:scale-95 max-md:w-9 max-md:h-9 max-md:text-[22px]"
@@ -253,7 +253,7 @@ const ProductPage = () => {
             >
               &lt;
             </button>
-            <div className="h-[410px] rounded-2xl border border-gray-200 p-3.5 flex-1 relative max-md:h-[300px]">
+            <div className="h-[410px] rounded-2xl border border-gray-200 p-3.5 flex-1 relative max-md:h-[300px] max-md:pt-8">
               <img
                 src={getImageUrl(product.images[activeImage])}
                 alt={product.name}
