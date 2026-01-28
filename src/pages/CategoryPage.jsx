@@ -82,7 +82,7 @@ const CategoryPage = ({ setShowModal }) => {
   }
 
   return (
-    <div className="w-full bg-white py-8 px-4 md:px-8 min-h-screen">
+    <div className="w-full bg-white py-8 px-4 md:px-8 min-h-screen max-md:pt-24 md:pt-20">
       {/* Header Section - Special styling for items page */}
       {actualCategoryType === "items" ? (
         <div className="w-full bg-white py-12 px-4">

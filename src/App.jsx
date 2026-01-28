@@ -111,7 +111,7 @@ function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
       />
 
       {/* MAIN CONTENT */}
-      <main className="w-full flex-1 max-md:!mt-0 max-md:pt-24 md:pt-20">
+      <main className="w-full flex-1 max-md:!mt-0 max-md:!pt-0">
         <Routes>
           {/* 🏠 HOME */}
           <Route path="/" element={<Home setShowModal={setShowModal} />} />

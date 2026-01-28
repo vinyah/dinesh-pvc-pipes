@@ -63,7 +63,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-white py-8 px-4">
+    <div className="w-full min-h-screen bg-white py-8 px-4 max-md:pt-32 md:pt-28">
       {cartItems.length === 0 ? (
         <div className="flex flex-col items-center justify-center min-h-[400px]">
           <h2 className="text-2xl font-bold mb-4">Your cart is empty 🛒</h2>

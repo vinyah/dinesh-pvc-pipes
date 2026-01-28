@@ -45,11 +45,11 @@ img {
 
 /* Ensure header and inputs are transparent (but allow hover states) */
 header {
-  background-color: transparent !important;
+  /* background-color: transparent !important; - Removed to allow dynamic background */
 }
 
 header input[type="text"] {
-  background-color: transparent !important;
+  /* background-color: transparent !important; - Removed to allow white background */
 }
 
 header a:not(:hover) {
@@ -93,4 +93,20 @@ code {
     font-size: 14px;           /* comfortable reading size */
     line-height: 1.5;
   }
+}
+
+/* ===== Dropdown Slide Down Animation ===== */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-down {
+  animation: slideDown 0.3s ease-out;
 }

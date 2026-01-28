@@ -231,7 +231,7 @@ const ProductPage = () => {
   };
 
   return (
-    <div className="w-full m-0 py-6 px-14 box-border font-['Poppins',sans-serif] bg-white max-md:py-4 max-md:px-1.5 max-md:overflow-x-hidden max-md:w-full max-md:max-w-screen">
+    <div className="w-full m-0 py-6 px-14 box-border font-['Poppins',sans-serif] bg-white max-md:py-4 max-md:px-1.5 max-md:overflow-x-hidden max-md:w-full max-md:max-w-screen max-md:pt-32 md:pt-28">
       {/* Back Button (if needed) */}
       {actualProductType === "boxa" && (
         <button 

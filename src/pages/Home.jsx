@@ -70,7 +70,7 @@ function Home({ setShowModal }) {
     <div className="w-full min-h-screen">
       {/* === Section 1: Hero Banner === */}
       <section 
-        className="relative w-full min-h-[700px] max-md:min-h-[500px] flex flex-col items-center md:justify-center max-md:justify-start overflow-hidden max-md:mt-0 max-md:pt-20 bg-black"
+        className="relative w-full min-h-[700px] max-md:min-h-[500px] flex flex-col items-center md:justify-center max-md:justify-start overflow-hidden max-md:mt-0 max-md:pt-24 bg-black"
       >
         {/* Sliding Background Images */}
         <div className="absolute inset-0 w-full h-full">

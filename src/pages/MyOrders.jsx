@@ -32,7 +32,7 @@ const MyOrders = () => {
       : orders.filter((o) => o.status === activeTab || activeTab === "Placed");
 
   return (
-    <div className="w-full bg-white py-8 px-4">
+    <div className="w-full bg-white py-8 px-4 max-md:pt-32 md:pt-28">
       {/* Light Gray Panel */}
       <div className={`max-w-6xl mx-auto bg-gray-100 rounded-lg ${
         filteredOrders.length === 0 ? "p-6 md:p-8" : "p-6 md:p-8 min-h-[500px]"
