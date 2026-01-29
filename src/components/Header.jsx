@@ -67,8 +67,8 @@ function Header() {
     <header 
       className="fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300"
       style={{ 
-        backgroundColor: shouldShowBackground ? 'white' : 'transparent',
-        boxShadow: shouldShowBackground ? '0 2px 8px rgba(0,0,0,0.1)' : 'none'
+        backgroundColor: shouldShowBackground ? 'rgba(0, 0, 0, 0.3)' : 'transparent',
+        boxShadow: shouldShowBackground ? '0 2px 8px rgba(0,0,0,0.2)' : 'none'
       }}
       onMouseEnter={() => setHeaderHover(true)}
       onMouseLeave={() => setHeaderHover(false)}
@@ -86,7 +86,7 @@ function Header() {
               alt="Dinesh PVC Pipes Logo" 
               className="h-14 md:h-28 w-auto object-contain"
             />
-            <h1 className="text-lg md:text-3xl font-bold text-[#b30000] whitespace-nowrap">
+            <h1 className="text-lg md:text-3xl font-bold text-white whitespace-nowrap">
               Dinesh PVC Pipes
             </h1>
           </Link>
@@ -109,7 +109,7 @@ function Header() {
                   className="flex items-center justify-center w-12 h-12 cursor-pointer hover:opacity-80 transition-opacity"
                   onClick={() => setSearchOpen(!searchOpen)}
                 >
-                  <Search className="w-6 h-6 text-[#b30000]" />
+                  <Search className="w-6 h-6 text-white" />
                 </div>
                 
                 {/* Search Bar Dropdown */}
@@ -173,7 +173,7 @@ function Header() {
                   onClick={() => navigate("/items")}
                   className="flex items-center justify-center w-12 h-12 cursor-pointer hover:opacity-80 transition-opacity"
                 >
-                  <Package className="w-6 h-6 text-[#b30000]" />
+                  <Package className="w-6 h-6 text-white" />
                 </div>
                 
                 {/* Dropdown Menu */}
@@ -217,7 +217,7 @@ function Header() {
                   onClick={() => navigate("/orders")}
                   className="flex items-center justify-center w-12 h-12 cursor-pointer hover:opacity-80 transition-opacity"
                 >
-                  <FileText className="w-6 h-6 text-[#b30000]" />
+                  <FileText className="w-6 h-6 text-white" />
                 </div>
                 
                 {/* Orders Dropdown Menu */}
@@ -254,7 +254,7 @@ function Header() {
                   onClick={() => navigate("/cart")}
                   className="flex items-center justify-center w-12 h-12 cursor-pointer hover:opacity-80 transition-opacity"
                 >
-                  <ShoppingCart className="w-6 h-6 text-[#b30000]" />
+                  <ShoppingCart className="w-6 h-6 text-white" />
                 </div>
                 
                 {/* Cart Dropdown Menu */}
@@ -291,7 +291,7 @@ function Header() {
                   onClick={() => navigate("/account")}
                   className="flex items-center justify-center w-12 h-12 cursor-pointer hover:opacity-80 transition-opacity"
                 >
-                  <User className="w-6 h-6 text-[#b30000]" />
+                  <User className="w-6 h-6 text-white" />
                 </div>
                 
                 {/* Account Dropdown Menu */}
@@ -327,7 +327,7 @@ function Header() {
                   className="flex items-center justify-center w-10 h-10 cursor-pointer"
                   onClick={() => setSearchOpen(!searchOpen)}
                 >
-                  <Search className="w-5 h-5 text-[#b30000]" />
+                  <Search className="w-5 h-5 text-white" />
                 </div>
                 
                 {/* Mobile Search Bar Dropdown */}
@@ -381,9 +381,9 @@ function Header() {
                   onClick={() => setMenuOpen((prev) => !prev)}
                   aria-label="Toggle menu"
                 >
-                  <span className={`w-6 h-0.5 bg-[#b30000] transition-all ${menuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-                  <span className={`w-6 h-0.5 bg-[#b30000] transition-all ${menuOpen ? 'opacity-0' : ''}`}></span>
-                  <span className={`w-6 h-0.5 bg-[#b30000] transition-all ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+                  <span className={`w-6 h-0.5 bg-white transition-all ${menuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+              <span className={`w-6 h-0.5 bg-white transition-all ${menuOpen ? 'opacity-0' : ''}`}></span>
+              <span className={`w-6 h-0.5 bg-white transition-all ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
                 </button>
                 
                 {/* Mobile Menu Dropdown - Icons Stacked Vertically */}
