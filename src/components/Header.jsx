@@ -14,6 +14,7 @@ function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [headerHover, setHeaderHover] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
   
   // Detect mobile device
@@ -29,7 +30,45 @@ function Header() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-  
+
+  // Detect "scrolled past top": use both scroll position AND IntersectionObserver so it works no matter what scrolls
+  const SCROLL_THRESHOLD = 50;
+  useEffect(() => {
+    const getScrollTop = () => {
+      if (typeof window === "undefined") return 0;
+      return Math.max(
+        window.scrollY ?? 0,
+        window.pageYOffset ?? 0,
+        document.documentElement.scrollTop ?? 0,
+        document.body.scrollTop ?? 0
+      );
+    };
+    const updateFromScroll = () => setIsScrolled(getScrollTop() > SCROLL_THRESHOLD);
+    updateFromScroll();
+    window.addEventListener("scroll", updateFromScroll, { passive: true });
+    window.addEventListener("resize", updateFromScroll);
+    // Also observe a sentinel at top of main – when it leaves viewport, we've scrolled (works even if window isn't the scroll container)
+    let observer;
+    const attachObserver = () => {
+      const sentinel = document.getElementById("header-scroll-sentinel");
+      if (sentinel && !observer) {
+        observer = new IntersectionObserver(
+          ([entry]) => setIsScrolled(!entry.isIntersecting),
+          { threshold: 0, rootMargin: "0px" }
+        );
+        observer.observe(sentinel);
+      }
+    };
+    attachObserver();
+    const t = setTimeout(attachObserver, 100);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("scroll", updateFromScroll);
+      window.removeEventListener("resize", updateFromScroll);
+      if (observer) observer.disconnect();
+    };
+  }, []);
+
   // Get items from db.json
   const items = db?.pages?.items || [];
   
@@ -60,15 +99,19 @@ function Header() {
     }
   };
 
-  // Determine background color: always white on mobile, hover-based on desktop
-  const shouldShowBackground = isMobile ? true : headerHover;
-  
+  // Only at top: hover effect (background when cursor near header). While scrolling: always fixed background (no hover).
+  const isAtTop = !isScrolled;
+  const shouldShowBackground = isScrolled ? true : (isAtTop ? headerHover : false);
+  // Slightly stronger opacity when at-top hover so the effect is clearly visible
+  const bgOpacity = isScrolled ? 0.4 : (headerHover ? 0.5 : 0);
+
   return (
     <header 
-      className="fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300"
+      className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${shouldShowBackground ? "header-with-bg" : ""}`}
+      data-scrolled={isScrolled ? "true" : "false"}
       style={{ 
-        backgroundColor: shouldShowBackground ? 'rgba(0, 0, 0, 0.3)' : 'transparent',
-        boxShadow: shouldShowBackground ? '0 2px 8px rgba(0,0,0,0.2)' : 'none'
+        backgroundColor: shouldShowBackground ? `rgba(0, 0, 0, ${bgOpacity})` : "transparent",
+        boxShadow: shouldShowBackground ? "0 2px 12px rgba(0,0,0,0.2)" : "none"
       }}
       onMouseEnter={() => setHeaderHover(true)}
       onMouseLeave={() => setHeaderHover(false)}

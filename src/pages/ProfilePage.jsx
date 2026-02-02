@@ -91,7 +91,7 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
   /* ================= NOT LOGGED IN ================= */
   if (!user) {
     return (
-      <div className="w-full min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
+      <div className="w-full min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 pt-24 md:pt-28">
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full text-center">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">You haven't logged in yet</h2>
           <p className="text-gray-600 mb-6">
@@ -120,8 +120,8 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
 
   /* ================= LOGGED IN ================= */
   return (
-    <div className="w-full bg-white py-8 px-4 md:px-8">
-      {/* Page Title */}
+    <div className="w-full bg-white pt-24 md:pt-28 pb-8 px-4 md:px-8">
+      {/* Page Title - below fixed header */}
       <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8">My Account</h1>
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -1,21 +1,17 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import logo from "../assets/logo.png";
 
 function Footer({ setShowModal }) {
-  const location = useLocation();
-  const isHomePage = location.pathname === "/";
-  
-  // Home page: white background with red text
-  // Other pages: red background with white text
-  const bgClass = isHomePage ? "bg-white" : "bg-[#b30000]";
-  const textClass = isHomePage ? "text-[#b30000]" : "text-white";
-  const textOpacityClass = isHomePage ? "text-[#b30000]/80" : "text-white/80";
-  const borderClass = isHomePage ? "border-[#b30000]/20" : "border-white/20";
-  const borderIconClass = isHomePage ? "border-[#b30000]/30" : "border-white/30";
-  const hoverTextClass = isHomePage ? "hover:text-[#b30000]" : "hover:text-white";
-  const hoverBorderClass = isHomePage ? "hover:border-[#b30000]" : "hover:border-white";
+  // Footer: red background with white text everywhere
+  const bgClass = "bg-[#b30000]";
+  const textClass = "text-white";
+  const textOpacityClass = "text-white/80";
+  const borderClass = "border-white/20";
+  const borderIconClass = "border-white/30";
+  const hoverTextClass = "hover:text-white";
+  const hoverBorderClass = "hover:border-white";
   
   return (
     <footer className={`w-full ${bgClass} ${textClass} relative m-0 p-0`}>
@@ -170,11 +166,11 @@ function Footer({ setShowModal }) {
             <Link to="/sitemap" className={`${textOpacityClass} ${hoverTextClass} hover:underline`}>
               Sitemap
             </Link>
-            <span className={isHomePage ? "text-[#b30000]/50" : "text-white/50"}>|</span>
+            <span className="text-white/50">|</span>
             <Link to="/privacy" className={`${textOpacityClass} ${hoverTextClass} hover:underline`}>
               Privacy Policy
             </Link>
-            <span className={isHomePage ? "text-[#b30000]/50" : "text-white/50"}>|</span>
+            <span className="text-white/50">|</span>
             <Link to="/terms" className={`${textOpacityClass} ${hoverTextClass} hover:underline`}>
               Terms of Use
             </Link>

@@ -48,6 +48,12 @@ header {
   /* background-color: transparent !important; - Removed to allow dynamic background */
 }
 
+/* When scrolled: force visible semi-transparent background so header is always visible */
+header[data-scrolled="true"] {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
 header input[type="text"] {
   /* background-color: transparent !important; - Removed to allow white background */
 }

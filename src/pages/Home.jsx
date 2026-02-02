@@ -102,6 +102,23 @@ function Home({ setShowModal }) {
             Explore Products
           </button>
         </div>
+
+        {/* Carousel dots - small circles at bottom center */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center justify-center gap-2">
+          {heroImages.map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              aria-label={`Go to slide ${idx + 1}`}
+              onClick={() => setCurrentImageIndex(idx)}
+              className={`rounded-full transition-all duration-300 ${
+                idx === currentImageIndex
+                  ? "w-3 h-3 bg-white shadow-md scale-110"
+                  : "w-2.5 h-2.5 bg-white/50 hover:bg-white/70"
+              }`}
+            />
+          ))}
+        </div>
       </section>
 
       {/* === Section 2: About === */}
@@ -455,16 +472,9 @@ function Home({ setShowModal }) {
       </section>
 
       {/* === Section 5: What Sets Us Apart === */}
-      <section 
-        className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url(${getImageUrl("BGred.png")})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
+      <section className="relative w-full py-16 px-4 overflow-hidden bg-black/10">
         <div className="relative z-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
+          <h1 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
             What Sets Us Apart
           </h1>
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-6">
@@ -481,19 +491,12 @@ function Home({ setShowModal }) {
       </section>
 
       {/* === Section 6: Sign Up / Login === */}
-      <section 
-        className="relative w-full py-16 px-4 bg-white overflow-hidden bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url(${getImageUrl("BGred.png")})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
+      <section className="relative w-full py-16 px-4 overflow-hidden bg-black/10">
         <div className="relative z-10 max-w-4xl mx-auto flex flex-col md:flex-row gap-8 justify-center items-center">
           <div className="text-center">
-            <p className="text-lg mb-4 text-white">{homeData.accountSection.signupText}</p>
+            <p className="text-lg mb-4 text-gray-800">{homeData.accountSection.signupText}</p>
             <button
-              className="px-8 py-3 border-2 border-white text-white bg-transparent rounded-lg font-semibold hover:bg-white hover:text-[#b30000] transition-colors"
+              className="px-8 py-3 border-2 border-[#b30000] text-[#b30000] bg-white/80 rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-colors"
               onClick={() => setShowModal("signup")}
             >
               {homeData.accountSection.signupButton}
@@ -501,9 +504,9 @@ function Home({ setShowModal }) {
           </div>
 
           <div className="text-center">
-            <p className="text-lg mb-4 text-white">{homeData.accountSection.loginText}</p>
+            <p className="text-lg mb-4 text-gray-800">{homeData.accountSection.loginText}</p>
             <button
-              className="px-8 py-3 border-2 border-white text-white bg-transparent rounded-lg font-semibold hover:bg-white hover:text-[#b30000] transition-colors"
+              className="px-8 py-3 border-2 border-[#b30000] text-[#b30000] bg-white/80 rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-colors"
               onClick={() => setShowModal("login")}
             >
               {homeData.accountSection.loginButton}

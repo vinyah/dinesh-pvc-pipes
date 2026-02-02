@@ -110,8 +110,9 @@ function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
         setCurrentUser={setCurrentUser}
       />
 
-      {/* MAIN CONTENT */}
-      <main className="w-full flex-1 max-md:!mt-0 max-md:!pt-0">
+      {/* MAIN CONTENT - sentinel at top for header scroll detection */}
+      <main className="w-full flex-1 max-md:!mt-0 max-md:!pt-0 relative">
+        <div id="header-scroll-sentinel" aria-hidden="true" className="absolute top-0 left-0 right-0 h-px w-full pointer-events-none" style={{ zIndex: 0 }} />
         <Routes>
           {/* 🏠 HOME */}
           <Route path="/" element={<Home setShowModal={setShowModal} />} />
