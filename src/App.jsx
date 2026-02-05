@@ -1,9 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate, useLocation } from "react-router-dom";
 
 /* 🧩 COMPONENTS */
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+
+/* 🛠️ ADMIN */
+import AdminLayout from "./admin/AdminLayout";
+import AdminDashboard from "./admin/pages/AdminDashboard";
+import AdminOrders from "./admin/pages/AdminOrders";
+import AdminProducts from "./admin/pages/AdminProducts";
+import AdminInventory from "./admin/pages/AdminInventory";
+import AdminPricing from "./admin/pages/AdminPricing";
+import AdminPromotions from "./admin/pages/AdminPromotions";
+import AdminCustomers from "./admin/pages/AdminCustomers";
+import AdminReviews from "./admin/pages/AdminReviews";
+import AdminShipments from "./admin/pages/AdminShipments";
+import AdminPayments from "./admin/pages/AdminPayments";
+import AdminCoupons from "./admin/pages/AdminCoupons";
+import AdminPermissions from "./admin/pages/AdminPermissions";
+import AdminSearch from "./admin/pages/AdminSearch";
 
 /* 🏠 MAIN PAGES */
 import Home from "./pages/Home";
@@ -86,6 +102,8 @@ const CURRENT_USER_KEY = "currentUser";
 // Inner component that has access to navigate (must be inside Router)
 function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin");
 
   /* 🔑 AFTER LOGIN / SIGNUP */
   const handleAuthSuccess = (user) => {
@@ -100,6 +118,29 @@ function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
       navigate("/add-address");
     }
   };
+
+  if (isAdmin) {
+    return (
+      <Routes>
+        <Route path="/admin" element={<AdminLayout openAuthModal={setShowModal} />}>
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="inventory" element={<AdminInventory />} />
+          <Route path="pricing" element={<AdminPricing />} />
+          <Route path="promotions" element={<AdminPromotions />} />
+          <Route path="customers" element={<AdminCustomers />} />
+          <Route path="reviews" element={<AdminReviews />} />
+          <Route path="shipments" element={<AdminShipments />} />
+          <Route path="payments" element={<AdminPayments />} />
+          <Route path="coupons" element={<AdminCoupons />} />
+          <Route path="permissions" element={<AdminPermissions />} />
+          <Route path="search" element={<AdminSearch />} />
+        </Route>
+      </Routes>
+    );
+  }
 
   return (
     <>
