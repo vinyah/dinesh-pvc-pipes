@@ -14,7 +14,6 @@ import {
   Tag,
   Shield,
   Search,
-  Mail,
 } from "lucide-react";
 const NAV_ITEMS = [
   { path: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -38,10 +37,22 @@ export default function AdminLayout({ openAuthModal }) {
   const qFromUrl = location.pathname === "/admin/search" ? searchParams.get("q") ?? "" : "";
   const [searchQuery, setSearchQuery] = useState(qFromUrl);
   const [searchFocused, setSearchFocused] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollContainer, setScrollContainer] = useState(null);
 
   useEffect(() => {
     if (qFromUrl !== undefined) setSearchQuery(qFromUrl);
   }, [qFromUrl]);
+
+  // Same as app header: at top = background on hover only; when scrolled = fixed background
+  useEffect(() => {
+    if (!scrollContainer) return;
+    const SCROLL_THRESHOLD = 10;
+    const handler = () => setIsScrolled(scrollContainer.scrollTop > SCROLL_THRESHOLD);
+    handler();
+    scrollContainer.addEventListener("scroll", handler, { passive: true });
+    return () => scrollContainer.removeEventListener("scroll", handler);
+  }, [scrollContainer]);
 
   const handleSearch = useCallback(
     (e) => {
@@ -64,35 +75,49 @@ export default function AdminLayout({ openAuthModal }) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [searchFocused]);
 
+  const shouldShowShadow = isScrolled;
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* Top dark bar */}
-      <div className="h-1 bg-[#3d2c29]" />
-
-      {/* Main header */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-        <h1 className="text-xl md:text-2xl font-semibold text-gray-800 tracking-tight">
-          Dinesh PVC Pipes Admin
-        </h1>
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => openAuthModal?.("login")}
-            className="px-4 py-2 bg-[#2563eb] text-white rounded-lg font-medium hover:bg-[#1d4ed8] transition-colors"
+      {/* Admin header - solid red, white text & buttons */}
+      <div
+        id="admin-header"
+        data-scrolled={isScrolled ? "true" : "false"}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#b30000]"
+        style={{
+          boxShadow: shouldShowShadow ? "0 4px 20px rgba(0,0,0,0.2)" : "none",
+        }}
+      >
+        <div className="h-0.5 bg-white/20" />
+        <header className="px-6 py-4 flex items-center justify-between">
+          <Link
+            to="/admin/dashboard"
+            className="text-xl md:text-2xl font-semibold text-white tracking-tight hover:text-white/90 transition-colors"
           >
-            Sign in with Email
-          </button>
-          <button
-            type="button"
-            className="px-4 py-2 bg-white border border-gray-300 text-gray-800 rounded-lg font-medium hover:bg-gray-50 transition-colors"
-          >
-            Continue with Google
-          </button>
-        </div>
-      </header>
+            Dinesh PVC Pipes Admin
+          </Link>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => openAuthModal?.("login")}
+              className="px-4 py-2 bg-white text-[#b30000] rounded-lg font-medium hover:bg-[#b30000] hover:text-white hover:border-white border-2 border-white/30 transition-all duration-200 shadow-sm"
+            >
+              Sign in with Email
+            </button>
+            <button
+              type="button"
+              className="px-4 py-2 bg-white text-[#b30000] rounded-lg font-medium hover:bg-[#b30000] hover:text-white hover:border-white border-2 border-white/30 transition-all duration-200"
+            >
+              Continue with Google
+            </button>
+          </div>
+        </header>
+      </div>
 
-      {/* Sub-header with search */}
-      <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
+      {/* Spacer for fixed header */}
+      <div className="pt-[73px] flex flex-col flex-1 min-h-0">
+      {/* Sub-header with search - white */}
+      <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between gap-4 flex-wrap shrink-0">
         <h2 className="text-lg font-bold text-gray-800">Admin Dashboard</h2>
         <form onSubmit={handleSearch} className="flex-1 min-w-[200px] max-w-xl">
           <div className="relative">
@@ -106,15 +131,15 @@ export default function AdminLayout({ openAuthModal }) {
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
               placeholder="Search orders, products, customers... (Press / to Focus)"
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] outline-none"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#b30000] focus:border-[#b30000] outline-none"
             />
           </div>
         </form>
       </div>
 
-      <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
-        <aside className="w-56 shrink-0 bg-gray-100 border-r border-gray-200 flex flex-col">
+      <div className="flex flex-1 overflow-hidden min-h-0">
+        {/* Sidebar - white/light gray with red active */}
+        <aside className="w-56 shrink-0 bg-white border-r border-gray-200 flex flex-col">
           <nav className="p-3 space-y-0.5">
             {NAV_ITEMS.map(({ path, label, icon: Icon }) => {
               const isActive = location.pathname === path;
@@ -124,8 +149,8 @@ export default function AdminLayout({ openAuthModal }) {
                   to={path}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                     isActive
-                      ? "bg-emerald-100 text-emerald-800"
-                      : "text-gray-700 hover:bg-gray-200"
+                      ? "bg-[#b30000] text-white"
+                      : "text-gray-700 hover:bg-red-50 hover:text-[#b30000]"
                   }`}
                 >
                   <Icon className="w-5 h-5 shrink-0" />
@@ -136,10 +161,11 @@ export default function AdminLayout({ openAuthModal }) {
           </nav>
         </aside>
 
-        {/* Main content */}
-        <main className="flex-1 overflow-auto p-6 bg-white">
+        {/* Main content - scroll here drives header background */}
+        <main ref={setScrollContainer} className="flex-1 overflow-auto p-6 bg-white">
           <Outlet />
         </main>
+      </div>
       </div>
     </div>
   );

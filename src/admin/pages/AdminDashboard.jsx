@@ -16,11 +16,11 @@ const KPI_CARDS = [
 
 const TREND_DATA = [40, 55, 45, 65, 58, 72, 68];
 const CATEGORY_MIX = [
-  { label: "Pipes", pct: 35, color: "#2563eb" },
-  { label: "Fittings", pct: 25, color: "#38bdf8" },
-  { label: "Boxes", pct: 20, color: "#34d399" },
-  { label: "Hose", pct: 12, color: "#fbbf24" },
-  { label: "Others", pct: 8, color: "#9ca3af" },
+  { label: "Pipes", pct: 35, color: "#b30000" },
+  { label: "Fittings", pct: 25, color: "#c41e3a" },
+  { label: "Boxes", pct: 20, color: "#8b0000" },
+  { label: "Hose", pct: 12, color: "#dc3545" },
+  { label: "Others", pct: 8, color: "#6b7280" },
 ];
 
 export default function AdminDashboard() {
@@ -50,7 +50,7 @@ export default function AdminDashboard() {
           <select
             value={range}
             onChange={(e) => setRange(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 bg-white focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb]"
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 bg-white focus:ring-2 focus:ring-[#b30000] focus:border-[#b30000]"
           >
             <option value="7">Last 7 Days</option>
             <option value="14">Last 14 Days</option>
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
           <button
             type="button"
             onClick={handleExport}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            className="px-4 py-2 border-2 border-[#b30000] text-[#b30000] rounded-lg text-sm font-medium hover:bg-[#b30000] hover:text-white transition-colors"
           >
             Export Report
           </button>
@@ -75,7 +75,7 @@ export default function AdminDashboard() {
           >
             <div className="flex justify-between items-start">
               <span className="text-sm font-medium text-gray-500">{title}</span>
-              <span className="p-1.5 rounded-lg bg-blue-50 text-[#2563eb]">
+              <span className="p-1.5 rounded-lg bg-red-50 text-[#b30000]">
                 <Icon className="w-4 h-4" />
               </span>
             </div>
@@ -103,7 +103,7 @@ export default function AdminDashboard() {
                 type="button"
                 onClick={() => setChartPeriod(p)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium capitalize ${
-                  chartPeriod === p ? "bg-[#2563eb] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  chartPeriod === p ? "bg-[#b30000] text-white" : "bg-gray-100 text-gray-600 hover:bg-red-50 hover:text-[#b30000]"
                 }`}
               >
                 {p}
@@ -114,7 +114,7 @@ export default function AdminDashboard() {
             {TREND_DATA.map((h, i) => (
               <div
                 key={i}
-                className="flex-1 bg-[#2563eb]/80 rounded-t min-w-[24px] transition-all hover:bg-[#2563eb]"
+                className="flex-1 bg-[#b30000]/80 rounded-t min-w-[24px] transition-all hover:bg-[#b30000]"
                 style={{ height: `${h}%` }}
                 title={`${h}`}
               />

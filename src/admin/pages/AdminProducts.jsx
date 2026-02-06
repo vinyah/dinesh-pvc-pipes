@@ -48,7 +48,7 @@ export default function AdminProducts() {
                   <td className="px-4 py-3">{p.name}</td>
                   <td className="px-4 py-3">
                     {p.link ? (
-                      <Link to={p.link} className="text-[#2563eb] hover:underline">
+                      <Link to={p.link} className="text-[#b30000] hover:underline">
                         {p.link}
                       </Link>
                     ) : (

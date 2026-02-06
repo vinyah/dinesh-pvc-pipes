@@ -78,7 +78,7 @@ export default function AdminSearch() {
                   {products.map((p, i) => (
                     <li key={i} className="px-4 py-2 hover:bg-gray-50">
                       {p.link ? (
-                        <Link to={p.link} className="text-[#2563eb] hover:underline">
+                        <Link to={p.link} className="text-[#b30000] hover:underline">
                           {p.name}
                         </Link>
                       ) : (

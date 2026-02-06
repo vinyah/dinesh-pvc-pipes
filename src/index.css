@@ -54,6 +54,12 @@ header[data-scrolled="true"] {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2) !important;
 }
 
+/* Admin header: fixed background when scrolling - visible dark overlay */
+#admin-header[data-scrolled="true"] {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.25) !important;
+}
+
 header input[type="text"] {
   /* background-color: transparent !important; - Removed to allow white background */
 }

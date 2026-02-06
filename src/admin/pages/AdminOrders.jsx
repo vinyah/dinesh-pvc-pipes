@@ -32,7 +32,7 @@ export default function AdminOrders() {
                   <td className="px-4 py-3">{o.item}</td>
                   <td className="px-4 py-3">{o.quantity}</td>
                   <td className="px-4 py-3">
-                    <span className="px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-800">
+                    <span className="px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-[#b30000]">
                       {o.status}
                     </span>
                   </td>
