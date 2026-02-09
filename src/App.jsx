@@ -7,7 +7,6 @@ import Footer from "./components/Footer";
 
 /* 🛠️ ADMIN */
 import AdminLayout from "./admin/AdminLayout";
-import AdminLoginModal from "./admin/AdminLoginModal";
 import AdminDashboard from "./admin/pages/AdminDashboard";
 import AdminOrders from "./admin/pages/AdminOrders";
 import AdminProducts from "./admin/pages/AdminProducts";
@@ -98,22 +97,21 @@ class ErrorBoundary extends React.Component {
 
 const CURRENT_USER_KEY = "currentUser";
 
-const ADMIN_LOGIN_KEY = "adminLoggedIn";
-
 // Inner component that has access to navigate (must be inside Router)
-function AppContent({ currentUser, setCurrentUser, showModal, setShowModal, adminLoggedIn, setAdminLoggedIn }) {
+function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
   const navigate = useNavigate();
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
 
-  // When arriving with ?openLogin=1 (e.g. from error-boundary "Log In"), open login modal
+  // When arriving with ?openLogin=1 on main site only (error-boundary "Log In"), open project login modal
   React.useEffect(() => {
+    if (isAdmin) return;
     const params = new URLSearchParams(location.search);
     if (params.get("openLogin") === "1") {
       setShowModal("login");
       navigate(location.pathname || "/", { replace: true });
     }
-  }, [location.search, location.pathname, setShowModal, navigate]);
+  }, [isAdmin, location.search, location.pathname, setShowModal, navigate]);
 
   /* 🔑 AFTER LOGIN / SIGNUP (main site) */
   const handleAuthSuccess = (user) => {
@@ -129,21 +127,10 @@ function AppContent({ currentUser, setCurrentUser, showModal, setShowModal, admi
     }
   };
 
-  /* 🔑 AFTER LOGIN / SIGNUP (from admin page – go directly to admin only) */
-  const handleAdminAuthSuccess = (user) => {
-    setCurrentUser(user);
-    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
-    setShowModal(null);
-    setAdminLoggedIn(true);
-    if (typeof window !== "undefined") window.localStorage.setItem(ADMIN_LOGIN_KEY, "true");
-    navigate("/admin/dashboard", { replace: true });
-  };
-
   if (isAdmin) {
     return (
-      <>
-        <Routes>
-          <Route path="/admin" element={<AdminLayout adminLoggedIn={adminLoggedIn} setAdminLoggedIn={setAdminLoggedIn} openAuthModal={setShowModal} />}>
+      <Routes>
+        <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="orders" element={<AdminOrders />} />
@@ -159,16 +146,8 @@ function AppContent({ currentUser, setCurrentUser, showModal, setShowModal, admi
           <Route path="coupons" element={<AdminCoupons />} />
           <Route path="permissions" element={<AdminPermissions />} />
           <Route path="search" element={<AdminSearch />} />
-          </Route>
-        </Routes>
-        {showModal && (
-          <AdminLoginModal
-            type={showModal}
-            onClose={() => setShowModal(null)}
-            onAuthSuccess={handleAdminAuthSuccess}
-          />
-        )}
-      </>
+        </Route>
+      </Routes>
     );
   }
 
@@ -257,10 +236,7 @@ function AppContent({ currentUser, setCurrentUser, showModal, setShowModal, admi
 function App() {
   /* 🔐 AUTH STATE */
   const [currentUser, setCurrentUser] = useState(null);
-  const [showModal, setShowModal] = useState(null); // login | signup | null
-  const [adminLoggedIn, setAdminLoggedIn] = useState(
-    () => typeof window !== "undefined" && window.localStorage.getItem("adminLoggedIn") === "true"
-  );
+  const [showModal, setShowModal] = useState(null); // project: login | signup | null
 
   /* 🔁 LOAD USER ON START */
   useEffect(() => {
@@ -284,8 +260,6 @@ function App() {
               setCurrentUser={setCurrentUser}
               showModal={showModal}
               setShowModal={setShowModal}
-              adminLoggedIn={adminLoggedIn}
-              setAdminLoggedIn={setAdminLoggedIn}
             />
           </div>
         </Router>
