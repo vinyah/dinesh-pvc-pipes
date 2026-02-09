@@ -15,6 +15,9 @@ import {
   Shield,
   Search,
 } from "lucide-react";
+import AdminLoginModal from "./AdminLoginModal";
+
+const ADMIN_CURRENT_USER_KEY = "adminCurrentUser";
 
 const NAV_ITEMS = [
   { path: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -40,6 +43,10 @@ export default function AdminLayout() {
   const [searchFocused, setSearchFocused] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollContainer, setScrollContainer] = useState(null);
+
+  // 🔐 Admin-only auth state (separate from main site)
+  const [adminUser, setAdminUser] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(null); // "login" | "signup" | null
 
   useEffect(() => {
     if (qFromUrl !== undefined) setSearchQuery(qFromUrl);
@@ -78,6 +85,31 @@ export default function AdminLayout() {
 
   const shouldShowShadow = isScrolled;
 
+  // Load admin session once on mount
+  useEffect(() => {
+    const saved = localStorage.getItem(ADMIN_CURRENT_USER_KEY);
+    if (!saved) return;
+    try {
+      const parsed = JSON.parse(saved);
+      if (parsed && parsed.email) {
+        setAdminUser(parsed);
+      }
+    } catch {
+      setAdminUser(null);
+    }
+  }, []);
+
+  const handleAdminAuthSuccess = (user) => {
+    setAdminUser(user);
+    setShowAuthModal(null);
+  };
+
+  const handleAdminLogout = () => {
+    localStorage.removeItem(ADMIN_CURRENT_USER_KEY);
+    setAdminUser(null);
+    setShowAuthModal("login");
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Admin header - solid red, white text & buttons */}
@@ -98,18 +130,37 @@ export default function AdminLayout() {
             Dinesh PVC Pipes Admin
           </Link>
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              className="px-4 py-2 bg-white text-[#b30000] rounded-lg font-medium hover:bg-[#b30000] hover:text-white hover:border-white border-2 border-white/30 transition-all duration-200 shadow-sm"
-            >
-              Sign in with Email
-            </button>
-            <button
-              type="button"
-              className="px-4 py-2 bg-white text-[#b30000] rounded-lg font-medium hover:bg-[#b30000] hover:text-white hover:border-white border-2 border-white/30 transition-all duration-200"
-            >
-              Continue with Google
-            </button>
+            {adminUser ? (
+              <>
+                <span className="hidden md:inline text-sm text-white/90">
+                  Signed in as <span className="font-semibold">{adminUser.name || adminUser.email}</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={handleAdminLogout}
+                  className="px-4 py-2 bg-white text-[#b30000] rounded-lg font-medium hover:bg-[#b30000] hover:text-white hover:border-white border-2 border-white/30 transition-all duration-200"
+                >
+                  Log out
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setShowAuthModal("signup")}
+                  className="px-4 py-2 bg-white text-[#b30000] rounded-lg font-medium hover:bg-[#b30000] hover:text-white hover:border-white border-2 border-white/30 transition-all duration-200 shadow-sm"
+                >
+                  Sign in with Email
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowAuthModal("signup")}
+                  className="px-4 py-2 bg-white text-[#b30000] rounded-lg font-medium hover:bg-[#b30000] hover:text-white hover:border-white border-2 border-white/30 transition-all duration-200"
+                >
+                  Continue with Google
+                </button>
+              </>
+            )}
           </div>
         </header>
       </div>
@@ -118,7 +169,9 @@ export default function AdminLayout() {
       <div className="pt-[73px] flex flex-col flex-1 min-h-0">
       {/* Sub-header with search - white */}
       <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between gap-4 flex-wrap shrink-0">
-        <h2 className="text-lg font-bold text-gray-800">Admin Dashboard</h2>
+        <h2 className="text-lg font-bold text-gray-800">
+          {adminUser ? "Admin Dashboard" : "Admin Login Required"}
+        </h2>
         <form onSubmit={handleSearch} className="flex-1 min-w-[200px] max-w-xl">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -166,10 +219,39 @@ export default function AdminLayout() {
 
         {/* Main content - scroll here drives header background */}
         <main ref={setScrollContainer} className="flex-1 overflow-auto p-6 bg-white">
-          <Outlet />
+          {adminUser ? (
+            <Outlet />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="max-w-md w-full text-center border border-dashed border-gray-300 rounded-2xl p-8 bg-gray-50">
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                  Admin access only
+                </h3>
+                <p className="text-gray-600 text-sm mb-6">
+                  Please sign in to your admin account to view dashboard, orders, products and other admin pages.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setShowAuthModal("login")}
+                  className="px-5 py-2.5 bg-[#b30000] text-white rounded-lg font-medium hover:bg-[#8c0000] transition-colors"
+                >
+                  Admin Login
+                </button>
+              </div>
+            </div>
+          )}
         </main>
       </div>
       </div>
+
+      {/* Admin-only login/signup modal, completely separate from main site auth */}
+      {showAuthModal && (
+        <AdminLoginModal
+          type={showAuthModal}
+          onClose={() => setShowAuthModal(null)}
+          onAuthSuccess={handleAdminAuthSuccess}
+        />
+      )}
     </div>
   );
 }

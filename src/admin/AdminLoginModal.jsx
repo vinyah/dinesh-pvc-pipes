@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Mail, Lock, User } from "lucide-react";
 
-const USERS_KEY = "users";
-const CURRENT_USER_KEY = "currentUser";
+// 🔐 Completely separate storage from main website auth
+const ADMIN_USERS_KEY = "adminUsers";
+const ADMIN_CURRENT_USER_KEY = "adminCurrentUser";
 
 /**
- * Admin-only login/signup modal. Used only on admin routes.
- * Never navigates to or uses the main project login flow.
+ * Admin-only login/signup modal.
+ * Uses its own localStorage keys so it is 100% separate
+ * from the main website login/signup flow.
  */
 const AdminLoginModal = ({
   type = "login",
@@ -32,7 +34,7 @@ const AdminLoginModal = ({
   const [message, setMessage] = useState(null);
 
   const loadUsers = () => {
-    const saved = localStorage.getItem(USERS_KEY);
+    const saved = localStorage.getItem(ADMIN_USERS_KEY);
     if (!saved) return [];
     try {
       return JSON.parse(saved) || [];
@@ -42,7 +44,7 @@ const AdminLoginModal = ({
   };
 
   const saveUsers = (users) => {
-    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    localStorage.setItem(ADMIN_USERS_KEY, JSON.stringify(users));
   };
 
   const saveCurrentUser = (user) => {
@@ -51,8 +53,9 @@ const AdminLoginModal = ({
       email: user.email || "",
       phone: user.phone || "",
       address: user.address || "",
+      role: "admin",
     };
-    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(safeUser));
+    localStorage.setItem(ADMIN_CURRENT_USER_KEY, JSON.stringify(safeUser));
     return safeUser;
   };
 
