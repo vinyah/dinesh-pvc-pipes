@@ -107,7 +107,7 @@ export default function AdminLayout() {
   const handleAdminLogout = () => {
     localStorage.removeItem(ADMIN_CURRENT_USER_KEY);
     setAdminUser(null);
-    setShowAuthModal("login");
+    // Do not open login modal — show "Admin access only" page; user clicks "Admin Login" to sign in again
   };
 
   return (
