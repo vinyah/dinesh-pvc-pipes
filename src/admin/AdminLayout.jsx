@@ -14,7 +14,34 @@ import {
   Tag,
   Shield,
   Search,
+  LogIn,
+  LogOut,
 } from "lucide-react";
+
+const ADMIN_LOGIN_KEY = "adminLoggedIn";
+
+function LoggedOutView({ onLogIn }) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-200 px-4">
+      <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full text-center">
+        <h1 className="text-xl font-bold text-gray-800 mb-3">You haven&apos;t logged in yet</h1>
+        <p className="text-gray-500 text-sm mb-6">
+          Please login to access your account and view your profile details.
+        </p>
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={onLogIn}
+            className="px-5 py-2.5 bg-[#b30000] text-white rounded-lg font-medium hover:bg-[#8c0000] transition-colors"
+          >
+            Log In
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const NAV_ITEMS = [
   { path: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/admin/orders", label: "Orders", icon: ShoppingCart },
@@ -30,7 +57,7 @@ const NAV_ITEMS = [
   { path: "/admin/permissions", label: "Permissions", icon: Shield },
 ];
 
-export default function AdminLayout({ openAuthModal }) {
+export default function AdminLayout({ adminLoggedIn, setAdminLoggedIn, openAuthModal }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -39,6 +66,22 @@ export default function AdminLayout({ openAuthModal }) {
   const [searchFocused, setSearchFocused] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollContainer, setScrollContainer] = useState(null);
+
+  const handleLogIn = () => {
+    openAuthModal?.("login");
+  };
+
+  const handleLogOut = () => {
+    setAdminLoggedIn?.(false);
+    if (typeof window !== "undefined") window.localStorage.removeItem(ADMIN_LOGIN_KEY);
+    openAuthModal?.("login");
+  };
+
+  if (!adminLoggedIn) {
+    return (
+      <LoggedOutView onLogIn={handleLogIn} />
+    );
+  }
 
   useEffect(() => {
     if (qFromUrl !== undefined) setSearchQuery(qFromUrl);
@@ -99,7 +142,7 @@ export default function AdminLayout({ openAuthModal }) {
           <div className="flex items-center gap-3">
             <button
               type="button"
-              onClick={() => openAuthModal?.("login")}
+              onClick={handleLogIn}
               className="px-4 py-2 bg-white text-[#b30000] rounded-lg font-medium hover:bg-[#b30000] hover:text-white hover:border-white border-2 border-white/30 transition-all duration-200 shadow-sm"
             >
               Sign in with Email
@@ -140,24 +183,47 @@ export default function AdminLayout({ openAuthModal }) {
       <div className="flex flex-1 overflow-hidden min-h-0">
         {/* Sidebar - white/light gray with red active */}
         <aside className="w-56 shrink-0 bg-white border-r border-gray-200 flex flex-col">
-          <nav className="p-3 space-y-0.5">
-            {NAV_ITEMS.map(({ path, label, icon: Icon }) => {
-              const isActive = location.pathname === path;
-              return (
-                <Link
-                  key={path}
-                  to={path}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                    isActive
-                      ? "bg-[#b30000] text-white"
-                      : "text-gray-700 hover:bg-red-50 hover:text-[#b30000]"
-                  }`}
+          <nav className="p-3 flex flex-col flex-1 min-h-0">
+            <div className="space-y-0.5">
+              {NAV_ITEMS.map(({ path, label, icon: Icon }) => {
+                const isActive = location.pathname === path;
+                return (
+                  <Link
+                    key={path}
+                    to={path}
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                      isActive
+                        ? "bg-[#b30000] text-white"
+                        : "text-gray-700 hover:bg-red-50 hover:text-[#b30000]"
+                    }`}
+                  >
+                    <Icon className="w-5 h-5 shrink-0" />
+                    {label}
+                  </Link>
+                );
+              })}
+            </div>
+            <div className="pt-2 border-t border-gray-200">
+              {adminLoggedIn ? (
+                <button
+                  type="button"
+                  onClick={handleLogOut}
+                  className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium bg-[#b30000] text-white hover:bg-[#8b0000] transition-colors"
                 >
-                  <Icon className="w-5 h-5 shrink-0" />
-                  {label}
-                </Link>
-              );
-            })}
+                  <LogOut className="w-5 h-5 shrink-0" />
+                  LOG OUT
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleLogIn}
+                  className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-[#b30000] transition-colors"
+                >
+                  <LogIn className="w-5 h-5 shrink-0" />
+                  LOG IN
+                </button>
+              )}
+            </div>
           </nav>
         </aside>
 

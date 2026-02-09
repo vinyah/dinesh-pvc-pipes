@@ -122,3 +122,41 @@ code {
 .slide-down {
   animation: slideDown 0.3s ease-out;
 }
+
+/* Print: show only target content (shipping label or invoice) */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .no-print,
+  .no-print-invoice {
+    display: none !important;
+  }
+  #print-label-content,
+  #print-label-content * {
+    visibility: visible;
+  }
+  #print-label-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem;
+    border: 2px solid #000;
+    background: white;
+  }
+  #invoice-pdf-content,
+  #invoice-pdf-content * {
+    visibility: visible;
+  }
+  #invoice-pdf-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem;
+    background: white;
+  }
+}

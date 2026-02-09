@@ -4,10 +4,14 @@ import { Mail, Lock, User } from "lucide-react";
 const USERS_KEY = "users";
 const CURRENT_USER_KEY = "currentUser";
 
-const LoginSignupModal = ({
+/**
+ * Admin-only login/signup modal. Used only on admin routes.
+ * Never navigates to or uses the main project login flow.
+ */
+const AdminLoginModal = ({
   type = "login",
   onClose,
-  onAuthSuccess, // 🔥 ONLY ADDITION
+  onAuthSuccess,
 }) => {
   const [activeTab, setActiveTab] = useState(
     type === "signup" ? "signup" : "login"
@@ -27,7 +31,6 @@ const LoginSignupModal = ({
 
   const [message, setMessage] = useState(null);
 
-  /* ================= helpers ================= */
   const loadUsers = () => {
     const saved = localStorage.getItem(USERS_KEY);
     if (!saved) return [];
@@ -53,20 +56,16 @@ const LoginSignupModal = ({
     return safeUser;
   };
 
-  /* ================= SIGN UP ================= */
   const handleSignup = () => {
     if (!signupData.name || !signupData.email || !signupData.password) {
       setMessage({ type: "error", text: "❌ All fields are required." });
       return;
     }
-
     if (signupData.password !== signupData.confirm) {
       setMessage({ type: "error", text: "❌ Passwords do not match!" });
       return;
     }
-
     const users = loadUsers();
-
     const exists = users.find(
       (u) => u.email.toLowerCase() === signupData.email.toLowerCase()
     );
@@ -74,7 +73,6 @@ const LoginSignupModal = ({
       setMessage({ type: "error", text: "⚠️ User already exists!" });
       return;
     }
-
     const newUser = {
       name: signupData.name,
       email: signupData.email,
@@ -82,59 +80,48 @@ const LoginSignupModal = ({
       phone: "",
       address: "",
     };
-
     saveUsers([...users, newUser]);
     const safeUser = saveCurrentUser(newUser);
-
-    // 🔥 INSTANT UPDATE
     onAuthSuccess?.(safeUser);
-
     setMessage({ type: "success", text: "✅ Signed up successfully!" });
     setTimeout(onClose, 1000);
   };
 
-  /* ================= LOGIN ================= */
   const handleLogin = () => {
     if (!loginData.email || !loginData.password) {
       setMessage({ type: "error", text: "❌ Enter email and password." });
       return;
     }
-
     const users = loadUsers();
-
     const user = users.find(
       (u) =>
         u.email.toLowerCase() === loginData.email.toLowerCase() &&
         u.password === loginData.password
     );
-
     if (!user) {
       setMessage({ type: "error", text: "❌ Invalid email or password!" });
       return;
     }
-
     const safeUser = saveCurrentUser(user);
-
-    // 🔥 INSTANT UPDATE
     onAuthSuccess?.(safeUser);
-
     setMessage({ type: "success", text: `✅ Welcome ${user.name}!` });
     setTimeout(onClose, 1000);
   };
 
-  /* ================= UI ================= */
   return (
-    <div 
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+    <div
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
       onClick={onClose}
     >
-      <div 
+      <div
         className="bg-white rounded-2xl shadow-xl w-full max-w-md relative"
-        role="dialog" 
+        role="dialog"
         aria-modal="true"
+        aria-label="Admin login"
         onClick={(e) => e.stopPropagation()}
       >
-        <button 
+        <button
+          type="button"
           className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 w-8 h-8 flex items-center justify-center"
           onClick={onClose}
           aria-label="Close"
@@ -144,7 +131,7 @@ const LoginSignupModal = ({
 
         <div className="p-8 pt-12">
           <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center border-2 border-purple-200">
               <User className="w-8 h-8 text-purple-600" />
             </div>
           </div>
@@ -155,9 +142,10 @@ const LoginSignupModal = ({
 
           <div className="flex gap-2 mb-6">
             <button
+              type="button"
               className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-all ${
-                activeTab === "login" 
-                  ? "bg-[#b30000] text-white" 
+                activeTab === "login"
+                  ? "bg-[#b30000] text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
               onClick={() => {
@@ -168,9 +156,10 @@ const LoginSignupModal = ({
               Login
             </button>
             <button
+              type="button"
               className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-all ${
-                activeTab === "signup" 
-                  ? "bg-[#b30000] text-white" 
+                activeTab === "signup"
+                  ? "bg-[#b30000] text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
               onClick={() => {
@@ -185,8 +174,8 @@ const LoginSignupModal = ({
           {message && (
             <div
               className={`mb-4 p-3 rounded-lg text-sm ${
-                message.type === "success" 
-                  ? "bg-green-100 text-green-800" 
+                message.type === "success"
+                  ? "bg-green-100 text-green-800"
                   : "bg-red-100 text-red-800"
               }`}
             >
@@ -194,7 +183,6 @@ const LoginSignupModal = ({
             </div>
           )}
 
-          {/* LOGIN */}
           {activeTab === "login" && (
             <div className="space-y-4">
               <div>
@@ -212,7 +200,6 @@ const LoginSignupModal = ({
                   />
                 </div>
               </div>
-
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
                 <div className="relative">
@@ -228,8 +215,8 @@ const LoginSignupModal = ({
                   />
                 </div>
               </div>
-
-              <button 
+              <button
+                type="button"
                 className="w-full py-3 px-4 bg-white border-2 border-[#b30000] text-[#b30000] rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-all duration-300 mt-6"
                 onClick={handleLogin}
               >
@@ -238,7 +225,6 @@ const LoginSignupModal = ({
             </div>
           )}
 
-          {/* SIGNUP */}
           {activeTab === "signup" && (
             <div className="space-y-4">
               <div>
@@ -256,7 +242,6 @@ const LoginSignupModal = ({
                   />
                 </div>
               </div>
-
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                 <div className="relative">
@@ -272,7 +257,6 @@ const LoginSignupModal = ({
                   />
                 </div>
               </div>
-
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
                 <div className="relative">
@@ -288,7 +272,6 @@ const LoginSignupModal = ({
                   />
                 </div>
               </div>
-
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
                 <div className="relative">
@@ -304,8 +287,8 @@ const LoginSignupModal = ({
                   />
                 </div>
               </div>
-
-              <button 
+              <button
+                type="button"
                 className="w-full py-3 px-4 bg-white border-2 border-[#b30000] text-[#b30000] rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-all duration-300 mt-6"
                 onClick={handleSignup}
               >
@@ -319,5 +302,4 @@ const LoginSignupModal = ({
   );
 };
 
-export default LoginSignupModal;
-
+export default AdminLoginModal;

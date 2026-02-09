@@ -91,23 +91,23 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
   /* ================= NOT LOGGED IN ================= */
   if (!user) {
     return (
-      <div className="w-full min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 pt-24 md:pt-28">
-        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">You haven't logged in yet</h2>
-          <p className="text-gray-600 mb-6">
+      <div className="w-full min-h-screen bg-gray-200 flex items-center justify-center py-12 px-4 pt-24 md:pt-28">
+        <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full text-center">
+          <h2 className="text-xl font-bold text-gray-800 mb-3">You haven&apos;t logged in yet</h2>
+          <p className="text-gray-500 text-sm mb-6">
             Please login to access your account and view your profile details.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-wrap gap-3 justify-center">
             <button
               type="button"
-              className="px-6 py-3 bg-[#b30000] text-white rounded-lg font-semibold hover:bg-[#8b0000] transition-colors"
+              className="px-5 py-2.5 bg-[#b30000] text-white rounded-lg font-medium hover:bg-[#8c0000] transition-colors"
               onClick={handleOpenLogin}
             >
               Log In
             </button>
             <button
               type="button"
-              className="px-6 py-3 border-2 border-[#b30000] text-[#b30000] bg-white rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-colors"
+              className="px-5 py-2.5 bg-white text-[#b30000] border-2 border-[#b30000] rounded-lg font-medium hover:bg-red-50 transition-colors"
               onClick={goHome}
             >
               Home

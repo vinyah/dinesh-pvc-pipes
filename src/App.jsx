@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 
 /* 🛠️ ADMIN */
 import AdminLayout from "./admin/AdminLayout";
+import AdminLoginModal from "./admin/AdminLoginModal";
 import AdminDashboard from "./admin/pages/AdminDashboard";
 import AdminOrders from "./admin/pages/AdminOrders";
 import AdminProducts from "./admin/pages/AdminProducts";
@@ -16,6 +17,7 @@ import AdminPromotions from "./admin/pages/AdminPromotions";
 import AdminCustomers from "./admin/pages/AdminCustomers";
 import AdminReviews from "./admin/pages/AdminReviews";
 import AdminShipments from "./admin/pages/AdminShipments";
+import AdminShipmentPrintLabel from "./admin/pages/AdminShipmentPrintLabel";
 import AdminPayments from "./admin/pages/AdminPayments";
 import AdminCoupons from "./admin/pages/AdminCoupons";
 import AdminPermissions from "./admin/pages/AdminPermissions";
@@ -43,7 +45,7 @@ import OrderSuccessPage from "./pages/OrderSuccessPage";
 /* 🛒 CART CONTEXT */
 import { CartProvider } from "./context/CartContext";
 
-// Error Boundary Component
+// Error Boundary: show "You haven't logged in yet" card (2nd image) instead of "Something went wrong"
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -65,30 +67,27 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{ padding: "20px", textAlign: "center" }}>
-          <h1 style={{ color: "#b30000" }}>Something went wrong</h1>
-          <details style={{ whiteSpace: "pre-wrap", marginTop: "20px", textAlign: "left" }}>
-            <summary>Error Details (Click to expand)</summary>
-            <pre style={{ background: "#f5f5f5", padding: "10px", borderRadius: "5px" }}>
-              {this.state.error && this.state.error.toString()}
-              <br />
-              {this.state.errorInfo && this.state.errorInfo.componentStack}
-            </pre>
-          </details>
-          <button
-            onClick={() => window.location.reload()}
-            style={{
-              marginTop: "20px",
-              padding: "10px 20px",
-              backgroundColor: "#b30000",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer"
-            }}
-          >
-            Reload Page
-          </button>
+        <div className="min-h-screen flex items-center justify-center bg-gray-200 px-4">
+          <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full text-center">
+            <h1 className="text-xl font-bold text-gray-800 mb-3">You haven&apos;t logged in yet</h1>
+            <p className="text-gray-500 text-sm mb-6">
+              Please login to access your account and view your profile details.
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <a
+                href="/?openLogin=1"
+                className="inline-block px-5 py-2.5 bg-[#b30000] text-white rounded-lg font-medium hover:bg-[#8c0000] transition-colors"
+              >
+                Log In
+              </a>
+              <a
+                href="/"
+                className="inline-block px-5 py-2.5 bg-white text-[#b30000] border-2 border-[#b30000] rounded-lg font-medium hover:bg-red-50 transition-colors"
+              >
+                Home
+              </a>
+            </div>
+          </div>
         </div>
       );
     }
@@ -99,13 +98,24 @@ class ErrorBoundary extends React.Component {
 
 const CURRENT_USER_KEY = "currentUser";
 
+const ADMIN_LOGIN_KEY = "adminLoggedIn";
+
 // Inner component that has access to navigate (must be inside Router)
-function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
+function AppContent({ currentUser, setCurrentUser, showModal, setShowModal, adminLoggedIn, setAdminLoggedIn }) {
   const navigate = useNavigate();
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
 
-  /* 🔑 AFTER LOGIN / SIGNUP */
+  // When arriving with ?openLogin=1 (e.g. from error-boundary "Log In"), open login modal
+  React.useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("openLogin") === "1") {
+      setShowModal("login");
+      navigate(location.pathname || "/", { replace: true });
+    }
+  }, [location.search, location.pathname, setShowModal, navigate]);
+
+  /* 🔑 AFTER LOGIN / SIGNUP (main site) */
   const handleAuthSuccess = (user) => {
     setCurrentUser(user);
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
@@ -119,10 +129,21 @@ function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
     }
   };
 
+  /* 🔑 AFTER LOGIN / SIGNUP (from admin page – go directly to admin only) */
+  const handleAdminAuthSuccess = (user) => {
+    setCurrentUser(user);
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+    setShowModal(null);
+    setAdminLoggedIn(true);
+    if (typeof window !== "undefined") window.localStorage.setItem(ADMIN_LOGIN_KEY, "true");
+    navigate("/admin/dashboard", { replace: true });
+  };
+
   if (isAdmin) {
     return (
-      <Routes>
-        <Route path="/admin" element={<AdminLayout openAuthModal={setShowModal} />}>
+      <>
+        <Routes>
+          <Route path="/admin" element={<AdminLayout adminLoggedIn={adminLoggedIn} setAdminLoggedIn={setAdminLoggedIn} openAuthModal={setShowModal} />}>
           <Route index element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="orders" element={<AdminOrders />} />
@@ -133,12 +154,21 @@ function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
           <Route path="customers" element={<AdminCustomers />} />
           <Route path="reviews" element={<AdminReviews />} />
           <Route path="shipments" element={<AdminShipments />} />
+          <Route path="shipments/print" element={<AdminShipmentPrintLabel />} />
           <Route path="payments" element={<AdminPayments />} />
           <Route path="coupons" element={<AdminCoupons />} />
           <Route path="permissions" element={<AdminPermissions />} />
           <Route path="search" element={<AdminSearch />} />
-        </Route>
-      </Routes>
+          </Route>
+        </Routes>
+        {showModal && (
+          <AdminLoginModal
+            type={showModal}
+            onClose={() => setShowModal(null)}
+            onAuthSuccess={handleAdminAuthSuccess}
+          />
+        )}
+      </>
     );
   }
 
@@ -228,6 +258,9 @@ function App() {
   /* 🔐 AUTH STATE */
   const [currentUser, setCurrentUser] = useState(null);
   const [showModal, setShowModal] = useState(null); // login | signup | null
+  const [adminLoggedIn, setAdminLoggedIn] = useState(
+    () => typeof window !== "undefined" && window.localStorage.getItem("adminLoggedIn") === "true"
+  );
 
   /* 🔁 LOAD USER ON START */
   useEffect(() => {
@@ -251,6 +284,8 @@ function App() {
               setCurrentUser={setCurrentUser}
               showModal={showModal}
               setShowModal={setShowModal}
+              adminLoggedIn={adminLoggedIn}
+              setAdminLoggedIn={setAdminLoggedIn}
             />
           </div>
         </Router>
