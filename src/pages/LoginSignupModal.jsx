@@ -1,8 +1,26 @@
 import React, { useState } from "react";
 import { Mail, Lock, User } from "lucide-react";
+import { auth } from "../firebase";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 const USERS_KEY = "users";
 const CURRENT_USER_KEY = "currentUser";
+
+function firebaseAuthMessage(code) {
+  const messages = {
+    "auth/email-already-in-use": "This email is already registered.",
+    "auth/invalid-email": "Please enter a valid email.",
+    "auth/weak-password": "Password should be at least 6 characters.",
+    "auth/user-not-found": "No account found with this email.",
+    "auth/wrong-password": "Incorrect password.",
+    "auth/invalid-credential": "Invalid email or password.",
+  };
+  return messages[code] || "Something went wrong. Please try again.";
+}
 
 const LoginSignupModal = ({
   type = "login",
@@ -26,6 +44,7 @@ const LoginSignupModal = ({
   });
 
   const [message, setMessage] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   /* ================= helpers ================= */
   const loadUsers = () => {
@@ -54,19 +73,47 @@ const LoginSignupModal = ({
   };
 
   /* ================= SIGN UP ================= */
-  const handleSignup = () => {
+  const handleSignup = async () => {
     if (!signupData.name || !signupData.email || !signupData.password) {
       setMessage({ type: "error", text: "❌ All fields are required." });
       return;
     }
-
     if (signupData.password !== signupData.confirm) {
       setMessage({ type: "error", text: "❌ Passwords do not match!" });
       return;
     }
 
-    const users = loadUsers();
+    if (auth) {
+      setIsSubmitting(true);
+      setMessage(null);
+      try {
+        const cred = await createUserWithEmailAndPassword(
+          auth,
+          signupData.email,
+          signupData.password
+        );
+        await updateProfile(cred.user, { displayName: signupData.name });
+        const u = {
+          name: signupData.name,
+          email: signupData.email,
+          phone: "",
+          address: "",
+        };
+        onAuthSuccess?.(u);
+        setMessage({ type: "success", text: "✅ Signed up successfully!" });
+        setTimeout(onClose, 1000);
+      } catch (e) {
+        setMessage({
+          type: "error",
+          text: "❌ " + (firebaseAuthMessage(e?.code) || e?.message || "Sign up failed."),
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
+      return;
+    }
 
+    const users = loadUsers();
     const exists = users.find(
       (u) => u.email.toLowerCase() === signupData.email.toLowerCase()
     );
@@ -74,7 +121,6 @@ const LoginSignupModal = ({
       setMessage({ type: "error", text: "⚠️ User already exists!" });
       return;
     }
-
     const newUser = {
       name: signupData.name,
       email: signupData.email,
@@ -82,42 +128,64 @@ const LoginSignupModal = ({
       phone: "",
       address: "",
     };
-
     saveUsers([...users, newUser]);
     const safeUser = saveCurrentUser(newUser);
-
-    // 🔥 INSTANT UPDATE
     onAuthSuccess?.(safeUser);
-
     setMessage({ type: "success", text: "✅ Signed up successfully!" });
     setTimeout(onClose, 1000);
   };
 
   /* ================= LOGIN ================= */
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!loginData.email || !loginData.password) {
       setMessage({ type: "error", text: "❌ Enter email and password." });
       return;
     }
 
-    const users = loadUsers();
+    if (auth) {
+      setIsSubmitting(true);
+      setMessage(null);
+      try {
+        const cred = await signInWithEmailAndPassword(
+          auth,
+          loginData.email,
+          loginData.password
+        );
+        const u = {
+          name: cred.user.displayName || "",
+          email: cred.user.email || "",
+          phone: "",
+          address: "",
+        };
+        onAuthSuccess?.(u);
+        setMessage({
+          type: "success",
+          text: `✅ Welcome ${u.name || cred.user.email}!`,
+        });
+        setTimeout(onClose, 1000);
+      } catch (e) {
+        setMessage({
+          type: "error",
+          text: "❌ " + (firebaseAuthMessage(e?.code) || e?.message || "Login failed."),
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
+      return;
+    }
 
+    const users = loadUsers();
     const user = users.find(
       (u) =>
         u.email.toLowerCase() === loginData.email.toLowerCase() &&
         u.password === loginData.password
     );
-
     if (!user) {
       setMessage({ type: "error", text: "❌ Invalid email or password!" });
       return;
     }
-
     const safeUser = saveCurrentUser(user);
-
-    // 🔥 INSTANT UPDATE
     onAuthSuccess?.(safeUser);
-
     setMessage({ type: "success", text: `✅ Welcome ${user.name}!` });
     setTimeout(onClose, 1000);
   };
@@ -229,11 +297,13 @@ const LoginSignupModal = ({
                 </div>
               </div>
 
-              <button 
-                className="w-full py-3 px-4 bg-white border-2 border-[#b30000] text-[#b30000] rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-all duration-300 mt-6"
+              <button
+                type="button"
+                disabled={isSubmitting}
+                className="w-full py-3 px-4 bg-white border-2 border-[#b30000] text-[#b30000] rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-all duration-300 mt-6 disabled:opacity-60 disabled:pointer-events-none"
                 onClick={handleLogin}
               >
-                Login
+                {isSubmitting ? "Signing in…" : "Login"}
               </button>
             </div>
           )}
@@ -305,11 +375,13 @@ const LoginSignupModal = ({
                 </div>
               </div>
 
-              <button 
-                className="w-full py-3 px-4 bg-white border-2 border-[#b30000] text-[#b30000] rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-all duration-300 mt-6"
+              <button
+                type="button"
+                disabled={isSubmitting}
+                className="w-full py-3 px-4 bg-white border-2 border-[#b30000] text-[#b30000] rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-all duration-300 mt-6 disabled:opacity-60 disabled:pointer-events-none"
                 onClick={handleSignup}
               >
-                Create Account
+                {isSubmitting ? "Creating account…" : "Create Account"}
               </button>
             </div>
           )}

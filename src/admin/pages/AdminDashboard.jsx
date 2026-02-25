@@ -66,27 +66,27 @@ const SALES_ORDERS_YEAR = [
 
 const TREND_BY_PERIOD = { week: SALES_ORDERS_WEEK, month: SALES_ORDERS_MONTH, year: SALES_ORDERS_YEAR };
 
-// Category Mix – different mix per period (theme red shades + gray)
+// Category Mix – visible light reds (no wash-out on white background)
 const CATEGORY_MIX_WEEK = [
-  { name: "Pipes", value: 35, color: "#b30000" },
-  { name: "Fittings", value: 25, color: "#c41e3a" },
-  { name: "Boxes", value: 20, color: "#8b0000" },
-  { name: "Hose", value: 12, color: "#dc3545" },
-  { name: "Others", value: 8, color: "#6b7280" },
+  { name: "Pipes", value: 35, color: "#c87878" },
+  { name: "Fittings", value: 25, color: "#d08686" },
+  { name: "Boxes", value: 20, color: "#b86a6a" },
+  { name: "Hose", value: 12, color: "#d89292" },
+  { name: "Others", value: 8, color: "#dc9898" },
 ];
 const CATEGORY_MIX_MONTH = [
-  { name: "Pipes", value: 38, color: "#b30000" },
-  { name: "Fittings", value: 24, color: "#c41e3a" },
-  { name: "Boxes", value: 18, color: "#8b0000" },
-  { name: "Hose", value: 11, color: "#dc3545" },
-  { name: "Others", value: 9, color: "#6b7280" },
+  { name: "Pipes", value: 38, color: "#c87878" },
+  { name: "Fittings", value: 24, color: "#d08686" },
+  { name: "Boxes", value: 18, color: "#b86a6a" },
+  { name: "Hose", value: 11, color: "#d89292" },
+  { name: "Others", value: 9, color: "#dc9898" },
 ];
 const CATEGORY_MIX_YEAR = [
-  { name: "Pipes", value: 40, color: "#b30000" },
-  { name: "Fittings", value: 22, color: "#c41e3a" },
-  { name: "Boxes", value: 17, color: "#8b0000" },
-  { name: "Hose", value: 12, color: "#dc3545" },
-  { name: "Others", value: 9, color: "#6b7280" },
+  { name: "Pipes", value: 40, color: "#c87878" },
+  { name: "Fittings", value: 22, color: "#d08686" },
+  { name: "Boxes", value: 17, color: "#b86a6a" },
+  { name: "Hose", value: 12, color: "#d89292" },
+  { name: "Others", value: 9, color: "#dc9898" },
 ];
 const CATEGORY_BY_PERIOD = { week: CATEGORY_MIX_WEEK, month: CATEGORY_MIX_MONTH, year: CATEGORY_MIX_YEAR };
 
@@ -300,12 +300,12 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Category Mix – pie with labels outside */}
+        {/* Category Mix – pie with labels outside; dark labels so white doesn’t hide text */}
         <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Category Mix</h3>
-          <div className="h-64 flex items-center justify-center">
+          <div className="h-64 flex items-center justify-center overflow-visible">
             <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
+              <PieChart margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
                 <Pie
                   data={categoryData}
                   cx="50%"
@@ -314,11 +314,17 @@ export default function AdminDashboard() {
                   outerRadius="70%"
                   paddingAngle={1}
                   dataKey="value"
-                  label={({ name, value }) => `${name} ${value}%`}
-                  labelLine={{ strokeWidth: 1, stroke: "#9ca3af" }}
+                  stroke="rgba(229,231,235,0.9)"
+                  strokeWidth={1}
+                  label={({ name, value, x, y, textAnchor }) => (
+                    <text x={x} y={y} textAnchor={textAnchor} fill="#1f2937" fontSize={12} fontWeight={500}>
+                      {name} {value}%
+                    </text>
+                  )}
+                  labelLine={{ strokeWidth: 1, stroke: "#6b7280" }}
                 >
                   {categoryData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} stroke="white" strokeWidth={1} />
+                    <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
                 <Tooltip content={<PieTooltip />} />

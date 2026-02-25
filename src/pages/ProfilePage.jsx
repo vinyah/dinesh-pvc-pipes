@@ -9,6 +9,8 @@ import {
   FaArrowRight,
   FaDoorOpen,
 } from "react-icons/fa";
+import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
 
 const CURRENT_USER_KEY = "currentUser";
 
@@ -54,10 +56,13 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
   const goCart = () => navigate("/cart");
 
   const handleLogout = () => {
+    if (auth) {
+      signOut(auth);
+      // onAuthStateChanged in App.jsx will set currentUser to null and clear localStorage
+    }
     localStorage.removeItem(CURRENT_USER_KEY);
     setUser(null);
-    setCurrentUser(null); // 🔥 APP STATE
-    // Don't navigate - let the component show the "not logged in" message
+    setCurrentUser(null);
   };
 
   /* 🔹 Edit handlers */

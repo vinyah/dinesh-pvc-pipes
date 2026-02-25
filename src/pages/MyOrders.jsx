@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getImageUrl } from "../utils/imageLoader";
 
 const CURRENT_USER_KEY = "currentUser";
 const ORDERS_KEY = "myOrders";
 
 const MyOrders = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("Placed");
   const [orders, setOrders] = useState([]);
 
@@ -195,6 +197,17 @@ const MyOrders = () => {
                         </p>
                       </div>
                     )}
+                  </div>
+
+                  {/* Track button - below Total Amount */}
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/orders/track/${order.orderId || order.id}`)}
+                      className="px-4 py-2.5 bg-[#b30000] text-white text-sm font-semibold rounded-lg hover:bg-[#8c0000] transition-colors"
+                    >
+                      Track
+                    </button>
                   </div>
                 </div>
               ))}

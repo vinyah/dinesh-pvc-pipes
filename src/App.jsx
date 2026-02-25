@@ -40,9 +40,14 @@ import DeliveryPage from "./pages/DeliveryPage";
 import ReviewOrderPage from "./pages/ReviewOrderPage";
 import OrderProcessingPage from "./pages/OrderProcessingPage";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
+import OrderTrackingPage from "./pages/OrderTrackingPage";
 
 /* 🛒 CART CONTEXT */
 import { CartProvider } from "./context/CartContext";
+
+/* 🔐 FIREBASE */
+import { auth } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 // Error Boundary: show "You haven't logged in yet" card (2nd image) instead of "Something went wrong"
 class ErrorBoundary extends React.Component {
@@ -174,6 +179,7 @@ function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
           <Route path="/pipefitting" element={<CategoryPage setShowModal={setShowModal} />} />
 
           <Route path="/orders" element={<Orders />} />
+          <Route path="/orders/track/:orderId" element={<OrderTrackingPage />} />
           <Route path="/cart" element={<Cart />} />
 
           {/* 👤 ACCOUNT */}
@@ -238,8 +244,26 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [showModal, setShowModal] = useState(null); // project: login | signup | null
 
-  /* 🔁 LOAD USER ON START */
+  /* 🔁 AUTH: Firebase when configured, else localStorage */
   useEffect(() => {
+    if (auth) {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const u = {
+            name: user.displayName || "",
+            email: user.email || "",
+            phone: "",
+            address: "",
+          };
+          setCurrentUser(u);
+          localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(u));
+        } else {
+          setCurrentUser(null);
+          localStorage.removeItem(CURRENT_USER_KEY);
+        }
+      });
+      return () => unsubscribe();
+    }
     const storedUser = localStorage.getItem(CURRENT_USER_KEY);
     if (storedUser) {
       try {

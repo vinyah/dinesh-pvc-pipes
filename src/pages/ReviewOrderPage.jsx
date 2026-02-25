@@ -68,11 +68,13 @@ const ReviewOrderPage = () => {
       thickness: item.thickness || "",
     }));
 
+    const now = new Date();
     const newOrder = {
       id: Date.now(),
       orderId: "ORD" + Date.now(),
       status: "Placed",
-      date: new Date().toLocaleDateString(),
+      date: now.toLocaleDateString(),
+      dateTime: now.toISOString(),
       items: normalizedItems,
       total,
       address,
@@ -97,6 +99,36 @@ const ReviewOrderPage = () => {
       "myOrders",
       JSON.stringify([newOrderWithEmail, ...userOrders, ...otherOrders])
     );
+
+    // Seed tracking for this order so Track page shows details
+    const dest = address
+      ? [address.line1 || address.address, address.city, address.state, address.pin || address.pincode].filter(Boolean).join(", ")
+      : "";
+    let orderDate = now;
+    const deliveryOption = delivery || { id: "standard" };
+    let daysToAdd = 7;
+    if (deliveryOption.id === "express") daysToAdd = 3;
+    else if (deliveryOption.id === "premium") daysToAdd = 1;
+    const estDate = new Date(orderDate);
+    estDate.setDate(estDate.getDate() + daysToAdd);
+    const estDeliveryStr = estDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    const estDeliveryTimeStr = estDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+    const placedAtStr = now.toLocaleString("en-US", { dateStyle: "short", timeStyle: "short", hour12: true });
+    const orderTracking = JSON.parse(localStorage.getItem("orderTracking") || "{}");
+    orderTracking[newOrder.orderId] = {
+      orderId: newOrder.orderId,
+      status: "Order Placed",
+      partner: "",
+      trackingId: "",
+      origin: "Dinesh PVC Pipes Warehouse",
+      destination: dest,
+      estDelivery: estDeliveryStr,
+      estDeliveryTime: estDeliveryTimeStr,
+      lastUpdate: placedAtStr + " - Order confirmed",
+      lastUpdateTime: now.toISOString(),
+      progress: 20,
+    };
+    localStorage.setItem("orderTracking", JSON.stringify(orderTracking));
   };
 
   /* ================= PLACE ORDER ================= */
