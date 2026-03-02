@@ -22,12 +22,17 @@ import AdminCoupons from "./admin/pages/AdminCoupons";
 import AdminPermissions from "./admin/pages/AdminPermissions";
 import AdminSearch from "./admin/pages/AdminSearch";
 
+/* 🛠️ SUPER ADMIN */
+import SuperAdminLayout from "./superadmin/SuperAdminLayout";
+
 /* 🏠 MAIN PAGES */
 import Home from "./pages/Home";
 import Orders from "./pages/MyOrders";
+import WishListPage from "./pages/WishListPage";
 import Cart from "./pages/Cart";
 import Account from "./pages/ProfilePage";
 import LoginSignupModal from "./pages/LoginSignupModal";
+import OffersPage from "./pages/OffersPage";
 
 /* 🧱 UNIFIED PAGES */
 import ProductPage from "./pages/ProductPage";
@@ -49,53 +54,30 @@ import { CartProvider } from "./context/CartContext";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
-// Error Boundary: show "You haven't logged in yet" card (2nd image) instead of "Something went wrong"
+/** Catches crashes and shows a fallback with "Go to Home" so you never see a white page */
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false, error: null, errorInfo: null };
+    this.state = { hasError: false, error: null };
   }
-
   static getDerivedStateFromError(error) {
-    return { hasError: true };
+    return { hasError: true, error };
   }
-
   componentDidCatch(error, errorInfo) {
-    console.error("Error caught by boundary:", error, errorInfo);
-    this.setState({
-      error: error,
-      errorInfo: errorInfo
-    });
+    console.error("App error:", error, errorInfo);
   }
-
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-200 px-4">
-          <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full text-center">
-            <h1 className="text-xl font-bold text-gray-800 mb-3">You haven&apos;t logged in yet</h1>
-            <p className="text-gray-500 text-sm mb-6">
-              Please login to access your account and view your profile details.
-            </p>
-            <div className="flex flex-wrap gap-3 justify-center">
-              <a
-                href="/?openLogin=1"
-                className="inline-block px-5 py-2.5 bg-[#b30000] text-white rounded-lg font-medium hover:bg-[#8c0000] transition-colors"
-              >
-                Log In
-              </a>
-              <a
-                href="/"
-                className="inline-block px-5 py-2.5 bg-white text-[#b30000] border-2 border-[#b30000] rounded-lg font-medium hover:bg-red-50 transition-colors"
-              >
-                Home
-              </a>
-            </div>
+        <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f3f4f6", padding: 24 }}>
+          <div style={{ background: "white", borderRadius: 12, padding: 32, maxWidth: 400, textAlign: "center", boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }}>
+            <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1f2937", marginBottom: 12 }}>Something went wrong</h1>
+            <p style={{ color: "#6b7280", fontSize: 14, marginBottom: 24 }}>Use the link below to open the home page.</p>
+            <a href="/" style={{ display: "inline-block", padding: "10px 20px", background: "#b30000", color: "white", borderRadius: 8, fontWeight: 600, textDecoration: "none" }}>Go to Home Page</a>
           </div>
         </div>
       );
     }
-
     return this.props.children;
   }
 }
@@ -106,7 +88,7 @@ const CURRENT_USER_KEY = "currentUser";
 function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const isAdmin = location.pathname.startsWith("/admin");
+  const isAdmin = location.pathname.startsWith("/admin") || location.pathname.startsWith("/superadmin");
 
   // When arriving with ?openLogin=1 on main site only (error-boundary "Log In"), open project login modal
   React.useEffect(() => {
@@ -118,7 +100,7 @@ function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
     }
   }, [isAdmin, location.search, location.pathname, setShowModal, navigate]);
 
-  /* 🔑 AFTER LOGIN / SIGNUP (main site) */
+  /* 🔑 AFTER LOGIN / SIGNUP (main site) – called directly from Login/Signup modal */
   const handleAuthSuccess = (user) => {
     setCurrentUser(user);
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
@@ -129,7 +111,11 @@ function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
     if (isCheckoutFlow === "true") {
       sessionStorage.removeItem("checkoutFlow");
       navigate("/add-address");
+      return;
     }
+
+    // Otherwise go straight to My Account page (only right after login/signup)
+    navigate("/account");
   };
 
   if (isAdmin) {
@@ -137,6 +123,23 @@ function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
       <Routes>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="inventory" element={<AdminInventory />} />
+          <Route path="pricing" element={<AdminPricing />} />
+          <Route path="promotions" element={<AdminPromotions />} />
+          <Route path="customers" element={<AdminCustomers />} />
+          <Route path="reviews" element={<AdminReviews />} />
+          <Route path="shipments" element={<AdminShipments />} />
+          <Route path="shipments/print" element={<AdminShipmentPrintLabel />} />
+          <Route path="payments" element={<AdminPayments />} />
+          <Route path="coupons" element={<AdminCoupons />} />
+          <Route path="permissions" element={<AdminPermissions />} />
+          <Route path="search" element={<AdminSearch />} />
+        </Route>
+        <Route path="/superadmin" element={<SuperAdminLayout />}>
+          <Route index element={<Navigate to="/superadmin/dashboard" replace />} />
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="products" element={<AdminProducts />} />
@@ -180,7 +183,9 @@ function AppContent({ currentUser, setCurrentUser, showModal, setShowModal }) {
 
           <Route path="/orders" element={<Orders />} />
           <Route path="/orders/track/:orderId" element={<OrderTrackingPage />} />
+          <Route path="/wishlist" element={<WishListPage />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/offers" element={<OffersPage />} />
 
           {/* 👤 ACCOUNT */}
           <Route
@@ -244,33 +249,47 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [showModal, setShowModal] = useState(null); // project: login | signup | null
 
-  /* 🔁 AUTH: Firebase when configured, else localStorage */
+  /* 🔁 AUTH: Firebase when configured, else localStorage – never throw */
   useEffect(() => {
-    if (auth) {
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          const u = {
-            name: user.displayName || "",
-            email: user.email || "",
-            phone: "",
-            address: "",
-          };
-          setCurrentUser(u);
-          localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(u));
-        } else {
-          setCurrentUser(null);
-          localStorage.removeItem(CURRENT_USER_KEY);
-        }
-      });
-      return () => unsubscribe();
-    }
-    const storedUser = localStorage.getItem(CURRENT_USER_KEY);
-    if (storedUser) {
-      try {
-        setCurrentUser(JSON.parse(storedUser));
-      } catch {
-        setCurrentUser(null);
+    try {
+      if (auth && typeof onAuthStateChanged === "function") {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          try {
+            if (user) {
+              let photoURL = user.photoURL || "";
+              if (!photoURL) {
+                const stored = JSON.parse(localStorage.getItem(CURRENT_USER_KEY) || "{}");
+                if (stored?.email === user?.email && stored?.photoURL) photoURL = stored.photoURL;
+              }
+              setCurrentUser({
+                name: user?.displayName || "",
+                email: user?.email || "",
+                phone: "",
+                address: "",
+                photoURL: photoURL || "",
+              });
+              localStorage.setItem(CURRENT_USER_KEY, JSON.stringify({ name: user?.displayName || "", email: user?.email || "", phone: "", address: "", photoURL: photoURL || "" }));
+            } else {
+              setCurrentUser(null);
+              localStorage.removeItem(CURRENT_USER_KEY);
+            }
+          } catch (_) {
+            setCurrentUser(null);
+          }
+        });
+        return () => { try { unsubscribe(); } catch (_) {} };
       }
+      const storedUser = localStorage.getItem(CURRENT_USER_KEY);
+      if (storedUser) {
+        try {
+          const parsed = JSON.parse(storedUser);
+          if (parsed && typeof parsed === "object") setCurrentUser(parsed);
+        } catch (_) {
+          setCurrentUser(null);
+        }
+      }
+    } catch (_) {
+      setCurrentUser(null);
     }
   }, []);
 

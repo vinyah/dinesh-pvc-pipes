@@ -67,6 +67,7 @@ const LoginSignupModal = ({
       email: user.email || "",
       phone: user.phone || "",
       address: user.address || "",
+      photoURL: user.photoURL || "",
     };
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(safeUser));
     return safeUser;
@@ -98,6 +99,7 @@ const LoginSignupModal = ({
           email: signupData.email,
           phone: "",
           address: "",
+          photoURL: cred.user.photoURL || "",
         };
         onAuthSuccess?.(u);
         setMessage({ type: "success", text: "✅ Signed up successfully!" });
@@ -156,6 +158,7 @@ const LoginSignupModal = ({
           email: cred.user.email || "",
           phone: "",
           address: "",
+          photoURL: cred.user.photoURL || "",
         };
         onAuthSuccess?.(u);
         setMessage({
@@ -184,7 +187,15 @@ const LoginSignupModal = ({
       setMessage({ type: "error", text: "❌ Invalid email or password!" });
       return;
     }
-    const safeUser = saveCurrentUser(user);
+    // Preserve photoURL from existing currentUser if same email (e.g. set in profile)
+    let userToSave = { ...user };
+    try {
+      const stored = JSON.parse(localStorage.getItem(CURRENT_USER_KEY) || "{}");
+      if (stored.email && stored.email.toLowerCase() === user.email.toLowerCase() && stored.photoURL) {
+        userToSave.photoURL = stored.photoURL;
+      }
+    } catch (_) {}
+    const safeUser = saveCurrentUser(userToSave);
     onAuthSuccess?.(safeUser);
     setMessage({ type: "success", text: `✅ Welcome ${user.name}!` });
     setTimeout(onClose, 1000);
@@ -197,31 +208,31 @@ const LoginSignupModal = ({
       onClick={onClose}
     >
       <div 
-        className="bg-white rounded-2xl shadow-xl w-full max-w-md relative"
+        className="bg-white rounded-xl shadow-xl w-full max-w-sm relative"
         role="dialog" 
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
       >
         <button 
-          className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 w-8 h-8 flex items-center justify-center"
+          className="absolute top-3 right-3 text-gray-600 hover:text-gray-800 w-7 h-7 flex items-center justify-center"
           onClick={onClose}
           aria-label="Close"
         >
-          <span className="text-xl">×</span>
+          <span className="text-lg">×</span>
         </button>
 
-        <div className="p-8 pt-12">
-          <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center">
-              <User className="w-8 h-8 text-purple-600" />
+        <div className="p-5 pt-10">
+          <div className="flex justify-center mb-3">
+            <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+              <User className="w-6 h-6 text-purple-600" />
             </div>
           </div>
 
-          <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+          <h2 className="text-xl font-bold text-center mb-4 text-gray-800">
             {activeTab === "login" ? "Welcome Back!" : "Create an Account"}
           </h2>
 
-          <div className="flex gap-2 mb-6">
+          <div className="flex gap-2 mb-4">
             <button
               className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-all ${
                 activeTab === "login" 
@@ -252,7 +263,7 @@ const LoginSignupModal = ({
 
           {message && (
             <div
-              className={`mb-4 p-3 rounded-lg text-sm ${
+              className={`mb-3 p-2.5 rounded-lg text-xs ${
                 message.type === "success" 
                   ? "bg-green-100 text-green-800" 
                   : "bg-red-100 text-red-800"
@@ -264,7 +275,7 @@ const LoginSignupModal = ({
 
           {/* LOGIN */}
           {activeTab === "login" && (
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                 <div className="relative">
@@ -300,7 +311,7 @@ const LoginSignupModal = ({
               <button
                 type="button"
                 disabled={isSubmitting}
-                className="w-full py-3 px-4 bg-white border-2 border-[#b30000] text-[#b30000] rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-all duration-300 mt-6 disabled:opacity-60 disabled:pointer-events-none"
+                className="w-full py-2.5 px-4 bg-white border-2 border-[#b30000] text-[#b30000] rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-all duration-300 mt-4 disabled:opacity-60 disabled:pointer-events-none text-sm"
                 onClick={handleLogin}
               >
                 {isSubmitting ? "Signing in…" : "Login"}
@@ -310,7 +321,7 @@ const LoginSignupModal = ({
 
           {/* SIGNUP */}
           {activeTab === "signup" && (
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                 <div className="relative">
@@ -378,7 +389,7 @@ const LoginSignupModal = ({
               <button
                 type="button"
                 disabled={isSubmitting}
-                className="w-full py-3 px-4 bg-white border-2 border-[#b30000] text-[#b30000] rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-all duration-300 mt-6 disabled:opacity-60 disabled:pointer-events-none"
+                className="w-full py-2.5 px-4 bg-white border-2 border-[#b30000] text-[#b30000] rounded-lg font-semibold hover:bg-[#b30000] hover:text-white transition-all duration-300 mt-4 disabled:opacity-60 disabled:pointer-events-none text-sm"
                 onClick={handleSignup}
               >
                 {isSubmitting ? "Creating account…" : "Create Account"}

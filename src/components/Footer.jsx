@@ -15,7 +15,7 @@ function Footer({ setShowModal }) {
   
   return (
     <footer className={`w-full ${bgClass} ${textClass} relative m-0 p-0`}>
-      <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 py-12">
+      <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 py-8">
         {/* Main Footer Content - Multiple Columns */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-8">
           {/* Products Column */}
@@ -127,50 +127,46 @@ function Footer({ setShowModal }) {
         </div>
 
         {/* Divider */}
-        <div className={`border-t ${borderClass} my-8`}></div>
+        <div className={`border-t ${borderClass} my-4`}></div>
 
-        {/* Social Media Icons */}
-        <div className="flex items-center justify-center gap-4 mb-8">
-          <a 
-            href="#" 
-            className={`w-10 h-10 border ${borderIconClass} rounded flex items-center justify-center ${hoverBorderClass} transition-colors`}
-            aria-label="Instagram"
-          >
-            <Instagram className={`w-5 h-5 ${textClass}`} strokeWidth={1.5} />
-          </a>
-          <a 
-            href="#" 
-            className={`w-10 h-10 border ${borderIconClass} rounded flex items-center justify-center ${hoverBorderClass} transition-colors`}
-            aria-label="Facebook"
-          >
-            <Facebook className={`w-5 h-5 ${textClass}`} strokeWidth={1.5} />
-          </a>
-          <a 
-            href="#" 
-            className={`w-10 h-10 border ${borderIconClass} rounded flex items-center justify-center ${hoverBorderClass} transition-colors`}
-            aria-label="Twitter"
-          >
-            <Twitter className={`w-5 h-5 ${textClass}`} strokeWidth={1.5} />
-          </a>
-        </div>
-
-        {/* Divider */}
-        <div className={`border-t ${borderClass} my-8`}></div>
-
-        {/* Footer Bottom - Copyright and Legal Links */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className={textOpacityClass + " text-sm"}>
+        {/* Footer Bottom - single compact row: left text, center socials, right links */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 py-2">
+          {/* Left: copyright */}
+          <p className={textOpacityClass + " text-xs md:text-sm text-center md:text-left"}>
             © 2025 Dinesh PVC Pipes | All rights reserved
           </p>
-          <div className="flex items-center gap-4 text-sm">
-            <Link to="/sitemap" className={`${textOpacityClass} ${hoverTextClass} hover:underline`}>
-              Sitemap
-            </Link>
-            <span className="text-white/50">|</span>
+
+          {/* Center: social icons */}
+          <div className="flex items-center justify-center gap-3">
+            <a 
+              href="#"
+              className={`w-8 h-8 border ${borderIconClass} rounded flex items-center justify-center ${hoverBorderClass} transition-colors`}
+              aria-label="Instagram"
+            >
+              <Instagram className={`w-4 h-4 ${textClass}`} strokeWidth={1.5} />
+            </a>
+            <a 
+              href="#"
+              className={`w-8 h-8 border ${borderIconClass} rounded flex items-center justify-center ${hoverBorderClass} transition-colors`}
+              aria-label="Facebook"
+            >
+              <Facebook className={`w-4 h-4 ${textClass}`} strokeWidth={1.5} />
+            </a>
+            <a 
+              href="#"
+              className={`w-8 h-8 border ${borderIconClass} rounded flex items-center justify-center ${hoverBorderClass} transition-colors`}
+              aria-label="Twitter"
+            >
+              <Twitter className={`w-4 h-4 ${textClass}`} strokeWidth={1.5} />
+            </a>
+          </div>
+
+          {/* Right: legal links */}
+          <div className="flex items-center gap-3 text-xs md:text-sm">
             <Link to="/privacy" className={`${textOpacityClass} ${hoverTextClass} hover:underline`}>
               Privacy Policy
             </Link>
-            <span className="text-white/50">|</span>
+            <span className="text-white/50 hidden md:inline-block">|</span>
             <Link to="/terms" className={`${textOpacityClass} ${hoverTextClass} hover:underline`}>
               Terms of Use
             </Link>

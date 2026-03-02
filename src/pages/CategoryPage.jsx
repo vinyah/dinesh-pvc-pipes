@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
+import { Heart } from "lucide-react";
 import db from "../../db.json";
 import { getImageUrl } from "../utils/imageLoader";
+import { getWishlist, toggleWishlist } from "../utils/wishlist";
 
 // Route to db.json key mapping and page configuration
 const categoryDataMap = {
@@ -39,6 +41,14 @@ const CategoryPage = ({ setShowModal }) => {
   const { categoryType } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const [wishlistLinks, setWishlistLinks] = useState(() => getWishlist().map((p) => p.link));
+
+  const handleToggleWishlist = useCallback((e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist(product);
+    setWishlistLinks(getWishlist().map((p) => p.link));
+  }, []);
 
   // Handle legacy routes by checking pathname
   let actualCategoryType = categoryType?.toLowerCase();
@@ -114,32 +124,48 @@ const CategoryPage = ({ setShowModal }) => {
         <div className="w-full bg-white py-12 px-4">
           <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {categoryData.map((item) => (
-              <Link
-                key={item.id}
-                to={item.link}
-                className="block no-underline"
-              >
-                <div className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col h-full cursor-pointer">
-                  {/* Image/Icon Section */}
-                  <div className="flex items-center justify-center p-6 pt-10 flex-1 bg-transparent group">
-                    <div className="w-56 h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 flex items-center justify-center">
-                      <img
-                        src={getImageUrl(item.image)}
-                        alt={item.name}
-                        className="w-full h-full object-contain transition-transform duration-300 group-hover:-translate-y-2"
-                        loading="lazy"
-                      />
+              <div key={item.id} className="relative">
+                <button
+                  type="button"
+                  onClick={(e) => handleToggleWishlist(e, { id: item.id, name: item.name, link: item.link, image: item.image })}
+                  className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-400 hover:text-[#b30000] transition-colors"
+                  aria-label={wishlistLinks.includes(item.link) ? "Remove from wish list" : "Add to wish list"}
+                >
+                  <Heart className={`w-5 h-5 ${wishlistLinks.includes(item.link) ? "fill-[#b30000] text-[#b30000]" : ""}`} />
+                </button>
+                <Link to={item.link} className="block no-underline">
+                  <div className="flex flex-col h-full bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer">
+                    <div className="flex-1 bg-gray-50 flex items-center justify-center px-4 pt-4 pb-3">
+                      <div className="w-40 h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 flex items-center justify-center">
+                        <img
+                          src={getImageUrl(item.image)}
+                          alt={item.name}
+                          className="w-full h-full object-contain"
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                    <div className="bg-white px-5 pt-4 pb-5 flex flex-col gap-2">
+                      <div className="text-center">
+                        <h3 className="text-base md:text-lg font-semibold text-gray-900 truncate">
+                          {item.name}
+                        </h3>
+                        {item.code && (
+                          <p className="text-xs md:text-sm text-gray-500 mt-1">
+                            {item.code}
+                          </p>
+                        )}
+                      </div>
+                      <div className="h-px w-full bg-gray-200 mt-1 mb-2" />
+                      <div className="flex justify-center">
+                        <span className="inline-flex items-center justify-center px-6 py-1.5 rounded-full border border-[#b30000] text-[#b30000] text-xs md:text-sm font-semibold bg-white hover:bg-[#b30000] hover:text-white transition-colors">
+                          View Details
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  
-                  {/* Red Button */}
-                  <div className="px-4 pb-4">
-                    <div className="w-full bg-[#b30000] text-white text-center py-3 px-4 rounded-lg font-semibold text-sm md:text-base hover:bg-[#8b0000] transition-colors">
-                      {item.name}
-                    </div>
-                  </div>
-                </div>
-              </Link>
+                </Link>
+              </div>
             ))}
           </div>
         </div>
@@ -156,32 +182,52 @@ const CategoryPage = ({ setShowModal }) => {
               : "grid-cols-1 sm:grid-cols-2 gap-6"
           }`}>
             {categoryData.map((item) => (
-              <Link
-                key={item.id}
-                to={item.link}
-                className="block no-underline"
-              >
-                <div className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col h-full cursor-pointer">
-                  {/* Product Image */}
-                  <div className="flex items-center justify-center p-6 pt-8 flex-1 bg-transparent">
-                    <div className="w-full h-48 md:h-56 flex items-center justify-center">
-                      <img
-                        src={getImageUrl(item.image)}
-                        alt={item.name}
-                        className="w-full h-full object-contain"
-                        loading="lazy"
-                      />
+              <div key={item.id} className="relative">
+                <button
+                  type="button"
+                  onClick={(e) => handleToggleWishlist(e, { id: item.id, name: item.name, link: item.link, image: item.image })}
+                  className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-400 hover:text-[#b30000] transition-colors"
+                  aria-label={wishlistLinks.includes(item.link) ? "Remove from wish list" : "Add to wish list"}
+                >
+                  <Heart className={`w-5 h-5 ${wishlistLinks.includes(item.link) ? "fill-[#b30000] text-[#b30000]" : ""}`} />
+                </button>
+                <Link to={item.link} className="block no-underline">
+                  <div className="flex flex-col h-full bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer">
+                    <div className="flex-1 bg-gray-50 flex items-center justify-center px-4 pt-4 pb-3">
+                      <div className="w-40 h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 flex items-center justify-center">
+                        <img
+                          src={
+                            typeof item.image === "string" && item.image.startsWith("data:")
+                              ? item.image
+                              : getImageUrl(item.image)
+                          }
+                          alt={item.name}
+                          className="w-full h-full object-contain"
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                    <div className="bg-white px-5 pt-4 pb-5 flex flex-col gap-2">
+                      <div className="text-center">
+                        <h3 className="text-base md:text-lg font-semibold text-gray-900 truncate">
+                          {item.name}
+                        </h3>
+                        {item.code && (
+                          <p className="text-xs md:text-sm text-gray-500 mt-1">
+                            {item.code}
+                          </p>
+                        )}
+                      </div>
+                      <div className="h-px w-full bg-gray-200 mt-1 mb-2" />
+                      <div className="flex justify-center">
+                        <span className="inline-flex items-center justify-center px-6 py-1.5 rounded-full border border-[#b30000] text-[#b30000] text-xs md:text-sm font-semibold bg-white hover:bg-[#b30000] hover:text-white transition-colors">
+                          View Details
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  
-                  {/* Red Banner/Button */}
-                  <div className="px-4 pb-4">
-                    <div className="w-full bg-[#b30000] text-white text-center py-3 px-4 rounded-lg font-semibold text-sm md:text-base hover:bg-[#8b0000] transition-colors">
-                      {item.name}
-                    </div>
-                  </div>
-                </div>
-              </Link>
+                </Link>
+              </div>
             ))}
           </div>
         </div>

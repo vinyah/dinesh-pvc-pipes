@@ -3,6 +3,29 @@ import { Search, ChevronDown, Plus, Pencil, Trash2, Star, X } from "lucide-react
 import db from "../../../db.json";
 import { getImageUrl } from "../../utils/imageLoader";
 
+const PRODUCTS_STORAGE_KEY = "adminProducts";
+
+function loadStoredProducts() {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(PRODUCTS_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveProductsToStorage(list) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(list));
+  } catch {
+    // ignore storage errors
+  }
+}
+
 const CATEGORY_LABELS = {
   productdetails: "Pipes",
   boxA: "Junction Boxes",
@@ -114,7 +137,7 @@ const CATEGORY_FORM_OPTIONS = ["Pipes", "Junction Boxes", "Hose", "Pipe Bends", 
 const STATUS_FORM_OPTIONS = ["Active", "Draft", "Archived"];
 
 export default function AdminProducts() {
-  const [productList, setProductList] = useState(() => buildProductList());
+  const [productList, setProductList] = useState(() => loadStoredProducts() ?? buildProductList());
   const categories = useMemo(() => {
     const set = new Set(productList.map((p) => p.category));
     return ["All Categories", ...Array.from(set).sort()];
@@ -190,17 +213,28 @@ export default function AdminProducts() {
       status: addProductForm.status,
     };
     if (editingProductId) {
-      setProductList((prev) =>
-        prev.map((p) => (p.id === editingProductId ? { ...p, ...payload, image: payload.image ?? p.image } : p))
-      );
+      setProductList((prev) => {
+        const next = prev.map((p) => (p.id === editingProductId ? { ...p, ...payload, image: payload.image ?? p.image } : p));
+        saveProductsToStorage(next);
+        return next;
+      });
     } else {
       const nextId = productList.length ? Math.max(...productList.map((p) => p.id)) + 1 : 1;
-      setProductList((prev) => [{ id: nextId, ...payload }, ...prev]);
+      setProductList((prev) => {
+        const next = [{ id: nextId, ...payload }, ...prev];
+        saveProductsToStorage(next);
+        return next;
+      });
     }
     closeProductModal();
   };
 
-  const deleteProduct = (id) => setProductList((prev) => prev.filter((p) => p.id !== id));
+  const deleteProduct = (id) =>
+    setProductList((prev) => {
+      const next = prev.filter((p) => p.id !== id);
+      saveProductsToStorage(next);
+      return next;
+    });
 
   const onImageFileChange = (e) => {
     const files = Array.from(e.target.files || []).slice(0, 5);

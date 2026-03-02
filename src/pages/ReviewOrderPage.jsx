@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { getImageUrl } from "../utils/imageLoader";
 import { FaArrowLeft } from "react-icons/fa";
 
+const CURRENT_USER_KEY = "currentUser";
+
 const ReviewOrderPage = () => {
   const { cartItems, clearCart } = useCart();
   const navigate = useNavigate();
@@ -11,6 +13,20 @@ const ReviewOrderPage = () => {
   const [address, setAddress] = useState(null);
   const [delivery, setDelivery] = useState(null);
   const [checkoutCart, setCheckoutCart] = useState(null);
+
+  /* ================= LOGIN REQUIRED FOR CHECKOUT ================= */
+  useEffect(() => {
+    try {
+      const user = localStorage.getItem(CURRENT_USER_KEY);
+      if (!user || user === "null" || user === "{}") {
+        navigate("/checkout-auth", { replace: true });
+        return;
+      }
+    } catch (_) {
+      navigate("/checkout-auth", { replace: true });
+      return;
+    }
+  }, [navigate]);
 
   /* ================= LOAD CHECKOUT DATA ================= */
   useEffect(() => {

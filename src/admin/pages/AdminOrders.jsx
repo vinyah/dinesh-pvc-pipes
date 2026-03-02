@@ -103,9 +103,102 @@ const STATUS_FORM_OPTIONS = ["Accepted", "Waiting", "Processing", "Shipped", "De
 const FULFILLMENT_FORM_OPTIONS = ["Shipped", "Processing", "Delivered", "Packed", "In Transit"];
 const CHANNEL_FORM_OPTIONS = ["Website", "Mobile App", "Manual"];
 
+// Load customer orders placed from the main site (`myOrders`) so that
+// admin and superadmin can see web orders created on this browser.
+function getUserOrdersForAdmin() {
+  if (typeof window === "undefined") return [];
+
+  let raw;
+  try {
+    raw = window.localStorage.getItem("myOrders");
+  } catch {
+    return [];
+  }
+  if (!raw) return [];
+
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return [];
+  }
+  if (!Array.isArray(parsed)) return [];
+
+  return parsed.map((order, index) => {
+    const baseId =
+      order.id ??
+      order.orderId ??
+      `${order.userEmail || "user"}-${index}`;
+
+    const dt = order.dateTime ? new Date(order.dateTime) : new Date();
+    const safeDate = isNaN(dt.getTime()) ? new Date() : dt;
+    const y = safeDate.getFullYear();
+    const m = String(safeDate.getMonth() + 1).padStart(2, "0");
+    const d = String(safeDate.getDate()).padStart(2, "0");
+    const hh = String(safeDate.getHours()).padStart(2, "0");
+    const mm = String(safeDate.getMinutes()).padStart(2, "0");
+    const dateTimeStr = `${y}-${m}-${d} ${hh}:${mm}`;
+
+    let itemsCount = 0;
+    if (Array.isArray(order.items) && order.items.length > 0) {
+      itemsCount = order.items.reduce((sum, item) => {
+        const q = Number(item.quantity ?? 1);
+        return sum + (isNaN(q) ? 1 : q);
+      }, 0);
+    } else if (order.quantity) {
+      const q = Number(order.quantity);
+      itemsCount = isNaN(q) ? 1 : q;
+    } else {
+      itemsCount = 1;
+    }
+
+    const total = Number(order.total ?? 0);
+    const customerName =
+      order.address?.name ||
+      order.userEmail ||
+      "Website Customer";
+
+    const status = order.status || "Placed";
+    const fulfillment =
+      status === "Delivered" ? "Delivered" : "Processing";
+
+    const addr = order.address || {};
+    const address =
+      [
+        addr.name,
+        addr.line1 || addr.address,
+        addr.city,
+        addr.state,
+        addr.pin || addr.pincode,
+      ]
+        .filter(Boolean)
+        .join(", ");
+
+    return {
+      id: baseId,
+      orderId: order.orderId || String(baseId),
+      dateTime: dateTimeStr,
+      customer: customerName,
+      address,
+      items: itemsCount,
+      total: isNaN(total) ? 0 : total,
+      payment: "Paid",
+      status,
+      fulfillment,
+      channel: "Website",
+      sla: "On Time",
+    };
+  });
+}
+
 function parseOrderDate(dateTimeStr) {
+  if (!dateTimeStr) return new Date(NaN);
+  const direct = new Date(dateTimeStr);
+  if (!isNaN(direct.getTime())) return direct;
+
   const [datePart] = dateTimeStr.split(" ");
-  const [y, m, d] = datePart.split("-").map(Number);
+  const [y, m, d] = (datePart || "").split("-").map(Number);
+  if (!y || !m || !d) return new Date(NaN);
   return new Date(y, m - 1, d);
 }
 
@@ -220,6 +313,7 @@ export default function AdminOrders() {
     date: "",
     time: "",
     customer: "",
+    address: "",
     items: "",
     total: "",
     payment: "Paid",
@@ -237,9 +331,13 @@ export default function AdminOrders() {
       if (!res.ok) throw new Error("Failed to load orders");
       const data = await res.json();
       const list = Array.isArray(data) ? data : data?.orders ?? data?.data ?? [];
-      setOrders(list.map(normalizeOrder).filter(Boolean));
+      const backendOrders = list.map(normalizeOrder).filter(Boolean);
+      const userOrders = getUserOrdersForAdmin();
+      setOrders([...userOrders, ...backendOrders]);
     } catch {
-      setOrders(buildMockOrders());
+      const mockOrders = buildMockOrders();
+      const userOrders = getUserOrdersForAdmin();
+      setOrders([...userOrders, ...mockOrders]);
     } finally {
       setLoading(false);
     }
@@ -291,6 +389,7 @@ export default function AdminOrders() {
               date: `${y}-${m}-${d}`,
               time: `${h}:${min}`,
               customer: "",
+              address: "",
               items: "",
               total: "",
               payment: "Paid",
@@ -351,6 +450,7 @@ export default function AdminOrders() {
                 <th className="px-4 py-3 font-semibold text-gray-700">ORDER ID</th>
                 <th className="px-4 py-3 font-semibold text-gray-700">DATE & TIME</th>
                 <th className="px-4 py-3 font-semibold text-gray-700">CUSTOMER</th>
+                <th className="px-4 py-3 font-semibold text-gray-700">ADDRESS</th>
                 <th className="px-4 py-3 font-semibold text-gray-700">ITEMS</th>
                 <th className="px-4 py-3 font-semibold text-gray-700">TOTAL (₹)</th>
                 <th className="px-4 py-3 font-semibold text-gray-700">PAYMENT</th>
@@ -364,7 +464,7 @@ export default function AdminOrders() {
             <tbody>
               {paginated.length === 0 ? (
                 <tr>
-                  <td colSpan={12} className="px-4 py-8 text-center text-gray-500">
+                  <td colSpan={13} className="px-4 py-8 text-center text-gray-500">
                     No orders found.
                   </td>
                 </tr>
@@ -388,6 +488,13 @@ export default function AdminOrders() {
                       <DateTimeCell dateTime={o.dateTime} />
                     </td>
                     <td className="px-4 py-3 text-gray-800">{o.customer}</td>
+                    <td className="px-4 py-3 text-xs text-gray-700 max-w-xs align-top">
+                      {o.address ? (
+                        <span className="break-words">{o.address}</span>
+                      ) : (
+                        <span className="text-gray-400">—</span>
+                      )}
+                    </td>
                     <td className="px-4 py-3 text-gray-700">{o.items}</td>
                     <td className="px-4 py-3 text-gray-800">₹{o.total.toLocaleString("en-IN")}</td>
                     <td className="px-4 py-3">
@@ -484,6 +591,7 @@ export default function AdminOrders() {
                   orderId: manualOrderForm.orderId || `ORD-MAN-${Date.now()}`,
                   dateTime,
                   customer: manualOrderForm.customer,
+                  address: manualOrderForm.address,
                   items,
                   total,
                   payment: manualOrderForm.payment,
@@ -504,6 +612,16 @@ export default function AdminOrders() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Customer</label>
                   <input type="text" value={manualOrderForm.customer} onChange={(e) => setManualOrderForm((f) => ({ ...f, customer: e.target.value }))} placeholder="Customer name" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#b30000] focus:border-[#b30000] outline-none" required />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                  <textarea
+                    value={manualOrderForm.address}
+                    onChange={(e) => setManualOrderForm((f) => ({ ...f, address: e.target.value }))}
+                    placeholder="Street, City, State, Pincode"
+                    rows={2}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#b30000] focus:border-[#b30000] outline-none resize-y"
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>

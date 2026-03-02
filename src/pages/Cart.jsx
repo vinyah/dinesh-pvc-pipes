@@ -109,8 +109,13 @@ const Cart = () => {
 
                     {/* Product Details */}
                     <div className="flex-1">
-                      <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-2">
-                        {item.name}
+                      <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                        <span>{item.name}</span>
+                        {item.isOffer && (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#b30000] text-white uppercase tracking-wide">
+                            Offer
+                          </span>
+                        )}
                       </h3>
                       <p className="text-sm md:text-base text-gray-600 mb-1">
                         <strong>Price:</strong> ₹{price}

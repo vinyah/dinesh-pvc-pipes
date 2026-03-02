@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
+const CURRENT_USER_KEY = "currentUser";
 const DELIVERY_OPTIONS = [
   { id: "standard", title: "Standard Delivery", desc: "5-7 business days", price: 0, label: "FREE" },
   { id: "express", title: "Express Delivery", desc: "2-3 business days", price: 500, label: "₹500" },
@@ -13,6 +14,20 @@ function DeliveryPage() {
   const { cartItems = [] } = useCart();
 
   const [selected, setSelected] = useState("standard");
+
+  // Login required to proceed to checkout
+  useEffect(() => {
+    try {
+      const user = localStorage.getItem(CURRENT_USER_KEY);
+      if (!user || user === "null" || user === "{}") {
+        navigate("/checkout-auth", { replace: true });
+        return;
+      }
+    } catch (_) {
+      navigate("/checkout-auth", { replace: true });
+      return;
+    }
+  }, [navigate]);
 
   useEffect(() => {
     try {

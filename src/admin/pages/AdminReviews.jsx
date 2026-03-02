@@ -63,10 +63,15 @@ export default function AdminReviews() {
   const [replyText, setReplyText] = useState("");
 
   const kpis = useMemo(() => {
-    const total = reviews.length;
+    // Only approved reviews are visible to customers on the storefront.
+    // KPIs should reflect what users actually see, while still tracking pending internally.
+    const approvedReviews = reviews.filter((r) => r.status === "Approved");
+    const total = approvedReviews.length;
     const pending = reviews.filter((r) => r.status === "Pending").length;
-    const approved = reviews.filter((r) => r.status === "Approved").length;
-    const avgRating = total ? (reviews.reduce((s, r) => s + r.rating, 0) / total).toFixed(2) : "0";
+    const approved = approvedReviews.length;
+    const avgRating = approvedReviews.length
+      ? (approvedReviews.reduce((sum, r) => sum + r.rating, 0) / approvedReviews.length).toFixed(2)
+      : "0";
     return { total, pending, approved, avgRating };
   }, [reviews]);
 

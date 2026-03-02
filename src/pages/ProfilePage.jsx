@@ -8,6 +8,7 @@ import {
   FaSignOutAlt,
   FaArrowRight,
   FaDoorOpen,
+  FaCamera,
 } from "react-icons/fa";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
@@ -25,6 +26,7 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
     email: "",
     phone: "",
     address: "",
+    photoURL: "",
   });
 
   /* 🔥 SYNC WITH APP AUTH STATE */
@@ -35,6 +37,7 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
         email: currentUser.email || "",
         phone: currentUser.phone || "",
         address: currentUser.address || "",
+        photoURL: currentUser.photoURL || "",
       };
       setUser(normalized);
       setFormData(normalized);
@@ -89,7 +92,7 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
     if (typeof openAuthModal === "function") {
       openAuthModal("login");
     } else {
-      navigate("/");
+      navigate("/?openLogin=1");
     }
   };
 
@@ -133,12 +136,35 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
         {/* ===== LEFT SIDEBAR ===== */}
         <aside className="lg:col-span-1">
           <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-            {/* Avatar and User Info */}
+            {/* Avatar and User Info - click to change photo / edit */}
             <div className="flex flex-col items-center mb-6">
-              <div className="w-20 h-20 bg-[#b30000] rounded-full flex items-center justify-center mb-4">
-                <FaUser className="text-white text-2xl" />
-              </div>
-              <div className="text-center">
+              <button
+                type="button"
+                onClick={() => setIsEditing(true)}
+                className="flex flex-col items-center focus:outline-none"
+                aria-label="Change photo or edit profile"
+              >
+                <div className="relative">
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-gray-300 bg-[#b30000]/10 [&>img]:object-cover [&>img]:object-center">
+                    {(isEditing ? formData.photoURL : user.photoURL) ? (
+                      <img
+                        src={isEditing ? formData.photoURL : user.photoURL}
+                        alt=""
+                        className="w-full h-full object-cover object-center"
+                      />
+                    ) : (
+                      <FaUser className="text-[#b30000] text-2xl" />
+                    )}
+                  </div>
+                  <span className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-[#b30000] rounded-full flex items-center justify-center text-white border-2 border-white">
+                    <FaCamera className="w-2.5 h-2.5" />
+                  </span>
+                </div>
+                <span className="mt-1.5 text-xs font-medium text-gray-500 hover:text-[#b30000] transition-colors cursor-pointer">
+                  Change photo
+                </span>
+              </button>
+              <div className="text-center mt-1">
                 <div className="text-lg font-semibold text-gray-800">{user.name}</div>
                 <div className="text-sm text-gray-600 mt-1">{user.email}</div>
               </div>
@@ -247,6 +273,43 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
                 </div>
               </div>
             </div>
+
+            {/* Profile photo - only in edit mode */}
+            {isEditing && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Profile photo</label>
+                <div className="flex items-center gap-4 flex-wrap">
+                  <div className="w-14 h-14 rounded-full bg-[#b30000]/10 border border-gray-200 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
+                    {formData.photoURL ? (
+                      <img src={formData.photoURL} alt="" className="w-full h-full object-cover object-center" />
+                    ) : (
+                      <FaUser className="text-[#b30000] text-xl" />
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="text-sm text-gray-600 file:mr-2 file:py-1.5 file:px-3 file:rounded file:border-0 file:bg-[#b30000] file:text-white file:text-sm file:font-medium"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        const reader = new FileReader();
+                        reader.onload = () => handleChange("photoURL", reader.result);
+                        reader.readAsDataURL(file);
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleChange("photoURL", "")}
+                      className="text-sm text-gray-600 hover:text-[#b30000]"
+                    >
+                      Remove photo
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Edit Profile Button - Bottom Right */}
             <div className="flex justify-end">

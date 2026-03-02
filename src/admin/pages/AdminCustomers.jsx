@@ -22,12 +22,13 @@ function buildCustomerList() {
   const ltvs = [45680, 12450, 28900, 15420, 2499, 18900, 5600, 32100];
 
   if (profiles.length > 0) {
-    return profiles.map((p, i) => ({
+    return profiles.map((p) => ({
       id: p.id,
       customerId: `DPP-CUST-${String(1000 + p.id).padStart(4, "0")}`,
       name: p.name,
       email: p.email || "",
       phone: p.phone || "",
+      address: p.address || "",
       orders: 1,
       ltv: 0,
       segment: "New",
@@ -43,6 +44,7 @@ function buildCustomerList() {
     name,
     email: emails[i],
     phone: phones[i],
+    address: "",
     orders: ordersCounts[i],
     ltv: ltvs[i],
     segment: segments[i % segments.length],
@@ -117,6 +119,7 @@ export default function AdminCustomers() {
     name: "",
     email: "",
     phone: "",
+    address: "",
     customerId: "",
     segment: "Regular",
     status: "Active",
@@ -145,7 +148,7 @@ export default function AdminCustomers() {
   const closeModal = () => {
     setAddOpen(false);
     setEditingId(null);
-    setForm({ name: "", email: "", phone: "", customerId: "", segment: "Regular", status: "Active", riskFlag: "None" });
+    setForm({ name: "", email: "", phone: "", address: "", customerId: "", segment: "Regular", status: "Active", riskFlag: "None" });
   };
 
   const openEdit = (c) => {
@@ -153,6 +156,7 @@ export default function AdminCustomers() {
       name: c.name,
       email: c.email || "",
       phone: c.phone || "",
+      address: c.address || "",
       customerId: c.customerId || "",
       segment: c.segment || "Regular",
       status: c.status || "Active",
@@ -166,6 +170,7 @@ export default function AdminCustomers() {
       name: form.name.trim() || "Customer",
       email: form.email.trim() || "",
       phone: form.phone.trim() || "",
+      address: form.address.trim() || "",
       customerId: form.customerId.trim() || (editingId ? customers.find((x) => x.id === editingId)?.customerId : `DPP-CUST-${1000 + customers.length + 1}`),
       segment: form.segment,
       status: form.status,
@@ -211,7 +216,7 @@ export default function AdminCustomers() {
           type="button"
           onClick={() => {
             setAddOpen(true);
-            setForm({ name: "", email: "", phone: "", customerId: "", segment: "Regular", status: "Active", riskFlag: "None" });
+            setForm({ name: "", email: "", phone: "", address: "", customerId: "", segment: "Regular", status: "Active", riskFlag: "None" });
           }}
           className="flex items-center gap-2 px-4 py-2 bg-[#b30000] text-white rounded-lg font-medium hover:bg-[#8c0000] border-2 border-[#b30000] transition-colors shadow-sm hover:shadow-md"
         >
@@ -250,6 +255,7 @@ export default function AdminCustomers() {
                 </th>
                 <th className="px-4 py-3 font-semibold text-gray-700">CUSTOMER</th>
                 <th className="px-4 py-3 font-semibold text-gray-700">CONTACT</th>
+                <th className="px-4 py-3 font-semibold text-gray-700">ADDRESS</th>
                 <th className="px-4 py-3 font-semibold text-gray-700">ORDERS</th>
                 <th className="px-4 py-3 font-semibold text-gray-700">LTV</th>
                 <th className="px-4 py-3 font-semibold text-gray-700">SEGMENT</th>
@@ -261,7 +267,7 @@ export default function AdminCustomers() {
             <tbody>
               {paginated.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="px-4 py-8 text-center text-gray-500">
+                  <td colSpan={10} className="px-4 py-8 text-center text-gray-500">
                     No customers found.
                   </td>
                 </tr>
@@ -291,6 +297,13 @@ export default function AdminCustomers() {
                         <Phone className="w-4 h-4 text-gray-400 shrink-0" />
                         <span className="text-xs">{c.phone}</span>
                       </div>
+                    </td>
+                    <td className="px-4 py-3 text-xs text-gray-700 align-top max-w-xs">
+                      {c.address ? (
+                        <span className="break-words">{c.address}</span>
+                      ) : (
+                        <span className="text-gray-400">—</span>
+                      )}
                     </td>
                     <td className="px-4 py-3 text-gray-800">{c.orders}</td>
                     <td className="px-4 py-3">
@@ -411,6 +424,16 @@ export default function AdminCustomers() {
                   onChange={(e) => updateForm("phone", e.target.value)}
                   placeholder="+91 98765 43210"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#b30000] focus:border-[#b30000] outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                <textarea
+                  value={form.address}
+                  onChange={(e) => updateForm("address", e.target.value)}
+                  placeholder="Street, City, State, Pincode"
+                  rows={2}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#b30000] focus:border-[#b30000] outline-none resize-y"
                 />
               </div>
               <div>

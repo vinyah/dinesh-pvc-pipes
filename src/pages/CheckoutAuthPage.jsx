@@ -25,10 +25,13 @@ const CheckoutAuthPage = ({ setShowModal }) => {
     <div className="w-full min-h-screen bg-white flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-          You haven't logged in yet
+          Login required for checkout
         </h2>
-        <p className="text-gray-600 mb-8">
-          Log in to proceed with checkout
+        <p className="text-gray-600 mb-2">
+          You can browse products, add to wish list and add to cart without logging in.
+        </p>
+        <p className="text-gray-600 mb-8 font-medium">
+          Log in is required only to proceed to checkout.
         </p>
 
         <button

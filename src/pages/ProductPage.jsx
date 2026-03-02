@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
+import { Heart } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import db from "../../db.json";
 import { getImageUrl } from "../utils/imageLoader";
+import { getWishlist, toggleWishlist } from "../utils/wishlist";
 
 // Route to db.json key mapping
 const productDataMap = {
@@ -92,6 +94,7 @@ const ProductPage = () => {
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedLength, setSelectedLength] = useState("");
   const [qty, setQty] = useState(1);
+  const [wishlistLinks, setWishlistLinks] = useState(() => getWishlist().map((p) => p.link));
 
   const productData = db?.products?.[productConfig.key];
   let product = null;
@@ -230,6 +233,19 @@ const ProductPage = () => {
     setActiveImage((prev) => (prev === product.images.length - 1 ? 0 : prev + 1));
   };
 
+  const productLink = location.pathname || `/product/${product.id}`;
+  const handleToggleWishlist = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist({
+      id: product.id,
+      name: product.name,
+      link: productLink,
+      image: product.images?.[0] || product.image,
+    });
+    setWishlistLinks(getWishlist().map((p) => p.link));
+  };
+
   return (
     <div className="w-full m-0 py-6 px-14 box-border font-['Poppins',sans-serif] bg-white max-md:py-4 max-md:px-1.5 max-md:overflow-x-hidden max-md:w-full max-md:max-w-screen max-md:pt-32 md:pt-28">
       {/* Back Button (if needed) */}
@@ -254,6 +270,14 @@ const ProductPage = () => {
               &lt;
             </button>
             <div className="h-[410px] rounded-2xl border border-gray-200 p-3.5 flex-1 relative max-md:h-[300px] max-md:pt-8">
+              <button
+                type="button"
+                onClick={handleToggleWishlist}
+                className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-400 hover:text-[#b30000] transition-colors"
+                aria-label={wishlistLinks.includes(productLink) ? "Remove from wish list" : "Add to wish list"}
+              >
+                <Heart className={`w-5 h-5 ${wishlistLinks.includes(productLink) ? "fill-[#b30000] text-[#b30000]" : ""}`} />
+              </button>
               <img
                 src={getImageUrl(product.images[activeImage])}
                 alt={product.name}
@@ -412,14 +436,27 @@ const ProductPage = () => {
 
           <div className="text-[#b30000] text-[22px] font-bold my-1">₹{price}</div>
 
-          <div className="flex gap-2.5 my-1">
+          <div className="flex gap-2.5 my-1 items-center">
             <button 
               className="w-[30px] h-[30px] rounded-md border-2 border-[#b30000] bg-white text-[#b30000] hover:bg-[#b30000] hover:text-white transition-colors"
               onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
             >
               −
             </button>
-            <span className="flex items-center">{qty}</span>
+            <input
+              type="number"
+              min={1}
+              value={qty}
+              onChange={(e) => {
+                const val = parseInt(e.target.value, 10);
+                if (Number.isNaN(val) || val <= 0) {
+                  setQty(1);
+                } else {
+                  setQty(val);
+                }
+              }}
+              className="w-12 h-7 text-center border-2 border-[#b30000] rounded-md text-xs focus:outline-none focus:ring-1 focus:ring-[#b30000]"
+            />
             <button 
               className="w-[30px] h-[30px] rounded-md border-2 border-[#b30000] bg-white text-[#b30000] hover:bg-[#b30000] hover:text-white transition-colors"
               onClick={() => setQty(qty + 1)}

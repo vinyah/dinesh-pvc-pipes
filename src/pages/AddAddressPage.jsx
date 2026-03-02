@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const CURRENT_USER_KEY = "currentUser";
+
 const AddAddressPage = () => {
   const navigate = useNavigate();
 
@@ -10,6 +12,20 @@ const AddAddressPage = () => {
   const [stateVal, setStateVal] = useState("");
   const [pincode, setPincode] = useState("");
   const [phone, setPhone] = useState("");
+
+  // Login required to proceed to checkout
+  useEffect(() => {
+    try {
+      const user = localStorage.getItem(CURRENT_USER_KEY);
+      if (!user || user === "null" || user === "{}") {
+        navigate("/checkout-auth", { replace: true });
+        return;
+      }
+    } catch (_) {
+      navigate("/checkout-auth", { replace: true });
+      return;
+    }
+  }, [navigate]);
 
   useEffect(() => {
     // If user already selected an address earlier in the flow, prefill it

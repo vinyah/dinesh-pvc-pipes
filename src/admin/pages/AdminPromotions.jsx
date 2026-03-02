@@ -4,6 +4,29 @@ import { Search, Plus, Pencil, Trash2, X, Target } from "lucide-react";
 const CATEGORY_OPTIONS = ["Festival", "Seasonal", "Bulk", "New Launch", "Clearance", "Trade", "Combo", "Flash Sale", "Segment"];
 const AUDIENCE_OPTIONS = ["All Customers", "Dealers", "Contractors", "New Customers"];
 
+const PROMOTIONS_STORAGE_KEY = "adminPromotions";
+
+function loadStoredPromotions() {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(PROMOTIONS_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function savePromotionsToStorage(list) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(PROMOTIONS_STORAGE_KEY, JSON.stringify(list));
+  } catch {
+    // ignore storage errors
+  }
+}
+
 function buildMockPromotions() {
   return [
     {
@@ -82,7 +105,7 @@ function buildMockPromotions() {
 }
 
 export default function AdminPromotions() {
-  const [promotions, setPromotions] = useState(() => buildMockPromotions());
+  const [promotions, setPromotions] = useState(() => loadStoredPromotions() ?? buildMockPromotions());
   const [search, setSearch] = useState("");
   const [createOpen, setCreateOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -157,7 +180,11 @@ export default function AdminPromotions() {
       cvr: Number(cvr.toFixed(2)),
       roi: Number(roi.toFixed(1)),
     };
-    setPromotions((prev) => [newPromo, ...prev]);
+    setPromotions((prev) => {
+      const next = [newPromo, ...prev];
+      savePromotionsToStorage(next);
+      return next;
+    });
     closeModal();
   };
 
@@ -181,7 +208,12 @@ export default function AdminPromotions() {
     setImagePreview(null);
   };
 
-  const deletePromo = (id) => setPromotions((prev) => prev.filter((p) => p.id !== id));
+  const deletePromo = (id) =>
+    setPromotions((prev) => {
+      const next = prev.filter((p) => p.id !== id);
+      savePromotionsToStorage(next);
+      return next;
+    });
 
   const openEdit = (p) => {
     setForm({
@@ -211,8 +243,8 @@ export default function AdminPromotions() {
     const budgetTotalNum = parseInt(form.budgetTotal, 10) || 0;
     const cvr = viewsNum > 0 ? (conversionsNum / viewsNum) * 100 : 0;
     const roi = budgetUsedNum > 0 ? (conversionsNum / budgetUsedNum) * 100 : 0;
-    setPromotions((prev) =>
-      prev.map((promo) =>
+    setPromotions((prev) => {
+      const next = prev.map((promo) =>
         promo.id === editingId
           ? {
               ...promo,
@@ -232,8 +264,10 @@ export default function AdminPromotions() {
               roi: Number(roi.toFixed(1)),
             }
           : promo
-      )
-    );
+      );
+      savePromotionsToStorage(next);
+      return next;
+    });
     closeModal();
   };
 
