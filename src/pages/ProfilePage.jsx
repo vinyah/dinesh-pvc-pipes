@@ -20,6 +20,7 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
 
   const [user, setUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [recentOrders, setRecentOrders] = useState([]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -46,6 +47,34 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
     }
   }, [currentUser]); // 🔥 IMPORTANT
 
+  // Load recent orders for this user from localStorage
+  useEffect(() => {
+    try {
+      if (!currentUser?.email) {
+        setRecentOrders([]);
+        return;
+      }
+      const raw = localStorage.getItem("myOrders");
+      if (!raw) {
+        setRecentOrders([]);
+        return;
+      }
+      const allOrders = JSON.parse(raw);
+      if (!Array.isArray(allOrders)) {
+        setRecentOrders([]);
+        return;
+      }
+      const userOrders = allOrders.filter(
+        (order) => order && order.userEmail === currentUser.email
+      );
+      // take latest 3 orders (last ones), newest first
+      const latest = userOrders.slice(-3).reverse();
+      setRecentOrders(latest);
+    } catch {
+      setRecentOrders([]);
+    }
+  }, [currentUser]);
+
   /* 🔹 Persist user */
   const persistUser = (nextUser) => {
     setUser(nextUser);
@@ -57,6 +86,9 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
   const goHome = () => navigate("/");
   const goItems = () => navigate("/items");
   const goCart = () => navigate("/cart");
+  const goOrders = () => navigate("/orders");
+  const goWishlist = () => navigate("/wishlist");
+  const goAddresses = () => navigate("/add-address");
 
   const handleLogout = () => {
     if (auth) {
@@ -132,10 +164,10 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
       {/* Page Title - below fixed header */}
       <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8">My Account</h1>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
         {/* ===== LEFT SIDEBAR ===== */}
         <aside className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200 h-full flex flex-col">
             {/* Avatar and User Info - click to change photo / edit */}
             <div className="flex flex-col items-center mb-6">
               <button
@@ -328,6 +360,85 @@ const ProfilePage = ({ currentUser, openAuthModal, setCurrentUser }) => {
                   Edit Profile
                 </button>
               )}
+            </div>
+          </div>
+
+          {/* Recent Orders & Quick Links */}
+          <div className="mt-8 bg-white rounded-2xl shadow-md border border-gray-200 p-6 md:p-8">
+            <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">Recent Orders</h3>
+            {recentOrders.length === 0 ? (
+              <p className="text-sm md:text-base text-gray-700 mb-8">
+                No orders yet. Start shopping to see your orders here!
+              </p>
+            ) : (
+              <div className="mb-8 space-y-3">
+                {recentOrders.map((order) => (
+                  <div
+                    key={order.id || order.orderId}
+                    className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 rounded-xl border border-gray-200 px-4 py-3 bg-gray-50"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="inline-block px-3 py-1 bg-[#b30000] text-white text-xs font-semibold rounded-full">
+                        {(order && order.status) || "Placed"}
+                      </span>
+                      {order?.orderId && (
+                        <span className="text-xs md:text-sm text-gray-700 font-medium">
+                          ID: {order.orderId}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-4 text-xs md:text-sm text-gray-700">
+                      {order?.date && <span>{order.date}</span>}
+                      {order?.total && (
+                        <span className="font-semibold text-[#b30000]">
+                          ₹{order.total}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+              {/* Track Orders */}
+              <button
+                type="button"
+                onClick={goOrders}
+                className="flex flex-col items-center justify-center rounded-xl bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-[#b30000] hover:-translate-y-1 transition-transform transition-shadow px-4 py-6 text-center"
+              >
+                <span className="text-3xl mb-2">📦</span>
+                <span className="text-base md:text-lg font-semibold text-gray-900">Track Orders</span>
+                <span className="text-xs md:text-sm text-gray-600 mt-1">
+                  View order status and tracking
+                </span>
+              </button>
+
+              {/* Wishlist */}
+              <button
+                type="button"
+                onClick={goWishlist}
+                className="flex flex-col items-center justify-center rounded-xl bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-[#b30000] hover:-translate-y-1 transition-transform transition-shadow px-4 py-6 text-center"
+              >
+                <span className="text-3xl mb-2">♡</span>
+                <span className="text-base md:text-lg font-semibold text-gray-900">Wishlist</span>
+                <span className="text-xs md:text-sm text-gray-600 mt-1">
+                  View saved items
+                </span>
+              </button>
+
+              {/* Addresses */}
+              <button
+                type="button"
+                onClick={goAddresses}
+                className="flex flex-col items-center justify-center rounded-xl bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-[#b30000] hover:-translate-y-1 transition-transform transition-shadow px-4 py-6 text-center"
+              >
+                <span className="text-3xl mb-2">📍</span>
+                <span className="text-base md:text-lg font-semibold text-gray-900">Addresses</span>
+                <span className="text-xs md:text-sm text-gray-600 mt-1">
+                  Manage delivery addresses
+                </span>
+              </button>
             </div>
           </div>
         </main>

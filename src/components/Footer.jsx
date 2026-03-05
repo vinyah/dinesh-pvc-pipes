@@ -23,22 +23,22 @@ function Footer({ setShowModal }) {
             <h3 className={`${textClass} font-semibold text-base mb-2`}>Products</h3>
             <ul className="flex flex-col gap-2">
               <li>
-                <Link to="/items" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
+                <Link to="/items" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium`}>
                   PVC Pipes
                 </Link>
               </li>
               <li>
-                <Link to="/pipefitting" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
+                <Link to="/pipefitting" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium`}>
                   Pipe Fittings
                 </Link>
               </li>
               <li>
-                <Link to="/boxes" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
+                <Link to="/boxes" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium`}>
                   Junction Boxes
                 </Link>
               </li>
               <li>
-                <Link to="/items" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
+                <Link to="/items" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium`}>
                   Flexible Pipes
                 </Link>
               </li>
@@ -51,7 +51,7 @@ function Footer({ setShowModal }) {
             <ul className="flex flex-col gap-2">
               <li>
                 <button
-                  className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm text-left`}
+                  className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium text-left`}
                   onClick={() => setShowModal("login")}
                 >
                   Log In
@@ -59,19 +59,19 @@ function Footer({ setShowModal }) {
               </li>
               <li>
                 <button
-                  className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm text-left`}
+                  className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium text-left`}
                   onClick={() => setShowModal("signup")}
                 >
                   Create Account
                 </button>
               </li>
               <li>
-                <Link to="/orders" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
+                <Link to="/orders" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium`}>
                   Orders History
                 </Link>
               </li>
               <li>
-                <Link to="/cart" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
+                <Link to="/cart" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium`}>
                   Cart
                 </Link>
               </li>
@@ -83,22 +83,22 @@ function Footer({ setShowModal }) {
             <h3 className={`${textClass} font-semibold text-base mb-2`}>Help</h3>
             <ul className="flex flex-col gap-2">
               <li>
-                <Link to="/services" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
+                <Link to="/services" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium`}>
                   Customer Care
                 </Link>
               </li>
               <li>
-                <Link to="/services" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
+                <Link to="/services" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium`}>
                   Home Delivery
                 </Link>
               </li>
               <li>
-                <Link to="/services" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
+                <Link to="/services" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium`}>
                   Installation
                 </Link>
               </li>
               <li>
-                <p className={textOpacityClass + " text-sm"}>1800 564 657</p>
+                <p className={textOpacityClass + " text-sm font-medium"}>1800 564 657</p>
               </li>
             </ul>
           </div>
@@ -108,17 +108,17 @@ function Footer({ setShowModal }) {
             <h3 className={`${textClass} font-semibold text-base mb-2`}>About Us</h3>
             <ul className="flex flex-col gap-2">
               <li>
-                <Link to="/" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
+                <Link to="/" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium`}>
                   Overview
                 </Link>
               </li>
               <li>
-                <Link to="/" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
+                <Link to="/" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium`}>
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link to="/" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm`}>
+                <Link to="/" className={`${textOpacityClass} ${hoverTextClass} hover:underline text-sm font-medium`}>
                   Policies
                 </Link>
               </li>

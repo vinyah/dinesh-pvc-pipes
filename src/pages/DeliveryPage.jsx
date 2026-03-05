@@ -90,7 +90,7 @@ function DeliveryPage() {
   const onContinueShopping = () => navigate("/items");
 
   return (
-    <div className="w-full bg-white py-8 px-4 md:px-8 min-h-screen">
+    <div className="w-full bg-white pt-24 md:pt-28 pb-8 px-4 md:px-8 min-h-screen">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* LEFT — DELIVERY OPTIONS */}
         <div className="lg:col-span-2">

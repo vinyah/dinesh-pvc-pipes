@@ -93,7 +93,7 @@ const AddAddressPage = () => {
   };
 
   return (
-    <div className="w-full bg-white py-8 px-4 md:px-8 min-h-screen">
+    <div className="w-full bg-white pt-24 md:pt-28 pb-8 px-4 md:px-8 min-h-screen">
       {/* Page Title */}
       <h1 className="text-3xl md:text-4xl font-bold text-[#b30000] text-center mb-8">
         Select Delivery Address

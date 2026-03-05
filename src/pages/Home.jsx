@@ -8,8 +8,8 @@ import db from "../../db.json";
 import { getImageUrl } from "../utils/imageLoader";
 import { getWishlist, toggleWishlist } from "../utils/wishlist";
 
-// Sliding background images for hero section
-const heroImages = ["p1c.png", "bg1.jpg", "bg2.webp", "bg4.webp", "bg5.avif"];
+// Sliding background images for hero section (now only one image as requested)
+const heroImages = ["bg6.jpeg"];
 
 const ADMIN_PRODUCTS_KEY = "adminProducts";
 
@@ -207,6 +207,7 @@ function Home({ setShowModal }) {
               }`}
               style={{
                 backgroundImage: `url(${getImageUrl(img)})`,
+                // Fill entire section from left to right and top to bottom
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundColor: 'transparent',

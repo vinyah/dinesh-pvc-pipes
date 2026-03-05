@@ -19,6 +19,19 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+
+  // Active nav highlighting
+  const path = location.pathname;
+  const isProductsActive =
+    path === "/items" ||
+    path === "/boxes" ||
+    path === "/pipefitting" ||
+    path.startsWith("/category") ||
+    path.startsWith("/product");
+  const isOffersActive = path === "/offers";
+  const isOrdersActive = path.startsWith("/orders");
+  const isWishlistActive = path === "/wishlist";
+  const isCartActive = path === "/cart";
   
   // Detect mobile device
   useEffect(() => {
@@ -114,6 +127,7 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
         ? headerHover
         : false;
   // Use same background strength as scroll state (0.4) so inner pages match scrolled home header
+  // iPhone-style dark background color (deep slate instead of pure black)
   const bgOpacity = forceFixedBackground ? 0.4 : isScrolled ? 0.4 : headerHover ? 0.5 : 0;
 
   // Always use inline position:fixed so header stays at top while scrolling (not overridden by CSS)
@@ -124,8 +138,8 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
         left: 0,
         right: 0,
         zIndex: 9999,
-        backgroundColor: "rgba(0, 0, 0, 0.4)",
-        boxShadow: "0 2px 12px rgba(0,0,0,0.2)",
+        backgroundColor: "rgba(15, 23, 42, 0.9)", // slate-900ish, iPhone-like dark
+        boxShadow: "0 2px 12px rgba(15,23,42,0.6)",
       }
     : {
         position: "fixed",
@@ -133,8 +147,8 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
         left: 0,
         right: 0,
         zIndex: 9999,
-        backgroundColor: shouldShowBackground ? `rgba(0, 0, 0, ${bgOpacity})` : "transparent",
-        boxShadow: shouldShowBackground ? "0 2px 12px rgba(0,0,0,0.2)" : "none",
+        backgroundColor: shouldShowBackground ? `rgba(15, 23, 42, ${bgOpacity})` : "transparent",
+        boxShadow: shouldShowBackground ? "0 2px 12px rgba(15,23,42,0.6)" : "none",
       };
 
   return (
@@ -163,76 +177,11 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
             </h1>
           </Link>
 
-          {/* Right Section: Nav words + Sign up / Login at far right */}
+          {/* Right Section: Nav words + Search + Sign up / Login at far right */}
           <div className="flex items-center justify-end gap-4 flex-1">
-            {/* Desktop: Search, Products, Offers, Orders, Wish List, Cart (centered using absolute positioning) */}
+            {/* Desktop: Products, Offers, Orders, Wish List, Cart (centered using absolute positioning) */}
             <nav className="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
-              {/* Search with Dropdown */}
-              <div 
-                className="relative"
-                onMouseLeave={() => {
-                  if (!searchQuery) setSearchOpen(false);
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={() => setSearchOpen(!searchOpen)}
-                  className="text-white hover:text-[#b30000] transition-colors font-medium text-sm uppercase tracking-wide"
-                >
-                  Search
-                </button>
-                
-                {/* Search Bar Dropdown */}
-                {searchOpen && (
-                  <div 
-                    className="absolute top-full right-0 pt-2 w-96 z-50"
-                    onMouseEnter={() => setSearchOpen(true)}
-                    onMouseLeave={() => {
-                      if (!searchQuery) {
-                        setSearchOpen(false);
-                      }
-                    }}
-                  >
-                    <div className="bg-gradient-to-br from-white to-red-50 shadow-2xl py-5 slide-down backdrop-blur-sm">
-                      <div className="px-5 pb-4">
-                        <div className="relative">
-                          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#b30000] w-5 h-5" />
-                          <input 
-                            type="text" 
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            onKeyPress={handleSearchKeyPress}
-                            className="w-full pl-12 pr-4 py-3 border-[1px] border-[#b30000] focus:outline-none focus:border-[#b30000] text-sm text-[#b30000] placeholder:text-red-300 font-medium bg-white"
-                            placeholder="Search products..." 
-                            autoFocus
-                          />
-                        </div>
-                      </div>
-                      
-                      {/* Search Results */}
-                      {searchQuery.trim() && (
-                        <div className="max-h-64 overflow-y-auto border-t-2 border-gray-300 mt-3">
-                          {filteredProducts.length > 0 ? (
-                            filteredProducts.map((product, index) => (
-                              <div
-                                key={index}
-                                onClick={() => handleSearch(product)}
-                                className="px-5 py-3 text-sm text-gray-800 hover:bg-[#b30000] hover:text-white transition-all duration-200 font-semibold cursor-pointer mx-2 mb-1"
-                              >
-                                {product.name}
-                              </div>
-                            ))
-                          ) : (
-                            <div className="px-5 py-3 text-sm text-gray-500 font-medium">
-                              No products found
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
+              
               {/* Products with Dropdown */}
               <div 
                 className="relative"
@@ -242,7 +191,7 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
                 <button
                   type="button"
                   onClick={() => navigate("/items")}
-                  className="text-white hover:text-[#b30000] transition-colors font-medium text-sm uppercase tracking-wide"
+                  className={`${isProductsActive ? "text-[#b30000]" : "text-white hover:text-[#b30000]"} transition-colors font-medium text-sm uppercase tracking-wide`}
                 >
                   Products
                 </button>
@@ -283,7 +232,7 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
                 <button
                   type="button"
                   onClick={() => navigate("/offers")}
-                  className="text-white hover:text-[#b30000] transition-colors font-medium text-sm uppercase tracking-wide"
+                  className={`${isOffersActive ? "text-[#b30000]" : "text-white hover:text-[#b30000]"} transition-colors font-medium text-sm uppercase tracking-wide`}
                 >
                   Offers
                 </button>
@@ -298,7 +247,7 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
                 <button
                   type="button"
                   onClick={() => navigate("/orders")}
-                  className="text-white hover:text-[#b30000] transition-colors font-medium text-sm uppercase tracking-wide"
+                  className={`${isOrdersActive ? "text-[#b30000]" : "text-white hover:text-[#b30000]"} transition-colors font-medium text-sm uppercase tracking-wide`}
                 >
                   Orders
                 </button>
@@ -336,7 +285,7 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
                 <button
                   type="button"
                   onClick={() => navigate("/wishlist")}
-                  className="text-white hover:text-[#b30000] transition-colors font-medium text-sm uppercase tracking-wide"
+                  className={`${isWishlistActive ? "text-[#b30000]" : "text-white hover:text-[#b30000]"} transition-colors font-medium text-sm uppercase tracking-wide`}
                 >
                   Wish List
                 </button>
@@ -373,7 +322,7 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
                 <button
                   type="button"
                   onClick={() => navigate("/cart")}
-                  className="text-white hover:text-[#b30000] transition-colors font-medium text-sm uppercase tracking-wide"
+                  className={`${isCartActive ? "text-[#b30000]" : "text-white hover:text-[#b30000]"} transition-colors font-medium text-sm uppercase tracking-wide`}
                 >
                   Cart
                 </button>
@@ -402,6 +351,45 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
                 )}
               </div>
             </nav>
+
+            {/* Desktop Search bar (separate, near right side) */}
+            <div className="hidden md:flex items-center relative w-64">
+              <div className="relative w-full">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white w-4 h-4" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={handleSearchKeyPress}
+                  className="w-full pl-9 pr-3 py-2 border border-white/80 rounded-full focus:outline-none focus:border-white text-sm text-white placeholder:text-white/60 font-medium bg-white/10"
+                  placeholder="Search products..."
+                />
+              </div>
+              {/* Search results dropdown below input */}
+              {searchQuery.trim() && (
+                <div className="absolute top-full left-0 mt-1 z-50 w-full">
+                  <div className="bg-gradient-to-br from-white to-red-50 shadow-2xl py-3 slide-down backdrop-blur-sm">
+                    <div className="max-h-60 overflow-y-auto border-t-2 border-gray-300">
+                      {filteredProducts.length > 0 ? (
+                        filteredProducts.map((product, index) => (
+                          <div
+                            key={index}
+                            onClick={() => handleSearch(product)}
+                            className="px-4 py-2 text-sm text-gray-800 hover:bg-[#b30000] hover:text-white transition-all duration-200 font-semibold cursor-pointer mx-2 mb-1"
+                          >
+                            {product.name}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="px-4 py-2 text-sm text-gray-500 font-medium">
+                          No products found
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Top right: when logged out = Sign up / Login; when logged in = avatar + user label with details dropdown */}
             {currentUser ? (
@@ -458,22 +446,14 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
                 )}
               </div>
             ) : openAuthModal ? (
-              <div className="hidden md:flex items-center gap-5 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => openAuthModal("signup")}
-                  className="text-white hover:text-[#b30000] transition-colors font-medium text-sm uppercase tracking-wide"
-                >
-                  Sign up
-                </button>
-                <button
-                  type="button"
-                  onClick={() => openAuthModal("login")}
-                  className="text-white hover:text-[#b30000] transition-colors font-medium text-sm uppercase tracking-wide"
-                >
-                  Login
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={() => openAuthModal("login")}
+                className="hidden md:flex items-center justify-center w-9 h-9 rounded-full bg-[#f3e8ff] text-[#7c3aed] shadow-sm hover:bg-[#e9d5ff] transition-colors shrink-0"
+                aria-label="Account"
+              >
+                <User className="w-4 h-4" />
+              </button>
             ) : null}
 
             {/* Mobile: Search word + Hamburger */}
@@ -489,8 +469,8 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
                 
                 {/* Mobile Search Bar Dropdown */}
                 {searchOpen && (
-                  <div className="absolute top-full right-0 mt-2 z-50">
-                    <div className="bg-gradient-to-br from-white to-red-50 shadow-2xl py-5 w-80 slide-down backdrop-blur-sm">
+                  <div className="absolute top-full left-0 mt-2 z-50">
+                    <div className="bg-gradient-to-br from-white to-red-50 shadow-2xl py-5 w-72 slide-down backdrop-blur-sm">
                       <div className="px-4 pb-4">
                         <div className="relative">
                           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#b30000] w-4 h-4" />
@@ -531,7 +511,7 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
                 )}
               </div>
 
-              {/* Mobile Hamburger Button with Dropdown */}
+              {/* Mobile Hamburger Button with Fullscreen Overlay Menu */}
               <div className="relative">
                 <button
                   className="flex flex-col gap-1.5 p-2"
@@ -542,37 +522,96 @@ function Header({ currentUser, openAuthModal, setCurrentUser }) {
               <span className={`w-6 h-0.5 bg-white transition-all ${menuOpen ? 'opacity-0' : ''}`}></span>
               <span className={`w-6 h-0.5 bg-white transition-all ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
                 </button>
-                
-                {/* Mobile Menu - words only */}
+                {/* Mobile Fullscreen Menu */}
                 {menuOpen && (
-                  <div className="absolute top-full right-0 pt-2 z-50">
-                    <div className="bg-gradient-to-br from-white to-red-50 shadow-2xl py-4 min-w-[160px] slide-down backdrop-blur-sm">
-                      <nav className="flex flex-col">
-                        <Link to="/items" className="px-5 py-3 text-sm font-semibold text-gray-800 hover:bg-[#b30000] hover:text-white transition-all mx-2 mb-1" onClick={() => setMenuOpen(false)}>Products</Link>
-                        <Link to="/orders" className="px-5 py-3 text-sm font-semibold text-gray-800 hover:bg-[#b30000] hover:text-white transition-all mx-2 mb-1" onClick={() => setMenuOpen(false)}>Orders</Link>
-                        <Link to="/wishlist" className="px-5 py-3 text-sm font-semibold text-gray-800 hover:bg-[#b30000] hover:text-white transition-all mx-2 mb-1" onClick={() => setMenuOpen(false)}>Wish List</Link>
-                        <Link to="/cart" className="px-5 py-3 text-sm font-semibold text-gray-800 hover:bg-[#b30000] hover:text-white transition-all mx-2 mb-1" onClick={() => setMenuOpen(false)}>Cart</Link>
-                        {currentUser && (
-                          <Link to="/account" className="px-5 py-3 text-sm font-semibold text-gray-800 hover:bg-[#b30000] hover:text-white transition-all mx-2 mb-1 flex items-center gap-2" onClick={() => setMenuOpen(false)}>
-                            <span className="w-6 h-6 rounded-full bg-[#b30000] flex items-center justify-center overflow-hidden shrink-0">
-                              {currentUser?.photoURL ? (
-                                <img src={currentUser.photoURL} alt="" className="w-full h-full object-cover" />
-                              ) : (
-                                <User className="w-3 h-3 text-white" />
-                              )}
-                            </span>
-                            Account
-                          </Link>
-                        )}
-                        {!currentUser && openAuthModal && (
-                          <>
-                            <div className="border-t border-gray-200 my-1" />
-                            <button type="button" onClick={() => { openAuthModal("signup"); setMenuOpen(false); }} className="px-5 py-3 text-sm font-semibold text-gray-800 hover:bg-[#b30000] hover:text-white transition-all mx-2 mb-1 text-left">Sign up</button>
-                            <button type="button" onClick={() => { openAuthModal("login"); setMenuOpen(false); }} className="px-5 py-3 text-sm font-semibold text-gray-800 hover:bg-[#b30000] hover:text-white transition-all mx-2 mb-1 text-left">Login</button>
-                          </>
-                        )}
-                      </nav>
+                  <div className="fixed inset-0 z-[9998] bg-black/80">
+                    <div className="absolute top-4 right-4">
+                      <button
+                        type="button"
+                        onClick={() => setMenuOpen(false)}
+                        className="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center text-white"
+                        aria-label="Close menu"
+                      >
+                        ✕
+                      </button>
                     </div>
+                    <nav className="w-full h-full flex flex-col items-center justify-center gap-4">
+                      <Link
+                        to="/"
+                        onClick={() => setMenuOpen(false)}
+                        className="text-white text-sm font-semibold tracking-[0.25em] uppercase py-2"
+                      >
+                        Home
+                      </Link>
+                      <Link
+                        to="/items"
+                        onClick={() => setMenuOpen(false)}
+                        className="text-white text-sm font-semibold tracking-[0.25em] uppercase py-2"
+                      >
+                        Products
+                      </Link>
+                      <Link
+                        to="/offers"
+                        onClick={() => setMenuOpen(false)}
+                        className="text-white text-sm font-semibold tracking-[0.25em] uppercase py-2"
+                      >
+                        Offers
+                      </Link>
+                      <Link
+                        to="/orders"
+                        onClick={() => setMenuOpen(false)}
+                        className="text-white text-sm font-semibold tracking-[0.25em] uppercase py-2"
+                      >
+                        Orders
+                      </Link>
+                      <Link
+                        to="/wishlist"
+                        onClick={() => setMenuOpen(false)}
+                        className="text-white text-sm font-semibold tracking-[0.25em] uppercase py-2"
+                      >
+                        Wish List
+                      </Link>
+                      <Link
+                        to="/cart"
+                        onClick={() => setMenuOpen(false)}
+                        className="text-white text-sm font-semibold tracking-[0.25em] uppercase py-2"
+                      >
+                        Cart
+                      </Link>
+                      {currentUser && (
+                        <Link
+                          to="/account"
+                          onClick={() => setMenuOpen(false)}
+                          className="text-white text-sm font-semibold tracking-[0.25em] uppercase py-2"
+                        >
+                          Account
+                        </Link>
+                      )}
+                      {!currentUser && openAuthModal && (
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              openAuthModal("signup");
+                              setMenuOpen(false);
+                            }}
+                            className="text-white text-sm font-semibold tracking-[0.25em] uppercase py-2"
+                          >
+                            Sign Up
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              openAuthModal("login");
+                              setMenuOpen(false);
+                            }}
+                            className="text-white text-sm font-semibold tracking-[0.25em] uppercase py-2"
+                          >
+                            Login
+                          </button>
+                        </>
+                      )}
+                    </nav>
                   </div>
                 )}
               </div>
