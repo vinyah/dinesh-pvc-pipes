@@ -13,8 +13,14 @@ body {
   padding: 0;
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;          /* 🚫 prevent horizontal scrolling */
-  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 body {
@@ -77,10 +83,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-color: #f8f9fb;   /* subtle clean background */
-  color: #222;                 /* rich text color */
+  background-color: #f8f9fb;
+  /* subtle clean background */
+  color: #222;
+  /* rich text color */
 
-  font-size: 16px;             /* base font for laptops */
+  font-size: 16px;
+  /* base font for laptops */
   line-height: 1.6;
 }
 
@@ -95,16 +104,34 @@ code {
 /* 💻 Medium screens (tablets / small laptops) */
 @media (max-width: 900px) {
   body {
-    font-size: 15px;           /* slightly smaller for tablets */
+    font-size: 15px;
+    /* slightly smaller for tablets */
   }
 }
 
 /* 📱 Mobile screens */
 @media (max-width: 600px) {
   body {
-    font-size: 14px;           /* comfortable reading size */
+    font-size: 14px;
+    /* comfortable reading size */
     line-height: 1.5;
   }
+}
+
+@keyframes bounceSlow {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounceSlow 3s infinite ease-in-out;
 }
 
 /* ===== Dropdown Slide Down Animation ===== */
@@ -113,6 +140,7 @@ code {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -123,19 +151,33 @@ code {
   animation: slideDown 0.3s ease-out;
 }
 
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 /* Print: show only target content (shipping label or invoice) */
 @media print {
   body * {
     visibility: hidden;
   }
+
   .no-print,
   .no-print-invoice {
     display: none !important;
   }
+
   #print-label-content,
   #print-label-content * {
     visibility: visible;
   }
+
   #print-label-content {
     position: absolute;
     left: 0;
@@ -146,10 +188,12 @@ code {
     border: 2px solid #000;
     background: white;
   }
+
   #invoice-pdf-content,
   #invoice-pdf-content * {
     visibility: visible;
   }
+
   #invoice-pdf-content {
     position: absolute;
     left: 0;
