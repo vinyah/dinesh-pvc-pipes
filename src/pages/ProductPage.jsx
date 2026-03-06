@@ -59,25 +59,21 @@ const ProductPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Handle legacy routes by checking pathname
   let actualProductType = productType?.toLowerCase();
   if (!actualProductType && location.pathname) {
     actualProductType = legacyRouteMap[location.pathname];
   }
-  
-  // Handle /product/:id route (ProductDetails)
   if (!actualProductType && id) {
     actualProductType = "productdetails";
   }
 
-  // Get product data based on route
   const productConfig = productDataMap[actualProductType];
-  
+
   if (!productConfig) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-8">
         <h2 className="text-2xl font-semibold mb-4">Product Type Not Found</h2>
-        <button 
+        <button
           className="mt-4 px-5 py-2.5 bg-[#b30000] text-white rounded-lg cursor-pointer text-sm font-medium hover:bg-[#8b0000] transition-colors"
           onClick={() => navigate("/items")}
         >
@@ -87,7 +83,6 @@ const ProductPage = () => {
     );
   }
 
-  // ✅ Hooks must be called before any conditional returns
   const [activeImage, setActiveImage] = useState(0);
   const [selectedThickness, setSelectedThickness] = useState(0);
   const [selectedColor, setSelectedColor] = useState("GREEN");
@@ -103,7 +98,7 @@ const ProductPage = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-8">
         <h2 className="text-2xl font-semibold mb-4">Product Data Not Found</h2>
-        <button 
+        <button
           className="mt-4 px-5 py-2.5 bg-[#b30000] text-white rounded-lg cursor-pointer text-sm font-medium hover:bg-[#8b0000] transition-colors"
           onClick={() => navigate("/items")}
         >
@@ -123,7 +118,7 @@ const ProductPage = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-8">
         <h2 className="text-2xl font-semibold mb-4">Product Not Found</h2>
-        <button 
+        <button
           className="mt-4 px-5 py-2.5 bg-[#b30000] text-white rounded-lg cursor-pointer text-sm font-medium hover:bg-[#8b0000] transition-colors"
           onClick={() => navigate("/items")}
         >
@@ -135,62 +130,48 @@ const ProductPage = () => {
 
   const recommendationRoutes = recommendationRoutesMap[actualProductType] || [];
 
-  // Initialize selectedSize and selectedLength to first available options for all products
   useEffect(() => {
     if (product) {
       let availableSizes = [];
-      let hasNestedRates = false; // Check if rates structure is nested (size -> length)
-      
+      let hasNestedRates = false;
+
       if (product.thicknessOptions && product.thicknessOptions[selectedThickness]?.rates) {
         availableSizes = Object.keys(product.thicknessOptions[selectedThickness].rates);
       } else if (product.rates) {
         availableSizes = Object.keys(product.rates);
-        // Check if first size has nested structure (object with length keys)
-        if (availableSizes.length > 0 && typeof product.rates[availableSizes[0]] === 'object' && !Array.isArray(product.rates[availableSizes[0]])) {
+        if (availableSizes.length > 0 && typeof product.rates[availableSizes[0]] === "object" && !Array.isArray(product.rates[availableSizes[0]])) {
           hasNestedRates = true;
         }
       }
-      
-      // Reset to first available size when product or thickness changes
+
       if (availableSizes.length > 0) {
-        // Only set if current size is not in available sizes or if not set
         if (!availableSizes.includes(selectedSize) || !selectedSize || selectedSize === "") {
           setSelectedSize(availableSizes[0]);
-          
-          // If nested rates structure, initialize length
           if (hasNestedRates && product.rates[availableSizes[0]]) {
             const availableLengths = Object.keys(product.rates[availableSizes[0]]);
-            if (availableLengths.length > 0) {
-              setSelectedLength(availableLengths[0]);
-            }
+            if (availableLengths.length > 0) setSelectedLength(availableLengths[0]);
           }
         } else if (hasNestedRates && product.rates[selectedSize]) {
-          // If size changed and has nested rates, update length
           const availableLengths = Object.keys(product.rates[selectedSize]);
           if (availableLengths.length > 0 && !availableLengths.includes(selectedLength)) {
             setSelectedLength(availableLengths[0]);
           }
         }
       } else {
-        // No sizes available, reset to empty
         setSelectedSize("");
         setSelectedLength("");
       }
     }
   }, [product, selectedThickness, selectedSize]);
 
-  // Handle different price structures
   const getPrice = () => {
     if (product.thicknessOptions && product.thicknessOptions[selectedThickness]?.rates) {
       return product.thicknessOptions[selectedThickness].rates[selectedSize] ?? 0;
     }
     if (product.rates) {
-      // Check if nested structure (size -> length)
-      if (selectedSize && product.rates[selectedSize] && typeof product.rates[selectedSize] === 'object' && !Array.isArray(product.rates[selectedSize])) {
-        // Nested structure: rates[selectedSize][selectedLength]
+      if (selectedSize && product.rates[selectedSize] && typeof product.rates[selectedSize] === "object" && !Array.isArray(product.rates[selectedSize])) {
         return product.rates[selectedSize][selectedLength] ?? 0;
       }
-      // Simple structure: rates[selectedSize]
       return product.rates[selectedSize] ?? 0;
     }
     if (product.price) {
@@ -204,9 +185,7 @@ const ProductPage = () => {
   };
 
   const rawPrice = getPrice();
-  const price = typeof rawPrice === "number" 
-    ? rawPrice 
-    : Number(String(rawPrice).replace(/[^\d.]/g, "")) || 0;
+  const price = typeof rawPrice === "number" ? rawPrice : Number(String(rawPrice).replace(/[^\d.]/g, "")) || 0;
 
   const handleAddToCart = () => {
     addToCart({
@@ -221,7 +200,6 @@ const ProductPage = () => {
       length: selectedLength || product.length || null,
       quantity: qty,
     });
-
     alert(`${product.name} x ${qty} added to cart 🛒`);
   };
 
@@ -248,9 +226,8 @@ const ProductPage = () => {
 
   return (
     <div className="w-full m-0 py-6 px-14 box-border font-['Poppins',sans-serif] bg-white max-md:py-4 max-md:px-1.5 max-md:overflow-x-hidden max-md:w-full max-md:max-w-screen max-md:pt-32 md:pt-28">
-      {/* Back Button (if needed) */}
       {actualProductType === "boxa" && (
-        <button 
+        <button
           className="mb-4 px-5 py-2.5 bg-[#b30000] text-white rounded-lg cursor-pointer text-sm font-medium hover:bg-[#8b0000] transition-colors"
           onClick={() => navigate("/boxes")}
         >
@@ -263,7 +240,7 @@ const ProductPage = () => {
         {/* LEFT – IMAGES */}
         <div className="flex flex-col gap-4.5 max-md:mt-12 md:-mt-2.5">
           <div className="relative flex items-center gap-2.5 max-md:gap-1.5">
-            <button 
+            <button
               className="bg-white/90 border-2 border-[#b30000] text-[#b30000] w-10 h-10 rounded-full text-2xl font-bold cursor-pointer flex items-center justify-center transition-all z-10 flex-shrink-0 leading-none hover:bg-[#b30000] hover:text-white hover:scale-110 active:scale-95 max-md:w-9 max-md:h-9 max-md:text-[22px]"
               onClick={handlePreviousImage}
             >
@@ -284,7 +261,7 @@ const ProductPage = () => {
                 className="w-full h-full object-contain"
               />
             </div>
-            <button 
+            <button
               className="bg-white/90 border-2 border-[#b30000] text-[#b30000] w-10 h-10 rounded-full text-2xl font-bold cursor-pointer flex items-center justify-center transition-all z-10 flex-shrink-0 leading-none hover:bg-[#b30000] hover:text-white hover:scale-110 active:scale-95 max-md:w-9 max-md:h-9 max-md:text-[22px]"
               onClick={handleNextImage}
             >
@@ -299,8 +276,8 @@ const ProductPage = () => {
                 src={getImageUrl(img)}
                 alt="thumb"
                 className={`w-[68px] h-[68px] rounded-lg cursor-pointer border transition-opacity max-md:w-[60px] max-md:h-[60px] ${
-                  i === activeImage 
-                    ? "opacity-100 border-2 border-[#b30000]" 
+                  i === activeImage
+                    ? "opacity-100 border-2 border-[#b30000]"
                     : "opacity-60 border border-gray-300 hover:opacity-100 hover:border-2 hover:border-[#b30000]"
                 }`}
                 onClick={() => setActiveImage(i)}
@@ -361,10 +338,8 @@ const ProductPage = () => {
             </>
           )}
 
-          {/* Check if rates structure is nested (size -> length) for Braided Hose */}
-          {product.rates && Object.keys(product.rates).length > 0 && typeof product.rates[Object.keys(product.rates)[0]] === 'object' && !Array.isArray(product.rates[Object.keys(product.rates)[0]]) ? (
+          {product.rates && Object.keys(product.rates).length > 0 && typeof product.rates[Object.keys(product.rates)[0]] === "object" && !Array.isArray(product.rates[Object.keys(product.rates)[0]]) ? (
             <>
-              {/* Size selection first */}
               <h4 className="text-base my-1 mb-0.5">Select Size</h4>
               <div className="flex flex-wrap gap-2.5">
                 {Object.keys(product.rates).map((size) => (
@@ -377,11 +352,8 @@ const ProductPage = () => {
                     }`}
                     onClick={() => {
                       setSelectedSize(size);
-                      // Auto-select first length when size changes
                       const lengths = Object.keys(product.rates[size]);
-                      if (lengths.length > 0) {
-                        setSelectedLength(lengths[0]);
-                      }
+                      if (lengths.length > 0) setSelectedLength(lengths[0]);
                     }}
                   >
                     {size}
@@ -389,7 +361,6 @@ const ProductPage = () => {
                 ))}
               </div>
 
-              {/* Length selection - only show if size is selected */}
               {selectedSize && product.rates[selectedSize] && (
                 <>
                   <h4 className="text-base my-1 mb-0.5">Select Length</h4>
@@ -415,9 +386,7 @@ const ProductPage = () => {
             <>
               <h4 className="text-base my-1 mb-0.5">Select Size</h4>
               <div className="flex flex-wrap gap-2.5">
-                {Object.keys(
-                  product.rates || product.thicknessOptions[selectedThickness].rates
-                ).map((size) => (
+                {Object.keys(product.rates || product.thicknessOptions[selectedThickness].rates).map((size) => (
                   <button
                     key={size}
                     className={`px-3 py-1 h-8 rounded-lg border text-sm cursor-pointer transition-colors ${
@@ -437,7 +406,7 @@ const ProductPage = () => {
           <div className="text-[#b30000] text-[22px] font-bold my-1">₹{price}</div>
 
           <div className="flex gap-2.5 my-1 items-center">
-            <button 
+            <button
               className="w-[30px] h-[30px] rounded-md border-2 border-[#b30000] bg-white text-[#b30000] hover:bg-[#b30000] hover:text-white transition-colors"
               onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
             >
@@ -449,15 +418,12 @@ const ProductPage = () => {
               value={qty}
               onChange={(e) => {
                 const val = parseInt(e.target.value, 10);
-                if (Number.isNaN(val) || val <= 0) {
-                  setQty(1);
-                } else {
-                  setQty(val);
-                }
+                if (Number.isNaN(val) || val <= 0) setQty(1);
+                else setQty(val);
               }}
               className="w-12 h-7 text-center border-2 border-[#b30000] rounded-md text-xs focus:outline-none focus:ring-1 focus:ring-[#b30000]"
             />
-            <button 
+            <button
               className="w-[30px] h-[30px] rounded-md border-2 border-[#b30000] bg-white text-[#b30000] hover:bg-[#b30000] hover:text-white transition-colors"
               onClick={() => setQty(qty + 1)}
             >
@@ -465,7 +431,7 @@ const ProductPage = () => {
             </button>
           </div>
 
-          <button 
+          <button
             className="w-full py-2.5 px-2.5 bg-[#b30000] text-white rounded-lg border-none mt-1 hover:bg-[#8b0000] transition-colors max-md:w-full max-md:max-w-full max-md:my-3 max-md:mt-3 max-md:block max-md:box-border max-md:py-2.5 max-md:px-3 max-md:text-[15px] max-md:overflow-hidden max-md:whitespace-nowrap"
             onClick={handleAddToCart}
           >
@@ -484,12 +450,10 @@ const ProductPage = () => {
           <img src={getImageUrl("genuine.png")} alt="Genuine" className="w-12 h-12" />
           <span className="text-base font-semibold whitespace-nowrap">Genuine Products</span>
         </div>
-
         <div className="flex items-center gap-2.5 justify-center md:justify-start">
           <img src={getImageUrl("support.png")} alt="Support" className="w-12 h-12" />
           <span className="text-base font-semibold whitespace-nowrap">Customer Support</span>
         </div>
-
         <div className="flex items-center gap-2.5 justify-center md:justify-start">
           <img src={getImageUrl("nonreturn.png")} alt="Returnable" className="w-12 h-12" />
           <span className="text-base font-semibold whitespace-nowrap">Returnable</span>
@@ -498,33 +462,43 @@ const ProductPage = () => {
 
       {/* ================= RECOMMENDED ================= */}
       {product.recommendations && product.recommendations.length > 0 && (
-        <div className="mt-8 pb-5 w-full overflow-visible max-md:flex max-md:flex-col max-md:items-center max-md:w-full max-md:px-3.5 max-md:box-border">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-[#b30000] text-center max-md:text-center max-md:w-full max-md:mx-auto max-md:mb-4">Recommended Products</h2>
+        <div className="mt-8 pb-5 w-full">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-[#b30000] text-center">
+            Recommended Products
+          </h2>
 
-          <div className="grid grid-cols-4 gap-6 w-full max-w-6xl mx-auto box-border max-md:grid-cols-2 max-md:gap-4 max-md:justify-items-stretch max-md:items-stretch max-md:mx-auto max-md:max-w-full max-md:px-3.5 max-md:box-border max-[420px]:grid-cols-1">
+          {/* Desktop: 4-col grid | Mobile: horizontal scroll */}
+          <div className="hidden md:grid grid-cols-4 gap-5 w-full max-w-6xl mx-auto">
             {product.recommendations.map((rec, i) => (
-              <Link
-                key={i}
-                to={recommendationRoutes[i] || "#"}
-                className="no-underline text-inherit block hover:no-underline"
-              >
-                <div className="border border-gray-300 rounded-xl p-4 flex flex-col justify-between h-full min-h-[350px] bg-white box-border max-md:h-full max-md:min-h-[350px] max-md:w-full max-md:max-w-full max-md:flex max-md:flex-col max-md:box-border">
-                  <img
-                    src={getImageUrl(rec.image)}
-                    alt={rec.name}
-                    className="w-full h-[180px] object-contain"
-                  />
-                  <p className="text-base text-black mt-2">Code: {rec.code}</p>
-                  <h4 className="text-lg my-2 text-black no-underline font-semibold">{rec.name}</h4>
-                  <p className="text-lg font-semibold text-[#b30000]">{rec.price}</p>
-                  <p className="text-sm text-green-600 mt-1">Additional Saving {rec.save || "2.1%"}</p>
+              <Link key={i} to={recommendationRoutes[i] || "#"} className="no-underline block">
+                <div className="relative rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-lg hover:outline hover:outline-2 hover:outline-[#b30000] transition-all duration-300" style={{ height: "280px" }}>
+                  <img src={getImageUrl(rec.image)} alt={rec.name} className="absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <h4 className="text-white text-base font-bold text-center px-4 drop-shadow-lg">{rec.name}</h4>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile: horizontal scroll */}
+          <div className="md:hidden flex gap-4 overflow-x-auto pb-4 px-1 snap-x snap-mandatory" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+            {product.recommendations.map((rec, i) => (
+              <Link key={i} to={recommendationRoutes[i] || "#"} className="no-underline flex-shrink-0 w-64 snap-start block">
+                <div className="relative rounded-2xl overflow-hidden cursor-pointer shadow-sm" style={{ height: "280px" }}>
+                  <img src={getImageUrl(rec.image)} alt={rec.name} className="absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <h4 className="text-white text-base font-bold text-center px-4 drop-shadow-lg">{rec.name}</h4>
+                  </div>
                 </div>
               </Link>
             ))}
           </div>
 
           <div className="flex justify-center mt-6">
-            <button 
+            <button
               className="px-5 py-2.5 bg-[#b30000] text-white rounded-lg border-none cursor-pointer text-sm font-medium hover:bg-[#8b0000] transition-colors"
               onClick={() => navigate("/items")}
             >
@@ -533,9 +507,156 @@ const ProductPage = () => {
           </div>
         </div>
       )}
+
+      {/* ================= REVIEWS ================= */}
+      <ReviewsSection productName={product.name} />
     </div>
   );
 };
 
-export default ProductPage;
+/* ── Standalone Reviews Section ── */
+const STARS = [1, 2, 3, 4, 5];
 
+function StarRow({ value, onChange, size = "w-7 h-7" }) {
+  const [hovered, setHovered] = React.useState(0);
+  return (
+    <div className="flex gap-1">
+      {STARS.map((s) => (
+        <button
+          key={s}
+          type="button"
+          onMouseEnter={() => setHovered(s)}
+          onMouseLeave={() => setHovered(0)}
+          onClick={() => onChange(s)}
+          className="focus:outline-none"
+        >
+          <svg className={size} viewBox="0 0 24 24" fill={(hovered || value) >= s ? "#b30000" : "none"} stroke="#b30000" strokeWidth="1.5">
+            <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+          </svg>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function ReviewsSection({ productName }) {
+  const storageKey = `reviews_${productName?.replace(/\s+/g, "_")}`;
+
+  const [reviews, setReviews] = React.useState(() => {
+    try {
+      const saved = localStorage.getItem(storageKey);
+      return saved ? JSON.parse(saved) : [
+        { id: 1, name: "Ramesh K.", rating: 5, date: "Feb 2025", comment: "Excellent quality pipes, exactly as described. Highly recommend!" },
+        { id: 2, name: "Suresh M.", rating: 4, date: "Jan 2025", comment: "Good product, fast delivery. Will buy again." },
+        { id: 3, name: "Priya D.", rating: 5, date: "Dec 2024", comment: "Very durable and fits perfectly. Great value for money." },
+      ];
+    } catch { return []; }
+  });
+
+  const [name, setName] = React.useState("");
+  const [rating, setRating] = React.useState(0);
+  const [comment, setComment] = React.useState("");
+  const [submitted, setSubmitted] = React.useState(false);
+  const [error, setError] = React.useState("");
+
+  const avgRating = reviews.length ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1) : "0.0";
+
+  const handleSubmit = () => {
+    if (!name.trim()) { setError("Please enter your name."); return; }
+    if (!rating) { setError("Please select a star rating."); return; }
+    if (!comment.trim()) { setError("Please write a comment."); return; }
+    setError("");
+    const newReview = {
+      id: Date.now(),
+      name: name.trim(),
+      rating,
+      date: new Date().toLocaleDateString("en-IN", { month: "short", year: "numeric" }),
+      comment: comment.trim(),
+    };
+    const updated = [newReview, ...reviews];
+    setReviews(updated);
+    try { localStorage.setItem(storageKey, JSON.stringify(updated)); } catch {}
+    setName(""); setRating(0); setComment("");
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 3000);
+  };
+
+  return (
+    <div className="mt-12 pb-10 w-full">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold text-[#b30000]">Customer Reviews</h2>
+        <div className="flex items-center gap-2 md:ml-4">
+          <span className="text-4xl font-bold text-gray-900">{avgRating}</span>
+          <div className="flex flex-col">
+            <div className="flex gap-0.5">
+              {STARS.map((s) => (
+                <svg key={s} className="w-5 h-5" viewBox="0 0 24 24" fill={parseFloat(avgRating) >= s ? "#b30000" : "none"} stroke="#b30000" strokeWidth="1.5">
+                  <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+                </svg>
+              ))}
+            </div>
+            <span className="text-xs text-gray-500">{reviews.length} review{reviews.length !== 1 ? "s" : ""}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Existing reviews */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+        {reviews.map((r) => (
+          <div key={r.id} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-start justify-between mb-3">
+              <div>
+                <p className="font-semibold text-gray-900 text-sm">{r.name}</p>
+                <p className="text-xs text-gray-400 mt-0.5">{r.date}</p>
+              </div>
+              <div className="flex gap-0.5">
+                {STARS.map((s) => (
+                  <svg key={s} className="w-4 h-4" viewBox="0 0 24 24" fill={r.rating >= s ? "#b30000" : "none"} stroke="#b30000" strokeWidth="1.5">
+                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+                  </svg>
+                ))}
+              </div>
+            </div>
+            <p className="text-sm text-gray-600 leading-relaxed">{r.comment}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Write a review */}
+      <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 max-w-2xl">
+        <h3 className="text-lg font-bold text-gray-900 mb-4">Write a Review</h3>
+        <div className="flex flex-col gap-4">
+          <input
+            type="text"
+            placeholder="Your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#b30000]"
+          />
+          <div>
+            <p className="text-sm text-gray-600 mb-1.5">Your rating</p>
+            <StarRow value={rating} onChange={setRating} />
+          </div>
+          <textarea
+            placeholder="Share your experience with this product..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            rows={3}
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#b30000] resize-none"
+          />
+          {error && <p className="text-xs text-red-500">{error}</p>}
+          {submitted && <p className="text-xs text-green-600 font-medium">✓ Review submitted! Thank you.</p>}
+          <button
+            onClick={handleSubmit}
+            className="self-start px-6 py-2.5 bg-[#b30000] text-white rounded-lg text-sm font-semibold hover:bg-[#8b0000] transition-colors"
+          >
+            Submit Review
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default ProductPage;

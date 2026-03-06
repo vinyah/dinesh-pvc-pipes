@@ -25,6 +25,7 @@ export default function WishListPage() {
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
           Wish List
         </h1>
+
         {items.length === 0 ? (
           <div className="text-center py-16">
             <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
@@ -44,36 +45,7 @@ export default function WishListPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {items.map((item) => (
               <div key={item.link} className="relative group">
-                <Link
-                  to={item.link}
-                  className="block no-underline"
-                >
-                  <div className="flex flex-col h-full bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer">
-                    <div className="flex-1 bg-gray-50 flex items-center justify-center px-4 pt-4 pb-3">
-                      <div className="w-40 h-40 flex items-center justify-center">
-                        <img
-                          src={
-                            typeof item.image === "string" && item.image.startsWith("data:")
-                              ? item.image
-                              : getImageUrl(item.image)
-                          }
-                          alt={item.name}
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-                    </div>
-                    <div className="bg-white px-5 pt-4 pb-5">
-                      <h3 className="text-base font-semibold text-gray-900 truncate text-center">
-                        {item.name}
-                      </h3>
-                      <div className="flex justify-center mt-2">
-                        <span className="inline-flex items-center justify-center px-6 py-1.5 rounded-full border border-[#b30000] text-[#b30000] text-xs font-semibold bg-white">
-                          View Details
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
+                {/* Remove (filled heart) button */}
                 <button
                   type="button"
                   onClick={(e) => handleRemove(e, item.link)}
@@ -82,6 +54,33 @@ export default function WishListPage() {
                 >
                   <Heart className="w-5 h-5 fill-current" />
                 </button>
+
+                <Link to={item.link} className="block no-underline">
+                  {/* Full-image card — same style as home page featured categories */}
+                  <div
+                    className="relative rounded-3xl overflow-hidden cursor-pointer shadow-sm hover:shadow-lg hover:outline hover:outline-2 hover:outline-[#b30000] transition-all duration-300"
+                    style={{ height: "280px" }}
+                  >
+                    {/* Full bleed image */}
+                    <img
+                      src={
+                        typeof item.image === "string" && item.image.startsWith("data:")
+                          ? item.image
+                          : getImageUrl(item.image)
+                      }
+                      alt={item.name}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    {/* Dark gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    {/* Centered product name */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <h3 className="text-white text-lg font-bold text-center px-4 drop-shadow-lg">
+                        {item.name}
+                      </h3>
+                    </div>
+                  </div>
+                </Link>
               </div>
             ))}
           </div>

@@ -296,27 +296,26 @@ function Home({ setShowModal }) {
           <div className="xl:hidden">
             <div className="flex gap-4 overflow-x-auto pb-4 px-1 snap-x snap-mandatory" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
               {featuredCategories.map((cat, i) => (
-                <div key={`mob-${normalizeProductLink(cat.to)}-${i}`} className="relative flex-shrink-0 w-64 snap-start" style={{ height: "320px" }}>
+                <div key={`mob-${normalizeProductLink(cat.to)}-${i}`} className="relative flex-shrink-0 w-64 snap-start rounded-2xl overflow-hidden cursor-pointer shadow-md" style={{ height: "320px" }} onClick={() => navigate(cat.to)}>
+                  {/* Full image */}
+                  <img
+                    src={typeof cat.image === "string" && cat.image.startsWith("data:") ? cat.image : getImageUrl(cat.image)}
+                    alt={cat.title}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  {/* Dark gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Wishlist */}
                   <button
                     type="button"
-                    onClick={(e) => handleToggleWishlist(e, { id: cat.id, name: cat.title, link: cat.to, image: cat.image })}
+                    onClick={(e) => { e.stopPropagation(); handleToggleWishlist(e, { id: cat.id, name: cat.title, link: cat.to, image: cat.image }); }}
                     className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-400 hover:text-[#b30000] transition-colors"
                   >
                     <Heart className={`w-4 h-4 ${wishlistLinks.includes(cat.to) ? "fill-[#b30000] text-[#b30000]" : ""}`} />
                   </button>
-                  <div onClick={() => navigate(cat.to)} className="flex flex-col bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden cursor-pointer h-full">
-                    <div className="flex-1 bg-gray-50 flex items-center justify-center overflow-hidden">
-                      <img
-                        src={typeof cat.image === "string" && cat.image.startsWith("data:") ? cat.image : getImageUrl(cat.image)}
-                        alt={cat.title}
-                        className="w-full h-full object-contain p-2"
-                      />
-                    </div>
-                    <div className="px-3 py-3 flex-shrink-0 flex flex-col items-center gap-2">
-                      <h3 className="text-sm font-semibold text-gray-900 text-center truncate w-full">{cat.title}</h3>
-                      <div className="h-px w-full bg-gray-200" />
-                      <span className="inline-flex items-center justify-center px-4 py-1 rounded-full border border-[#b30000] text-[#b30000] text-xs font-semibold bg-white">View Details</span>
-                    </div>
+                  {/* Centered product name */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <h3 className="text-white text-lg font-bold text-center px-4 drop-shadow-lg">{cat.title}</h3>
                   </div>
                 </div>
               ))}
@@ -339,20 +338,19 @@ function Home({ setShowModal }) {
             )}
             <div className="grid grid-cols-3 gap-8">
               {featuredCategories.slice(featuredIndex, featuredIndex + featuredVisibleCount).map((cat, i) => (
-                <div key={`desk-${normalizeProductLink(cat.to)}-${i}`} className="relative max-w-xs mx-auto w-full">
-                  <button type="button" onClick={(e) => handleToggleWishlist(e, { id: cat.id, name: cat.title, link: cat.to, image: cat.image })}
+                <div key={`desk-${normalizeProductLink(cat.to)}-${i}`} className="relative max-w-xs mx-auto w-full rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-shadow duration-300 aspect-[4/3] xl:aspect-[3/4]" onClick={() => navigate(cat.to)}>
+                  {/* Full image */}
+                  <img src={typeof cat.image === "string" && cat.image.startsWith("data:") ? cat.image : getImageUrl(cat.image)} alt={cat.title} className="absolute inset-0 w-full h-full object-cover" />
+                  {/* Dark gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Wishlist */}
+                  <button type="button" onClick={(e) => { e.stopPropagation(); handleToggleWishlist(e, { id: cat.id, name: cat.title, link: cat.to, image: cat.image }); }}
                     className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-400 hover:text-[#b30000] transition-colors">
                     <Heart className={`w-5 h-5 ${wishlistLinks.includes(cat.to) ? "fill-[#b30000] text-[#b30000]" : ""}`} />
                   </button>
-                  <div onClick={() => navigate(cat.to)} className="flex flex-col bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer">
-                    <div className="w-full aspect-[4/3] overflow-hidden bg-gray-50 flex items-center justify-center">
-                      <img src={typeof cat.image === "string" && cat.image.startsWith("data:") ? cat.image : getImageUrl(cat.image)} alt={cat.title} className="w-full h-full object-contain p-2" />
-                    </div>
-                    <div className="px-4 py-4 flex flex-col items-center gap-2">
-                      <h3 className="text-lg font-semibold text-gray-900 text-center truncate w-full">{cat.title}</h3>
-                      <div className="h-px w-full bg-gray-200" />
-                      <span className="inline-flex items-center justify-center px-6 py-1.5 rounded-full border border-[#b30000] text-[#b30000] text-sm font-semibold bg-white hover:bg-[#b30000] hover:text-white transition-colors">View Details</span>
-                    </div>
+                  {/* Centered product name */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <h3 className="text-white text-xl font-bold text-center px-4 drop-shadow-lg">{cat.title}</h3>
                   </div>
                 </div>
               ))}
@@ -650,21 +648,24 @@ function Home({ setShowModal }) {
                 {/* MOBILE & TABLET: horizontal scroll */}
                 <div className="xl:hidden flex gap-4 overflow-x-auto pb-4 px-1 snap-x snap-mandatory" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
                   {offersToShow.map((offer) => (
-                    <Link key={offer.id} to={`/offers?highlight=${encodeURIComponent(offer.id)}`} className="block no-underline flex-shrink-0 w-64 snap-start" style={{ height: "320px" }}>
-                      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm h-full flex flex-col">
-                        <div className="flex-1 bg-gray-50 flex items-center justify-center relative overflow-hidden">
-                          <img src={getImageUrl(offer.image)} alt={offer.title} className="w-full h-full object-contain p-2" />
-                          {offer.badge && <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-xs font-semibold bg-[#b30000] text-white shadow">{offer.badge}</div>}
-                        </div>
-                        <div className="p-3 flex-shrink-0 flex flex-col gap-1">
-                          <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">{offer.title}</h3>
-                          {offer.subtitle && <p className="text-xs text-gray-500 line-clamp-2">{offer.subtitle}</p>}
-                          <div className="flex items-baseline gap-2 pt-1">
-                            {offer.priceLabel && <span className="text-sm font-bold text-[#b30000]">{offer.priceLabel}</span>}
-                            {offer.oldPriceLabel && <span className="text-xs text-gray-400 line-through">{offer.oldPriceLabel}</span>}
-                          </div>
-                        </div>
+                    <Link key={offer.id} to={`/offers?highlight=${encodeURIComponent(offer.id)}`} className="block no-underline flex-shrink-0 w-64 snap-start relative rounded-xl overflow-hidden shadow-md" style={{ height: "320px" }}>
+                      {/* Full image */}
+                      <img src={getImageUrl(offer.image)} alt={offer.title} className="absolute inset-0 w-full h-full object-cover" />
+                      {/* Dark gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                      {/* Badge */}
+                      {offer.badge && <div className="absolute top-3 left-3 z-10 px-2 py-0.5 rounded-full text-xs font-semibold bg-[#b30000] text-white shadow">{offer.badge}</div>}
+                      {/* Centered name */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <h3 className="text-white text-lg font-bold text-center px-4 drop-shadow-lg">{offer.title}</h3>
                       </div>
+                      {/* Price bottom */}
+                      {offer.priceLabel && (
+                        <div className="absolute bottom-3 left-0 right-0 flex items-baseline justify-center gap-2">
+                          <span className="text-white font-bold text-base drop-shadow">{offer.priceLabel}</span>
+                          {offer.oldPriceLabel && <span className="text-white/70 text-xs line-through">{offer.oldPriceLabel}</span>}
+                        </div>
+                      )}
                     </Link>
                   ))}
                 </div>
@@ -672,23 +673,24 @@ function Home({ setShowModal }) {
                 {/* DESKTOP: grid */}
                 <div className="hidden xl:grid grid-cols-4 gap-5">
                   {offersToShow.map((offer) => (
-                    <Link key={offer.id} to={`/offers?highlight=${encodeURIComponent(offer.id)}`} className="block no-underline">
-                      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer h-full flex flex-col">
-                        <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-50 flex items-center justify-center">
-                          <img src={getImageUrl(offer.image)} alt={offer.title} className="w-full h-full object-contain p-2" />
-                          {offer.badge && <div className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold bg-[#b30000] text-white shadow">{offer.badge}</div>}
-                        </div>
-                        <div className="p-4 space-y-1 flex-1 flex flex-col">
-                          <h3 className="text-base md:text-lg font-semibold text-gray-900">{offer.title}</h3>
-                          {offer.subtitle && <p className="text-xs text-gray-500">{offer.subtitle}</p>}
-                          {(offer.priceLabel || offer.oldPriceLabel) && (
-                            <div className="flex items-baseline gap-2 mt-auto pt-2">
-                              {offer.priceLabel && <span className="text-lg font-bold text-[#b30000]">{offer.priceLabel}</span>}
-                              {offer.oldPriceLabel && <span className="text-xs text-gray-400 line-through">{offer.oldPriceLabel}</span>}
-                            </div>
-                          )}
-                        </div>
+                    <Link key={offer.id} to={`/offers?highlight=${encodeURIComponent(offer.id)}`} className="block no-underline relative rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer aspect-[4/3] xl:aspect-[3/4]">
+                      {/* Full image */}
+                      <img src={getImageUrl(offer.image)} alt={offer.title} className="absolute inset-0 w-full h-full object-cover" />
+                      {/* Dark gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                      {/* Badge */}
+                      {offer.badge && <div className="absolute top-3 left-3 z-10 px-3 py-1 rounded-full text-xs font-semibold bg-[#b30000] text-white shadow">{offer.badge}</div>}
+                      {/* Centered name */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <h3 className="text-white text-lg font-bold text-center px-4 drop-shadow-lg">{offer.title}</h3>
                       </div>
+                      {/* Price bottom */}
+                      {offer.priceLabel && (
+                        <div className="absolute bottom-4 left-0 right-0 flex items-baseline justify-center gap-2">
+                          <span className="text-white font-bold text-base drop-shadow">{offer.priceLabel}</span>
+                          {offer.oldPriceLabel && <span className="text-white/70 text-sm line-through">{offer.oldPriceLabel}</span>}
+                        </div>
+                      )}
                     </Link>
                   ))}
                 </div>
@@ -713,16 +715,114 @@ function Home({ setShowModal }) {
           <h1 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
             What Sets Us Apart
           </h1>
-          <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-6">
-            {(homeData.apart?.images || []).map((img, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-lg shadow-md p-4 md:p-6 aspect-[3/2] md:aspect-[3/2] flex items-center justify-center hover:shadow-lg hover:border-2 hover:border-[#b30000] hover:-translate-y-2 active:scale-95 transition-all duration-300 cursor-pointer overflow-hidden"
-              >
-                <img src={getImageUrl(img)} alt="Apart" className="w-full h-full object-contain" />
-              </div>
-            ))}
-          </div>
+
+          {(() => {
+            const cards = [
+              {
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#b30000" strokeWidth="1.8" className="w-7 h-7">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                ),
+                title: "ISO Certified Quality",
+                desc: "Every product meets international ISO 9001:2015 standards for consistent quality.",
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#b30000" strokeWidth="1.8" className="w-7 h-7">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </svg>
+                ),
+                title: "Global Distribution",
+                desc: "Serving clients across 20+ countries with reliable logistics and partnerships.",
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#b30000" strokeWidth="1.8" className="w-7 h-7">
+                    <circle cx="12" cy="8" r="6" />
+                    <path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12" />
+                  </svg>
+                ),
+                title: "25+ Years Legacy",
+                desc: "Decades of expertise in manufacturing high-performance piping solutions.",
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#b30000" strokeWidth="1.8" className="w-7 h-7">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                  </svg>
+                ),
+                title: "Eco-Friendly",
+                desc: "Sustainable manufacturing processes with recyclable materials and low carbon footprint.",
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#b30000" strokeWidth="1.8" className="w-7 h-7">
+                    <rect x="1" y="3" width="15" height="13" rx="2" />
+                    <path d="M16 8h4l3 3v5h-7V8z" />
+                    <circle cx="5.5" cy="18.5" r="2.5" />
+                    <circle cx="18.5" cy="18.5" r="2.5" />
+                  </svg>
+                ),
+                title: "Fast Delivery",
+                desc: "Streamlined supply chain ensuring timely delivery for projects of any scale.",
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#b30000" strokeWidth="1.8" className="w-7 h-7">
+                    <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z" />
+                    <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+                  </svg>
+                ),
+                title: "Technical Support",
+                desc: "Dedicated engineering team for project consultation and after-sales support.",
+              },
+            ];
+
+            return (
+              <>
+                {/* DESKTOP (xl): 3-column grid, hover red border */}
+                <div className="hidden xl:grid max-w-5xl mx-auto grid-cols-3 gap-6">
+                  {cards.map((card, i) => (
+                    <div
+                      key={i}
+                      className="group bg-white rounded-2xl border-2 border-transparent hover:border-[#b30000] shadow-[0_4px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_6px_28px_rgba(0,0,0,0.25)] transition-all duration-300 p-6 flex flex-col gap-4"
+                    >
+                      <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
+                        {card.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-base font-bold text-gray-900 mb-1">{card.title}</h3>
+                        <p className="text-sm text-gray-500 leading-relaxed">{card.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* MOBILE & TABLET: horizontal scroll, fixed red border */}
+                <div className="xl:hidden flex gap-4 overflow-x-auto pb-4 px-1 snap-x snap-mandatory" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+                  {cards.map((card, i) => (
+                    <div
+                      key={i}
+                      className="flex-shrink-0 w-72 snap-start bg-white rounded-2xl border-2 border-[#b30000] shadow-[0_4px_20px_rgba(0,0,0,0.15)] p-6 flex flex-col gap-4"
+                    >
+                      <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
+                        {card.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-base font-bold text-gray-900 mb-1">{card.title}</h3>
+                        <p className="text-sm text-gray-500 leading-relaxed">{card.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            );
+          })()}
         </div>
       </section>
 
